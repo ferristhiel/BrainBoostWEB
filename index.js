@@ -8,6 +8,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(express.static('public')); // statische Dateien zuerst einbinden
 
 app.post('/api/chat', async (req, res) => {
   const userPrompt = req.body.prompt;
@@ -21,10 +22,11 @@ app.post('/api/chat', async (req, res) => {
         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',  // oder 'gpt-4o' je nachdem
+        model: 'gpt-4o-mini', // kannst du anpassen
         messages: [{ role: 'user', content: userPrompt }],
       }),
     });
+
     const data = await response.json();
 
     if (data.error) return res.status(500).json({ error: data.error.message });
