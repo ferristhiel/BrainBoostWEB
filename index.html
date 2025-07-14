@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrainBoost – Schüler & Azubi Webtool</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <!-- HEADER -->
+<header>
+  <div class="container header">
+    <div class="logo">BrainBoost</div>
+    <nav>
+      <a href="#">Lernplaner</a>
+      <a href="#">Bewerbungen</a>
+      <a href="#">Termine</a>
+      <a href="#">Tools</a>
+    </nav>
+    <div class="header-actions">
+    <button class="Btn"></button> <!-- Das ist der goldene Premium-Button -->
+    <button class="login-btn">Login</button>
+    </div>
+  </div>
+</header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Willkommen bei <span>BrainBoost</span></h1>
+      <p>Organisiere deinen Schulalltag, bewerbe dich smarter & nutze KI für deine Projekte.</p>
+      <div class="streak">
+        🔥 <span id="streak-count">0</span>-Tage-Streak
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE GRID -->
+  <main class="container">
+    <section class="grid">
+      <div class="card">
+        <h3>📚 Lernplaner</h3>
+        <p>Organisiere deine Aufgaben, Fächer & Deadlines.</p>
+      </div>
+      <div class="card">
+        <h3>📝 Bewerbungstools</h3>
+        <p>Vorlagen, Tipps & PDF-Export für perfekte Bewerbungen.</p>
+      </div>
+      <div class="card">
+        <h3>📅 Terminplan</h3>
+        <p>Push-Erinnerungen für alles Wichtige im Alltag.</p>
+      </div>
+      <div class="card">
+        <h3>🤖 KI-Assistent</h3>
+        <p>Referate & Aufsätze mit smarter Hilfe schreiben.</p>
+      </div>
+    </section>
+
+    <!-- PROMO -->
+    <section class="promo">
+      <p>🔓 Noch mehr Tools & Support? Hol dir <strong>Premium</strong>!</p>
+      <div class="promo-btn-wrapper">
+        <button class="Btn promo-btn"></button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
+    </div>
+  </footer>
+
+  <!-- JS Streak Logic (nur vorbereitet, nicht aktiviert) -->
+  <script>
+    let streak = localStorage.getItem("brainboost_streak") || 0;
+    let lastDate = localStorage.getItem("brainboost_lastDate");
+    const today = new Date().toLocaleDateString();
+
+    if (lastDate && lastDate !== today) {
+      const diff = (new Date(today) - new Date(lastDate)) / (1000 * 60 * 60 * 24);
+      if (diff === 1) {
+        streak++;
+      } else {
+        streak = 0;
+      }
+    }
+
+    document.getElementById("streak-count").textContent = streak;
+    localStorage.setItem("brainboost_lastDate", today);
+    localStorage.setItem("brainboost_streak", streak);
+  </script>
+</body>
+</html>

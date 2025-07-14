@@ -1,0 +1,209 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f8f9fa;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-weight: bold;
+}
+
+/* Buttons */
+.Btn {
+  width: 140px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(to right, #77530a, #ffd277, #77530a, #77530a, #ffd277, #77530a);
+  background-size: 250%;
+  background-position: left;
+  color: #ffd277;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition-duration: 1s;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.Btn::before {
+  position: absolute;
+  content: "Premium";
+  color: #ffd277;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 97%;
+  height: 90%;
+  border-radius: 8px;
+  transition-duration: 1s;
+  background-color: rgba(0, 0, 0, 0.82);
+  background-size: 200%;
+  font-weight: bold;
+}
+
+.Btn:hover {
+  background-position: right;
+}
+.Btn:hover::before {
+  background-position: right;
+}
+.Btn:active {
+  transform: scale(0.95);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.login-btn {
+  background: #2563eb;
+  color: white;
+  width: 100px;
+  height: 36px;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+/* Hero */
+.hero {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 20px 60px;
+  background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+}
+.hero-content {
+  max-width: 700px;
+  margin: auto;
+}
+.hero h1 {
+  font-size: 2.8rem;
+  color: #0f172a;
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.hero h1 span {
+  color: #2563eb;
+}
+.hero p {
+  font-size: 1.2rem;
+  color: #475569;
+  margin-bottom: 0;
+}
+
+/* Day-Streak Flamme */
+.streak {
+  margin-top: 25px;
+  font-size: 1.3rem;
+  color: #f97316;
+  font-weight: bold;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin: 40px 0;
+}
+
+.card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+
+/* Promo Section */
+.promo {
+  background: #f3f4f6;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  margin-top: 40px;
+  color: #334155;
+}
+.promo-btn-wrapper {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+.promo-btn {
+  width: 120px;
+  height: 36px;
+  font-size: 14px;
+}
+
+/* Footer */
+footer {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 0.9em;
+  color: #64748b;
+}
