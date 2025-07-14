@@ -164,25 +164,118 @@
     <a href="tools.html">Tools</a>
   </nav>
 </header>
+<!-- KI Bewerbungs-Generator -->
+<div class="ki-box">
+  <textarea id="kiInput" placeholder="Schreibe mir eine Bewerbung für ein Praktikum bei BMW..."></textarea>
+  <div class="ki-footer">
+    <div class="tags">
+      <span onclick="setInput('Praktikum IT')">Praktikum IT</span>
+      <span onclick="setInput('Schülerpraktikum im Büro')">Schülerpraktikum Büro</span>
+      <span onclick="setInput('Bewerbung Maschinenbau')">Maschinenbau</span>
+    </div>
+    <button onclick="generateBewerbung()">Bewerbung generieren</button>
+  </div>
+</div>
 
-<main>
-  <h1>Bewerbungen & Praktika</h1>
+<div id="kiOutput" class="ki-output"></div>
 
-  <form id="appForm" autocomplete="off">
-    <input type="text" id="firma" placeholder="Firma / Stelle" required />
-    <select id="status" required>
-      <option value="">Status wählen</option>
-      <option value="offen">Offen</option>
-      <option value="bewerbung">Bewerbung verschickt</option>
-      <option value="einladung">Einladung</option>
-      <option value="absage">Absage</option>
-    </select>
-    <textarea id="notiz" placeholder="Notizen (z.B. Gesprächsdatum, Infos)"></textarea>
-    <button type="submit">Hinzufügen</button>
-  </form>
+<style>
+.ki-box {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  max-width: 800px;
+  margin: 30px auto;
+}
 
-  <ul class="app-list" id="appList"></ul>
-</main>
+.ki-box textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 14px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  resize: vertical;
+}
+
+.ki-box .ki-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ki-box .tags {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+
+.ki-box .tags span {
+  background: #e2e8f0;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.ki-box .tags span:hover {
+  background: #cbd5e1;
+}
+
+.ki-box button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ki-box button:hover {
+  background: #1e40af;
+}
+
+.ki-output {
+  background: #f1f5f9;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1e293b;
+  white-space: pre-wrap;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+</style>
+
+<script>
+  function setInput(text) {
+    document.getElementById('kiInput').value = text;
+  }
+
+  function generateBewerbung() {
+    const input = document.getElementById('kiInput').value.trim();
+    const output = document.getElementById('kiOutput');
+
+    if (!input) {
+      alert('Bitte gib ein Thema für die Bewerbung ein.');
+      return;
+    }
+
+    // Platzhaltertext (echte KI kommt später hier rein)
+    output.innerText = `📄 Generierte Bewerbung basierend auf:\n\n"${input}"\n\nSehr geehrte Damen und Herren,\n\nmit großem Interesse bewerbe ich mich für ein ${input}. Ich bin Schüler an der XY-Schule und bringe hohe Motivation sowie Teamfähigkeit mit. Gerne würde ich erste praktische Erfahrungen in Ihrem Unternehmen sammeln.\n\nMit freundlichen Grüßen\n[Dein Name]`;
+  }
+</script>
 
 <footer>
   © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
