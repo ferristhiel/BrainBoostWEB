@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BrainBoost – Bewerbungen</title>
+  <title>BrainBoost – Termine</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -37,7 +37,7 @@
       text-decoration: underline;
     }
     main {
-      max-width: 800px;
+      max-width: 700px;
       margin: 40px auto;
       padding: 0 20px 50px 20px;
     }
@@ -57,21 +57,14 @@
       gap: 12px;
       justify-content: center;
     }
-    form input, form select, form textarea {
+    form input {
       border: 1px solid #ccc;
       border-radius: 8px;
       padding: 10px;
       font-size: 14px;
+      flex: 1 1 200px;
+      min-width: 150px;
       font-family: 'Segoe UI', sans-serif;
-      min-width: 180px;
-      flex: 1 1 220px;
-    }
-    form textarea {
-      resize: vertical;
-      min-height: 40px;
-    }
-    form select {
-      max-width: 220px;
     }
     form button {
       background: #2563eb;
@@ -82,47 +75,39 @@
       font-weight: 700;
       cursor: pointer;
       transition: background 0.3s ease;
-      min-width: 120px;
-      flex: 1 1 120px;
-      align-self: center;
+      flex: 1 1 100px;
+      min-width: 100px;
     }
     form button:hover {
       background: #1e40af;
     }
-    ul.app-list {
+    ul.termin-list {
       list-style: none;
       padding: 0;
     }
-    li.app {
+    li.termin {
       background: white;
       margin-bottom: 15px;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      font-family: 'Segoe UI', sans-serif;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
+      font-family: 'Segoe UI', sans-serif;
     }
-    li.app .info {
-      flex: 1 1 60%;
-      min-width: 220px;
+    li.termin div.info {
+      max-width: 80%;
     }
-    li.app h3 {
+    li.termin h3 {
       margin: 0 0 6px 0;
       color: #2563eb;
       font-size: 18px;
     }
-    li.app p {
-      margin: 2px 0;
+    li.termin p {
+      margin: 0;
       color: #555;
       font-size: 14px;
-    }
-    li.app small {
-      font-size: 12px;
-      color: #888;
     }
     button.delete-btn {
       background: #dc2626;
@@ -131,10 +116,8 @@
       border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
-      padding: 10px 18px;
+      padding: 8px 14px;
       transition: background 0.3s ease;
-      flex: 0 0 auto;
-      height: 44px;
     }
     button.delete-btn:hover {
       background: #a81c1c;
@@ -145,7 +128,7 @@
       text-align: center;
       font-size: 0.9em;
       color: #64748b;
-      max-width: 800px;
+      max-width: 700px;
       margin: 50px auto 20px;
       border-radius: 0 0 12px 12px;
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
@@ -159,29 +142,22 @@
   <nav>
     <a href="index.html">Startseite</a>
     <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbungen.html" style="text-decoration: underline;">Bewerbungen</a>
-    <a href="termine.html">Termine</a>
+    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="termine.html" style="text-decoration: underline;">Termine</a>
     <a href="tools.html">Tools</a>
   </nav>
 </header>
 
 <main>
-  <h1>Bewerbungen & Praktika</h1>
+  <h1>Deine Termine</h1>
 
-  <form id="appForm" autocomplete="off">
-    <input type="text" id="firma" placeholder="Firma / Stelle" required />
-    <select id="status" required>
-      <option value="">Status wählen</option>
-      <option value="offen">Offen</option>
-      <option value="bewerbung">Bewerbung verschickt</option>
-      <option value="einladung">Einladung</option>
-      <option value="absage">Absage</option>
-    </select>
-    <textarea id="notiz" placeholder="Notizen (z.B. Gesprächsdatum, Infos)"></textarea>
+  <form id="terminForm" autocomplete="off">
+    <input type="text" id="titel" placeholder="Titel (z.B. Arzttermin)" required />
+    <input type="date" id="datum" required />
     <button type="submit">Hinzufügen</button>
   </form>
 
-  <ul class="app-list" id="appList"></ul>
+  <ul class="termin-list" id="terminList"></ul>
 </main>
 
 <footer>
@@ -189,64 +165,57 @@
 </footer>
 
 <script>
-  const appForm = document.getElementById('appForm');
-  const appList = document.getElementById('appList');
+  const form = document.getElementById('terminForm');
+  const terminList = document.getElementById('terminList');
 
-  let apps = JSON.parse(localStorage.getItem('apps')) || [];
+  let termine = JSON.parse(localStorage.getItem('termine')) || [];
 
-  function saveApps() {
-    localStorage.setItem('apps', JSON.stringify(apps));
+  function saveTermine() {
+    localStorage.setItem('termine', JSON.stringify(termine));
   }
 
-  function renderApps() {
-    // Sortieren nach Status-Reihenfolge
-    const statusOrder = { offen: 1, bewerbung: 2, einladung: 3, absage: 4 };
-    apps.sort((a,b) => statusOrder[a.status] - statusOrder[b.status]);
-
-    appList.innerHTML = '';
-    apps.forEach((app, i) => {
+  function renderTermine() {
+    terminList.innerHTML = '';
+    termine.forEach((t, i) => {
       const li = document.createElement('li');
-      li.className = 'app';
+      li.className = 'termin';
 
       li.innerHTML = `
         <div class="info">
-          <h3>${app.firma}</h3>
-          <p>Status: <strong>${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</strong></p>
-          <p>${app.notiz || ''}</p>
+          <h3>${t.titel}</h3>
+          <p>Datum: ${t.datum}</p>
         </div>
         <button class="delete-btn" data-index="${i}">Löschen</button>
       `;
 
-      appList.appendChild(li);
+      terminList.appendChild(li);
     });
 
     document.querySelectorAll('.delete-btn').forEach(btn => {
       btn.onclick = (e) => {
         const idx = e.target.dataset.index;
-        apps.splice(idx, 1);
-        saveApps();
-        renderApps();
+        termine.splice(idx, 1);
+        saveTermine();
+        renderTermine();
       };
     });
   }
 
-  appForm.addEventListener('submit', e => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
-    const firma = document.getElementById('firma').value.trim();
-    const status = document.getElementById('status').value;
-    const notiz = document.getElementById('notiz').value.trim();
-
-    if (!firma || !status) {
-      alert('Bitte Firma/Stelle und Status angeben!');
+    const titel = document.getElementById('titel').value.trim();
+    const datum = document.getElementById('datum').value;
+    if (!titel || !datum) {
+      alert('Bitte Titel und Datum ausfüllen!');
       return;
     }
-    apps.push({ firma, status, notiz });
-    saveApps();
-    renderApps();
-    appForm.reset();
+    termine.push({ titel, datum });
+    saveTermine();
+    renderTermine();
+    form.reset();
   });
 
-  renderApps();
+  renderTermine();
 </script>
 
 </body>

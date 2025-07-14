@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrainBoost – Tools</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      margin: 0; 
+      color: #333;
+    }
+    header {
+      background: #2563eb;
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px 50px 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #0f172a;
+      text-align: center;
+    }
+    .tool {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2563eb;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-family: 'Segoe UI', sans-serif;
+      margin-bottom: 15px;
+      font-size: 14px;
+      resize: vertical;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    #output {
+      white-space: pre-wrap;
+      background: #f1f5f9;
+      padding: 15px;
+      border-radius: 8px;
+      min-height: 80px;
+      font-size: 14px;
+      color: #333;
+      margin-top: 15px;
+      border: 1px solid #ccc;
+    }
+    footer {
+      background: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #64748b;
+      max-width: 700px;
+      margin: 50px auto 20px;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">BrainBoost</div>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="lernplaner.html">Lernplaner</a>
+    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="termine.html">Termine</a>
+    <a href="tools.html" style="text-decoration: underline;">Tools</a>
+  </nav>
+</header>
+
+<main>
+  <h1>BrainBoost Tools</h1>
+
+  <section class="tool">
+    <label for="textInput">Schreib ein Thema, z.B. „Klimawandel“</label>
+    <input type="text" id="textInput" placeholder="Gib ein Thema ein" />
+    <button id="generateBtn">Gliederung generieren</button>
+
+    <div id="output"></div>
+  </section>
+
+</main>
+
+<footer>
+  © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
+</footer>
+
+<script>
+  const input = document.getElementById('textInput');
+  const output = document.getElementById('output');
+  const btn = document.getElementById('generateBtn');
+
+  btn.addEventListener('click', () => {
+    const thema = input.value.trim();
+    if (!thema) {
+      alert('Bitte ein Thema eingeben!');
+      return;
+    }
+    // Dummy Gliederung als Beispiel
+    const gliederung = 
+`Gliederung zum Thema: ${thema}
+
+1. Einführung
+2. Ursachen und Hintergrund
+3. Aktuelle Situation
+4. Lösungen und Zukunftsaussichten
+5. Fazit`;
+
+    output.textContent = gliederung;
+  });
+</script>
+
+</body>
+</html>

@@ -1,107 +1,341 @@
 <!DOCTYPE html>
 <html lang="de">
-    <link rel="stylesheet" href="style.css" />
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BrainBoost – Lernplaner</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lernplaner – BrainBoost</title>
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; }
-    .container { max-width: 1200px; margin: auto; padding: 20px; }
-    .task-list { margin-top: 30px; }
-    .task { background: white; padding: 20px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-    .task h3 { margin-bottom: 10px; }
-    .task p { color: #475569; }
-    footer { background: white; padding: 20px; text-align: center; font-size: 0.9em; color: #64748b; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      margin: 0; 
+      color: #333;
+    }
+    header {
+      background: #2563eb;
+      padding: 15px 20px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: 600;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px 50px 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+      color: #0f172a;
+      text-align: center;
+    }
+
+    /* Formular */
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    form input, form textarea {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      flex: 1 1 180px;
+      min-width: 150px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    form textarea {
+      resize: vertical;
+      min-height: 40px;
+    }
+    form button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 25px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      flex: 1 1 100px;
+      min-width: 100px;
+    }
+    form button:hover {
+      background: #1e40af;
+    }
+
+    /* Aufgabenliste */
+    ul.task-list {
+      list-style: none;
+      padding: 0;
+    }
+    li.task {
+      background: white;
+      margin-bottom: 15px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: relative;
+      user-select: none;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+    li.task .content {
+      pointer-events: none; /* damit Swipe nicht blockiert */
+    }
+    li.task h3 {
+      margin: 0 0 8px 0;
+      color: #2563eb;
+    }
+    li.task p {
+      margin: 0 0 6px 0;
+      color: #555;
+      font-size: 14px;
+    }
+    li.task small {
+      color: #999;
+      font-size: 12px;
+    }
+
+    /* Swipe delete */
+    .delete-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 60px;
+      background: #dc2626;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    li.task.show-delete .delete-btn {
+      transform: translateX(0);
+    }
+
+    /* Animation wenn gelöscht */
+    li.task.removing {
+      animation: slideOutLeft 0.4s forwards;
+    }
+    @keyframes slideOutLeft {
+      to { 
+        opacity: 0;
+        transform: translateX(-100%);
+        height: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container header" style="display: flex; justify-content: space-between; align-items: center;">
-      <div class="logo"><a href="index.html">BrainBoost</a></div>
-      <nav style="display: flex; gap: 20px;">
-        <a href="lernplaner.html">Lernplaner</a>
-        <a href="bewerbungen.html">Bewerbungen</a>
-        <a href="termine.html">Termine</a>
-        <a href="tools.html">Tools</a>
-      </nav>
-      <div class="header-actions">
-        <button class="Btn" id="openPremium"></button>
-        <button class="login-btn" id="openLogin">Login</button>
-      </div>
-    </div>
-  </header>
 
-  <!-- Lernplaner Inhalt -->
-  <main class="container">
-    <h1>📚 Dein Lernplaner</h1>
-    <p>Hier kannst du deine Aufgaben, Themen und Deadlines organisieren.</p>
+<header>
+  <div class="logo">BrainBoost</div>
+  <nav>
+    <a href="index.html">Startseite</a>
+    <a href="lernplaner.html" style="text-decoration: underline;">Lernplaner</a>
+    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="termine.html">Termine</a>
+    <a href="tools.html">Tools</a>
+  </nav>
+</header>
 
-    <div class="task-list">
-      <div class="task">
-        <h3>Mathe – Integralrechnung</h3>
-        <p>Deadline: 18.07.2025</p>
-      </div>
-      <div class="task">
-        <h3>Geschichte – Französische Revolution</h3>
-        <p>Deadline: 20.07.2025</p>
-      </div>
-    </div>
-  </main>
+<main>
+  <h1>Dein Lernplaner</h1>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
-    </div>
-  </footer>
+  <form id="taskForm" autocomplete="off">
+    <input type="text" id="fach" placeholder="Fach (z.B. Mathe)" required />
+    <input type="text" id="aufgabe" placeholder="Aufgabe (z.B. Integralrechnung)" required />
+    <textarea id="notiz" placeholder="Notiz (Details, Tipps)"></textarea>
+    <input type="date" id="deadline" required />
+    <button type="submit">Hinzufügen</button>
+  </form>
 
-  <!-- Overlay Premium -->
-  <div id="premiumOverlay" class="overlay hidden">
-    <div class="popup">
-      <h2>Wähle dein BrainBoost-Paket</h2>
-      <!-- ... (Hier kannst du deine bestehenden Overlay-Inhalte einfügen) -->
-      <button class="close-btn" onclick="closeOverlay()">✖</button>
-    </div>
-  </div>
+  <ul class="task-list" id="taskList">
+    <!-- Aufgaben kommen hier rein -->
+  </ul>
+</main>
 
-  <!-- Overlay Login -->
-  <div id="loginOverlay" class="overlay hidden">
-    <div class="login-popup">
-      <h2>Login bei BrainBoost</h2>
-      <input type="text" placeholder="Benutzername" class="field">
-      <input type="password" placeholder="Passwort" class="field">
-      <button class="login-btn-action">Einloggen</button>
-      <button class="close-btn" onclick="closeLogin()">✖</button>
-    </div>
-  </div>
+<script>
+  const form = document.getElementById('taskForm');
+  const taskList = document.getElementById('taskList');
 
-  <script>
-    // Overlay-Handling
-    const openPremiumBtns = [document.getElementById("openPremium")];
-    const premiumOverlay = document.getElementById("premiumOverlay");
-    const loginOverlay = document.getElementById("loginOverlay");
+  // Hol alle Aufgaben aus localStorage
+  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-    openPremiumBtns.forEach(btn => {
-      btn.addEventListener("click", () => {
-        premiumOverlay.classList.remove("hidden");
+  function saveTasks() {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+
+  function renderTasks() {
+    taskList.innerHTML = '';
+    tasks.forEach((task, index) => {
+      const li = document.createElement('li');
+      li.className = 'task';
+      li.dataset.index = index;
+
+      li.innerHTML = `
+        <div class="content">
+          <h3>${task.fach}: ${task.aufgabe}</h3>
+          <p>${task.notiz || ''}</p>
+          <small>Deadline: ${task.deadline}</small>
+        </div>
+        <div class="delete-btn">🗑️</div>
+      `;
+
+      // Swipe Funktion (mobil + Desktop)
+      let startX = 0;
+      let currentX = 0;
+      let touching = false;
+
+      const deleteBtn = li.querySelector('.delete-btn');
+      const content = li.querySelector('.content');
+
+      function setTranslateX(x) {
+        content.style.transform = `translateX(${x}px)`;
+        if (x < -50) {
+          li.classList.add('show-delete');
+        } else {
+          li.classList.remove('show-delete');
+        }
+      }
+
+      li.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        touching = true;
+        li.style.transition = '';
       });
-    });
 
-    function closeOverlay() {
-      premiumOverlay.classList.add("hidden");
+      li.addEventListener('touchmove', (e) => {
+        if (!touching) return;
+        currentX = e.touches[0].clientX;
+        let diff = currentX - startX;
+        if (diff < 0) { // nur links swipen
+          e.preventDefault();
+          setTranslateX(diff);
+        }
+      }, { passive: false });
+
+      li.addEventListener('touchend', () => {
+        touching = false;
+        if (content.style.transform !== '') {
+          const moved = parseInt(content.style.transform.match(/-?\d+/)[0]);
+          if (moved < -100) {
+            li.classList.add('show-delete');
+            setTranslateX(-60);
+          } else {
+            li.classList.remove('show-delete');
+            setTranslateX(0);
+          }
+          li.style.transition = 'transform 0.3s ease';
+          content.style.transform = li.classList.contains('show-delete') ? 'translateX(-60px)' : 'translateX(0)';
+        }
+      });
+
+      // Für Desktop (Drag mit Maus)
+      let mouseDown = false;
+      let mouseStartX = 0;
+      li.addEventListener('mousedown', (e) => {
+        mouseDown = true;
+        mouseStartX = e.clientX;
+        li.style.transition = '';
+      });
+      window.addEventListener('mouseup', (e) => {
+        if (!mouseDown) return;
+        mouseDown = false;
+        const moved = currentX - mouseStartX;
+        if (moved < -100) {
+          li.classList.add('show-delete');
+          setTranslateX(-60);
+        } else {
+          li.classList.remove('show-delete');
+          setTranslateX(0);
+        }
+        li.style.transition = 'transform 0.3s ease';
+        content.style.transform = li.classList.contains('show-delete') ? 'translateX(-60px)' : 'translateX(0)';
+      });
+      li.addEventListener('mousemove', (e) => {
+        if (!mouseDown) return;
+        currentX = e.clientX;
+        let diff = currentX - mouseStartX;
+        if (diff < 0) {
+          e.preventDefault();
+          setTranslateX(diff);
+        }
+      });
+
+      // Löschen Button
+      deleteBtn.addEventListener('click', () => {
+        li.classList.add('removing');
+        setTimeout(() => {
+          tasks.splice(index, 1);
+          saveTasks();
+          renderTasks();
+        }, 400);
+      });
+
+      taskList.appendChild(li);
+    });
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const fach = document.getElementById('fach').value.trim();
+    const aufgabe = document.getElementById('aufgabe').value.trim();
+    const notiz = document.getElementById('notiz').value.trim();
+    const deadline = document.getElementById('deadline').value;
+
+    if (!fach || !aufgabe || !deadline) {
+      alert('Bitte Fach, Aufgabe und Deadline ausfüllen!');
+      return;
     }
 
-    document.getElementById("openLogin").addEventListener("click", () => {
-      loginOverlay.classList.remove("hidden");
-    });
+    tasks.push({ fach, aufgabe, notiz, deadline });
+    saveTasks();
+    renderTasks();
 
-    function closeLogin() {
-      loginOverlay.classList.add("hidden");
-    }
-  </script>
+    form.reset();
+  });
+
+  // Beim Laden rendern
+  renderTasks();
+</script>
+
 </body>
 </html>
