@@ -2,325 +2,702 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BrainBoost – Schüler & Azubi Webtool</title>
-  <link rel="stylesheet" href="style.css" />
   <style>
-  .button {
-    width: fit-content;
-    display: flex;
-    align-items: center;
-    padding: 1.2em 1rem;
-    cursor: pointer;
-    gap: 0.4rem;
-    font-weight: bold;
-    border-radius: 30px;
-    text-shadow: 2px 2px 3px rgb(136 0 136 / 50%);
-    background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
-    background-size: 300%;
-    color: #fff;
-    border: none;
-    background-position: left center;
-    box-shadow: 0 30px 10px -20px rgba(0,0,0,.2);
-    transition: background 0.3s ease;
-  }
-
-  .button:hover {
-    background-size: 320%;
-    background-position: right center;
-  }
-
-  .button:hover svg {
-    fill: #fff;
-  }
-
-  .button svg {
-    width: 23px;
-    fill: #f09f33;
-    transition: 0.3s ease;
-  }
-
-  /* === OVERLAY === */
-  .overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(6px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  .popup {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    width: 90%;
-    max-width: 900px;
-    position: relative;
-    text-align: center;
-  }
-
-  .popup h2 {
-    margin-bottom: 20px;
-    font-size: 1.8rem;
-    color: #0f172a;
-  }
-
-  .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #64748b;
-  }
-
-  /* === PAYMENT CARDS CONTAINER === */
-  .payment-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
-    padding-top: 1rem;
-  }
-
-  /* === CARD STYLES === */
-  .main-container {
-    font-family: "Trebuchet MS", sans-serif;
-    position: relative;
-    height: 203px;
-    aspect-ratio: 1.579;
-    border-radius: 1em;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 300ms ease-in;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    background-color: #999;
-    opacity: 0.8;
-    background-image: linear-gradient(to right, #777, #777 2px, #999 2px, #999);
-    background-size: 4px 100%;
-  }
-
-  .main-container:hover {
-    transform: rotateZ(1deg) rotateY(10deg) scale(1.1);
-    box-shadow: 0 5em 2em #111;
-  }
-
-  .border {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 1em;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(115deg,
-      rgba(0, 0, 0, 0.33) 12%,
-      rgba(255, 255, 255, 0.33) 27%,
-      rgba(255, 255, 255, 0.33) 31%,
-      rgba(0, 0, 0, 0.33) 52%);
-    position: relative;
-  }
-
-  .border:hover::after {
-    position: absolute;
-    content: " ";
-    height: 50em;
-    aspect-ratio: 1.58;
-    border-radius: 1em;
-    background: linear-gradient(115deg,
-      rgba(0, 0, 0, 1) 42%,
-      rgba(255, 255, 255, 1) 47%,
-      rgba(255, 255, 255, 1) 51%,
-      rgba(0, 0, 0, 1) 52%);
-    animation: rotate 4s linear infinite;
-    z-index: 1;
-    opacity: 0.05;
-  }
-
-  .card {
-    height: 12.5em;
-    aspect-ratio: 1.586;
-    border-radius: 1em;
-    position: relative;
-    width: 100%;
-    background-color: transparent;
-    opacity: 1;
-    background-image: none;
-    box-shadow: none;
-  }
-
-  .shadow {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 0.85em;
-    border: 1px solid #bbb;
-    background: radial-gradient(circle at 100% 100%, #ffffff 0, #ffffff 8px, transparent 8px) 0% 0%/13px 13px no-repeat,
-                radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 8px, transparent 8px) 100% 0%/13px 13px no-repeat,
-                radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 8px, transparent 8px) 0% 100%/13px 13px no-repeat,
-                radial-gradient(circle at 0 0, #ffffff 0, #ffffff 8px, transparent 8px) 100% 100%/13px 13px no-repeat,
-                linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 10px) calc(100% - 26px) no-repeat,
-                linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 26px) calc(100% - 10px) no-repeat,
-                linear-gradient(135deg, rgba(3, 3, 3, 0.5) 0%, transparent 22%, transparent 47%, transparent 73%, rgba(0, 0, 0, 0.5) 100%);
-    box-sizing: border-box;
-  }
-
-  .content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border-radius: 0.6em;
-    border: 1px solid #aaa;
-    box-shadow: -1px -1px 0 #ddd;
-    transform: translate(-50%, -50%);
-    height: 12em;
-    aspect-ratio: 1.604;
-    background-image: linear-gradient(to right, #777, #555 2px, #aaa 2px, #aaa);
-    background-size: 4px 100%;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 0 4px black;
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  .rev, .sparkasse, .volksbank {
-    position: absolute;
-    top: 0.5em;
-    left: 0.75em;
-    font-size: 1.25em;
-    text-transform: uppercase;
-    opacity: 0.9;
-  }
-
-  .master {
-    position: absolute;
-    bottom: 1.25em;
-    right: 0.5em;
-    background: linear-gradient(90deg, rgba(75, 75, 75, 0.25) 0%, rgba(121, 121, 121, 1) 100%);
-    color: #fff;
-    height: 2.5em;
-    width: 2.5em;
-    border: 1px solid #bbb;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-transform: lowercase;
-    opacity: 0.9;
-  }
-
-  .master.one { right: 2em; }
-
-  .master-text {
-    bottom: 0.25em;
-    right: 0.8em;
-    font-size: 0.75em;
-    position: absolute;
-    color: rgba(255, 255, 255, 0.85);
-    text-shadow: 1px 1px 3px black;
-  }
-
-  .ultra-text {
-    top: 0.7em;
-    right: 2.5em;
-    font-size: 0.5em;
-    color: rgba(255, 255, 255, 0.66);
-    position: absolute;
-    text-shadow: -1px -1px #333;
-  }
-
-  .chip {
-    position: absolute;
-    top: 27.5%;
-    left: 8.25%;
-    width: 30px;
-    height: 30px;
-  }
-
-  @keyframes rotate {
-    0% { transform: translate(-25em, -15em); }
-    20% { transform: translate(25em, 15em); }
-    100% { transform: translate(25em, 15em); }
-  }
-
-  /* MEDIA QUERY für Mobile - muss INS style tag! */
-  @media (max-width: 768px) {
-    .plans {
-      flex-direction: column;
-      align-items: center;
+    /* Grundfarben & Fonts */
+    :root {
+      --primary-purple: #880088;
+      --secondary-purple: #aa2068;
+      --accent-orange: #f09f33;
+      --background-light: #f9f9fb;
+      --text-dark: #0f172a;
+      --text-light: #64748b;
+      --shadow-dark: rgba(0, 0, 0, 0.15);
+      --radius: 12px;
+      --transition: 0.3s ease;
+      --font-main: 'Trebuchet MS', sans-serif;
     }
 
-    .payment-cards {
+    /* Reset & Basics */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-main);
+      background: var(--background-light);
+      color: var(--text-dark);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
-      align-items: center;
+      justify-content: space-between;
+    }
+    a {
+      color: var(--primary-purple);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover {
+      text-decoration: underline;
     }
 
-    .main-container {
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      width: 100%;
+    }
+
+    /* HEADER */
+    header {
+      background: white;
+      box-shadow: 0 2px 6px var(--shadow-dark);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--primary-purple);
+      letter-spacing: 2px;
+      cursor: default;
+      user-select: none;
+    }
+    nav a {
+      margin-left: 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-dark);
+      transition: color var(--transition);
+    }
+    nav a:hover {
+      color: var(--accent-orange);
+    }
+
+    /* HEADER ACTION BUTTONS */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: linear-gradient(15deg, var(--primary-purple), var(--secondary-purple), #cc3f47, #de6f3d, var(--accent-orange));
+      background-size: 300%;
+      color: white;
+      font-weight: 700;
+      border-radius: 30px;
+      padding: 0.6em 1.4em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(240, 159, 51, 0.6);
+      transition: background-position 0.4s ease;
+      font-size: 1rem;
+      user-select: none;
+    }
+    .button svg {
+      width: 20px;
+      fill: var(--accent-orange);
+      transition: fill 0.3s ease;
+    }
+    .button:hover {
+      background-position: right center;
+      box-shadow: 0 8px 25px rgba(240, 159, 51, 0.8);
+    }
+    .button:hover svg {
+      fill: white;
+    }
+    .login-btn {
+      background: transparent;
+      border: 2px solid var(--primary-purple);
+      padding: 0.5em 1.2em;
+      border-radius: 30px;
+      color: var(--primary-purple);
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .login-btn:hover {
+      background-color: var(--primary-purple);
+      color: white;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+      color: white;
+      padding: 4rem 1rem;
+      text-align: center;
+      box-shadow: inset 0 0 50px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      letter-spacing: 1.2px;
+    }
+    .hero h1 span {
+      color: var(--accent-orange);
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 480px;
+      margin: 0 auto 1.5rem auto;
+      font-weight: 500;
+      text-shadow: 0 0 5px rgba(0,0,0,0.4);
+    }
+    .streak {
+      font-weight: 700;
+      font-size: 1.5rem;
+      background: rgba(255 255 255 / 0.25);
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 30px;
+      box-shadow: 0 0 10px var(--accent-orange);
+      user-select: none;
+    }
+
+    /* FEATURES GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0 4rem;
+    }
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+      color: var(--primary-purple);
+      user-select: text;
+    }
+    .card p {
+      font-size: 1rem;
+      color: var(--text-light);
+      user-select: text;
+    }
+
+    /* PROMO SECTION */
+    .promo {
+      background: #f0e8ff;
+      text-align: center;
+      padding: 2rem 1rem;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 10px rgba(136, 0, 136, 0.15);
+      margin-bottom: 3rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      user-select: none;
+    }
+    .promo strong {
+      color: var(--primary-purple);
+    }
+    .promo-btn-wrapper {
+      margin-top: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      user-select: none;
+      border-top: 1px solid #ddd;
+    }
+
+    /* POPUPS */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    .hidden {
+      display: none;
+    }
+    .popup, .login-popup {
+      background: white;
+      padding: 2rem 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: 0 8px 24px var(--shadow-dark);
+      max-width: 480px;
       width: 90%;
-      height: auto;
-      max-width: 340px;
+      position: relative;
+      text-align: center;
+      user-select: text;
+    }
+    .popup h2, .login-popup h2 {
+      font-size: 1.8rem;
       margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      transition: color var(--transition);
+      user-select: none;
+    }
+    .close-btn:hover {
+      color: var(--primary-purple);
     }
 
-    .popup {
-      width: 95%;
-      padding: 1rem;
+    /* LOGIN POPUP */
+    .login-popup input.field {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color var(--transition);
+      font-family: var(--font-main);
+    }
+    .login-popup input.field:focus {
+      border-color: var(--primary-purple);
+      outline: none;
+    }
+    .login-btn-action {
+      background: var(--primary-purple);
+      color: white;
+      font-weight: 700;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1rem;
+      transition: background-color var(--transition);
+    }
+    .login-btn-action:hover {
+      background-color: var(--secondary-purple);
     }
 
+    /* PAYMENT CARDS */
+    .payment-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding-top: 1rem;
+    }
+    .main-container {
+      font-family: var(--font-main);
+      position: relative;
+      height: 200px;
+      aspect-ratio: 1.58;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: #999;
+      opacity: 0.9;
+      background-image: linear-gradient(to right, #777, #777 2px, #999 2px, #999);
+      background-size: 4px 100%;
+      user-select: none;
+    }
+    .main-container:hover {
+      transform: translateY(-8px) scale(1.07) rotateZ(1deg) rotateY(10deg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+    .border {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius);
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(115deg,
+        rgba(0, 0, 0, 0.3) 12%,
+        rgba(255, 255, 255, 0.3) 27%,
+        rgba(255, 255, 255, 0.3) 31%,
+        rgba(0, 0, 0, 0.3) 52%);
+      position: relative;
+    }
+    .border:hover::after {
+      position: absolute;
+      content: "";
+      height: 50em;
+      aspect-ratio: 1.58;
+      border-radius: var(--radius);
+      background: linear-gradient(115deg,
+        rgba(0, 0, 0, 1) 42%,
+        rgba(255, 255, 255, 1) 47%,
+        rgba(255, 255, 255, 1) 51%,
+        rgba(0, 0, 0, 1) 52%);
+      animation: rotate 4s linear infinite;
+      z-index: 1;
+      opacity: 0.05;
+    }
+    .card {
+      height: 12.5em;
+      aspect-ratio: 1.58;
+      border-radius: var(--radius);
+      position: relative;
+      width: 100%;
+      background-color: transparent;
+      opacity: 1;
+      background-image: none;
+      box-shadow: none;
+      user-select: none;
+    }
+    .shadow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.85em;
+      border: 1px solid #bbb;
+      background:
+        radial-gradient(circle at 100% 100%, #fff 0, #fff 8px, transparent 8px) 0 0/13px 13px no-repeat,
+        radial-gradient(circle at 0 100%, #fff 0, #fff 8px, transparent 8px) 100% 0/13px 13px no-repeat,
+        radial-gradient(circle at 100% 0, #fff 0, #fff 8px, transparent 8px) 0 100%/13px 13px no-repeat,
+        radial-gradient(circle at 0 0, #fff 0, #fff 8px, transparent 8px) 100% 100%/13px 13px no-repeat,
+        linear-gradient(#fff, #fff) 50% 50% / calc(100% - 10px) calc(100% - 26px) no-repeat,
+        linear-gradient(#fff, #fff) 50% 50% / calc(100% - 26px) calc(100% - 10px) no-repeat,
+        linear-gradient(135deg, rgba(3,3,3,0.5) 0%, transparent 22%, transparent 47%, transparent 73%, rgba(0,0,0,0.5) 100%);
+      box-sizing: border-box;
+    }
     .content {
-      padding: 0.8rem;
-      font-size: 0.9em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 0.6em;
+      border: 1px solid #aaa;
+      box-shadow: -1px -1px 0 #ddd;
+      transform: translate(-50%, -50%);
+      height: 12em;
+      aspect-ratio: 1.58;
+      background-image: linear-gradient(to right, #777, #555 2px, #aaa 2px, #aaa);
+      background-size: 4px 100%;
+      color: white;
+      font-weight: 700;
+      text-shadow: 0 0 4px black;
+      padding: 1rem;
+      box-sizing: border-box;
+      user-select: none;
     }
-
-    .master {
-      width: 2em;
-      height: 2em;
-      font-size: 1em;
-    }
-
-    .chip {
-      width: 24px;
-      height: 24px;
-    }
-
     .rev, .sparkasse, .volksbank {
-      font-size: 1em;
+      position: absolute;
+      top: 0.5em;
+      left: 0.75em;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      opacity: 0.9;
+      user-select: none;
+    }
+    .master {
+      position: absolute;
+      bottom: 1.25em;
+      right: 0.5em;
+      background: linear-gradient(90deg, rgba(75, 75, 75, 0.25) 0%, rgba(121, 121, 121, 1) 100%);
+      color: white;
+      height: 2.5em;
+      width: 2.5em;
+      border: 1px solid #bbb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      font-weight: 700;
+      text-transform: lowercase;
+      opacity: 0.9;
+      user-select: none;
+    }
+    .master.one { right: 2em; }
+    .master-text {
+      bottom: 0.25em;
+      right: 0.8em;
+      font-size: 0.75em;
+      position: absolute;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 1px 1px 3px black;
+      user-select: none;
+    }
+    .ultra-text {
+      top: 0.7em;
+      right: 2.5em;
+      font-size: 0.5em;
+      color: rgba(255, 255, 255, 0.66);
+      position: absolute;
+      text-shadow: -1px -1px #333;
+      user-select: none;
+    }
+    .chip {
+      position: absolute;
+      top: 27.5%;
+      left: 8.25%;
+      width: 30px;
+      height: 30px;
+      user-select: none;
     }
 
-    .ultra-text, .master-text {
-      font-size: 0.6em;
+    @keyframes rotate {
+      0% { transform: translate(-25em, -15em); }
+      20% { transform: translate(25em, 15em); }
+      100% { transform: translate(25em, 15em); }
     }
-  }
-</style>
+
+    /* PLANS SECTION */
+    .plans {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+      user-select: none;
+      flex-wrap: wrap;
+    }
+    .plan {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.6rem 1.4rem;
+      box-shadow: 0 5px 15px rgba(136, 0, 136, 0.15);
+      width: 280px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: default;
+      transition: transform var(--transition);
+    }
+    .plan:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 25px rgba(136, 0, 136, 0.3);
+    }
+    .plan h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      font-weight: 800;
+      color: var(--primary-purple);
+      user-select: text;
+    }
+    .plan ul {
+      list-style: none;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      user-select: text;
+    }
+    .plan ul li {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .plan ul li::before {
+      content: '✔';
+      color: var(--accent-orange);
+      font-weight: 900;
+      margin-right: 0.3rem;
+    }
+    .plan ul li:has(.missing) {
+      color: #ccc;
+    }
+    .plan ul li:has(.missing)::before {
+      content: '❌';
+      color: #ccc;
+    }
+    .select-btn {
+      background: var(--primary-purple);
+      color: white;
+      font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      padding: 0.7em 1.4em;
+      cursor: pointer;
+      transition: background-color var(--transition);
+      align-self: center;
+      user-select: none;
+    }
+    .select-btn:hover {
+      background: var(--secondary-purple);
+    }
+    .premium {
+      border: 2px solid var(--accent-orange);
+    }
+    .plus {
+      border: 2px solid #cc3f47;
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      .header {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+      }
+      nav {
+        width: 100%;
+        text-align: center;
+      }
+      nav a {
+        margin: 0 0.8rem;
+        font-size: 1.1rem;
+      }
+      .plans {
+        flex-direction: column;
+        align-items: center;
+      }
+      .payment-cards {
+        flex-direction: column;
+        align-items: center;
+      }
+      .main-container {
+        width: 90%;
+        max-width: 340px;
+        height: auto;
+        margin-bottom: 1.5rem;
+      }
+      .popup, .login-popup {
+        width: 95%;
+        padding: 1.2rem;
+      }
+      .content {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+      }
+      .master {
+        width: 2em;
+        height: 2em;
+        font-size: 1em;
+      }
+      .chip {
+        width: 24px;
+        height: 24px;
+      }
+      .rev, .sparkasse, .volksbank {
+        font-size: 1em;
+      }
+      .ultra-text, .master-text {
+        font-size: 0.6em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container header">
+      <div class="logo">BrainBoost</div>
+      <nav>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="bewerbung.html">Bewerbungen</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions">
+        <button class="button" id="openPremium">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24"><path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"/></svg>
+          Unlock Pro
+        </button>
+        <button class="login-btn" id="openLogin">Login</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" role="banner" aria-label="Willkommen bei BrainBoost">
+    <div class="hero-content container">
+      <h1>Willkommen bei <span>BrainBoost</span></h1>
+      <p>Organisiere deinen Schulalltag, bewerbe dich smarter & nutze KI für deine Projekte.</p>
+      <div class="streak" aria-live="polite" aria-atomic="true">🔥 <span id="streak-count">0</span>-Tage-Streak</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <main class="container" role="main">
+    <section class="grid" aria-label="Funktionen">
+      <article class="card" tabindex="0">
+        <h3>📚 Lernplaner</h3>
+        <p>Organisiere deine Aufgaben, Fächer & Deadlines.</p>
+      </article>
+      <article class="card" tabindex="0">
+        <h3>📝 Bewerbungstools</h3>
+        <p>Vorlagen, Tipps & PDF-Export für perfekte Bewerbungen.</p>
+      </article>
+      <article class="card" tabindex="0">
+        <h3>📅 Terminplan</h3>
+        <p>Push-Erinnerungen für alles Wichtige im Alltag.</p>
+      </article>
+      <article class="card" tabindex="0">
+        <h3>🤖 KI-Assistent</h3>
+        <p>Referate & Aufsätze mit smarter Hilfe schreiben.</p>
+      </article>
+    </section>
+
+    <!-- PROMO -->
+    <section class="promo" aria-label="Premium Angebote">
+      <p>🔓 Noch mehr Tools & Support? Hol dir <strong>Premium</strong>!</p>
+      <div class="promo-btn-wrapper">
+        <button class="button" id="openPremium2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24"><path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"/></svg>
+          Unlock Pro
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="container">
+      © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
+    </div>
+  </footer>
+
   <!-- OVERLAYS -->
 
   <!-- Premium Paket Overlay -->
-  <div id="premiumOverlay" class="overlay hidden">
+  <div id="premiumOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="premiumTitle" tabindex="-1">
     <div class="popup">
-      <h2>Wähle dein BrainBoost-Paket</h2>
+      <h2 id="premiumTitle">Wähle dein BrainBoost-Paket</h2>
       <div class="plans">
         <div class="plan">
           <h3>🟢 Beginner</h3>
           <ul>
             <li>✔ Lernplaner, Termine & Tools</li>
             <li>✔ Bewerbungshilfe</li>
-            <li>❌ KI begrenzt</li>
+            <li><span class="missing">❌ KI begrenzt</span></li>
           </ul>
           <button class="select-btn">Gratis</button>
         </div>
@@ -344,29 +721,28 @@
           <button class="select-btn">9,99 €/Monat</button>
         </div>
       </div>
-      <button class="close-btn" onclick="closeOverlay()">✖</button>
+      <button class="close-btn" onclick="closeOverlay()" aria-label="Schließen">✖</button>
     </div>
   </div>
 
   <!-- Login Overlay -->
-  <div id="loginOverlay" class="overlay hidden">
+  <div id="loginOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loginTitle" tabindex="-1">
     <div class="login-popup">
-      <h2>Login bei BrainBoost</h2>
-      <input type="text" placeholder="Benutzername" class="field" />
-      <input type="password" placeholder="Passwort" class="field" />
+      <h2 id="loginTitle">Login bei BrainBoost</h2>
+      <input type="text" placeholder="Benutzername" class="field" aria-label="Benutzername" />
+      <input type="password" placeholder="Passwort" class="field" aria-label="Passwort" />
       <button class="login-btn-action">Einloggen</button>
-      <button class="close-btn" onclick="closeLogin()">✖</button>
+      <button class="close-btn" onclick="closeLogin()" aria-label="Schließen">✖</button>
     </div>
   </div>
 
-  <!-- Neue Payment-Karten Overlay -->
-  <div id="paymentOverlay" class="overlay hidden" onclick="closePayment(event)">
+  <!-- Payment Cards Overlay -->
+  <div id="paymentOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="paymentTitle" tabindex="-1" onclick="closePayment(event)">
     <div class="popup" onclick="event.stopPropagation()">
-      <h2>Zahlungsmethode wählen</h2>
+      <h2 id="paymentTitle">Zahlungsmethode wählen</h2>
       <div class="payment-cards">
 
-        <!-- Karte 1: Revolut -->
-        <div class="main-container" onclick="alert('Revolut ausgewählt!')">
+        <div class="main-container" onclick="alert('Revolut ausgewählt!')" role="button" tabindex="0" aria-label="Zahlungsmethode Revolut auswählen">
           <div class="border">
             <div class="card">
               <div class="shadow">
@@ -375,7 +751,7 @@
                   <p class="ultra-text">ULTRA MEMBER</p>
                   <p class="master-text">mastercard</p>
                   <div class="master one">M</div>
-                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
                   </svg>
                 </div>
@@ -384,8 +760,7 @@
           </div>
         </div>
 
-        <!-- Karte 2: Sparkasse -->
-        <div class="main-container" onclick="alert('Sparkasse ausgewählt!')">
+        <div class="main-container" onclick="alert('Sparkasse ausgewählt!')" role="button" tabindex="0" aria-label="Zahlungsmethode Sparkasse auswählen">
           <div class="border">
             <div class="card">
               <div class="shadow">
@@ -394,7 +769,7 @@
                   <p class="ultra-text">CLASSIC MEMBER</p>
                   <p class="master-text">visa</p>
                   <div class="master one">S</div>
-                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
                   </svg>
                 </div>
@@ -403,8 +778,7 @@
           </div>
         </div>
 
-        <!-- Karte 3: Volksbank -->
-        <div class="main-container" onclick="alert('Volksbank ausgewählt!')">
+        <div class="main-container" onclick="alert('Volksbank ausgewählt!')" role="button" tabindex="0" aria-label="Zahlungsmethode Volksbank auswählen">
           <div class="border">
             <div class="card">
               <div class="shadow">
@@ -413,7 +787,7 @@
                   <p class="ultra-text">PREMIUM MEMBER</p>
                   <p class="master-text">maestro</p>
                   <div class="master one">V</div>
-                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                     <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
                   </svg>
                 </div>
@@ -423,74 +797,47 @@
         </div>
 
       </div>
-
-      <button class="close-btn" onclick="closePayment()">✖</button>
+      <button class="close-btn" onclick="closePayment()" aria-label="Schließen">✖</button>
     </div>
   </div>
 
-  <!-- HEADER -->
-  <header>
-    <div class="container header">
-      <div class="logo">BrainBoost</div>
-      <nav>
-        <a href="lernplaner.html">Lernplaner</a>
-        <a href="bewerbung.html">Bewerbungen</a>
-        <a href="termine.html">Termine</a>
-        <a href="tools.html">Tools</a>
-      </nav>
-      <div class="header-actions">
-        <!-- Neuer Premium Button -->
-        <button class="button" id="openPremium">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
-            <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
-          </svg>
-          Unlock Pro
-        </button>
-        <button class="login-btn" id="openLogin">Login</button>
-      </div>
-    </div>
-  </header>
+  <script>
+    const premiumOverlay = document.getElementById('premiumOverlay');
+    const loginOverlay = document.getElementById('loginOverlay');
+    const paymentOverlay = document.getElementById('paymentOverlay');
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Willkommen bei <span>BrainBoost</span></h1>
-      <p>Organisiere deinen Schulalltag, bewerbe dich smarter & nutze KI für deine Projekte.</p>
-      <div class="streak">🔥 <span id="streak-count">0</span>-Tage-Streak</div>
-    </div>
-  </section>
+    document.getElementById('openPremium').addEventListener('click', () => {
+      premiumOverlay.classList.remove('hidden');
+      premiumOverlay.focus();
+    });
 
-  <!-- FEATURES -->
-  <main class="container">
-    <section class="grid">
-      <div class="card"><h3>📚 Lernplaner</h3><p>Organisiere deine Aufgaben, Fächer & Deadlines.</p></div>
-      <div class="card"><h3>📝 Bewerbungstools</h3><p>Vorlagen, Tipps & PDF-Export für perfekte Bewerbungen.</p></div>
-      <div class="card"><h3>📅 Terminplan</h3><p>Push-Erinnerungen für alles Wichtige im Alltag.</p></div>
-      <div class="card"><h3>🤖 KI-Assistent</h3><p>Referate & Aufsätze mit smarter Hilfe schreiben.</p></div>
-    </section>
+    document.getElementById('openPremium2').addEventListener('click', () => {
+      premiumOverlay.classList.remove('hidden');
+      premiumOverlay.focus();
+    });
 
-    <!-- PROMO -->
-    <section class="promo">
-      <p>🔓 Noch mehr Tools & Support? Hol dir <strong>Premium</strong>!</p>
-      <div class="promo-btn-wrapper">
-        <!-- Neuer Promo Button -->
-        <button class="button" id="openPremium2">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
-            <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
-          </svg>
-          Unlock Pro
-        </button>
-      </div>
-    </section>
-  </main>
+    document.getElementById('openLogin').addEventListener('click', () => {
+      loginOverlay.classList.remove('hidden');
+      loginOverlay.focus();
+    });
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
-    </div>
-  </footer>
+    function closeOverlay() {
+      premiumOverlay.classList.add('hidden');
+    }
 
+    function closeLogin() {
+      loginOverlay.classList.add('hidden');
+    }
+
+    function closePayment(event) {
+      if (!event || event.target === paymentOverlay) {
+        paymentOverlay.classList.add('hidden');
+      }
+    }
+  </script>
+
+</body>
+</html>
   <!-- JS -->
   <script>
     const openPremiumBtns = [document.getElementById("openPremium"), document.getElementById("openPremium2")];

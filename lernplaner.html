@@ -5,175 +5,342 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lernplaner – BrainBoost</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8fafc;
-      margin: 0; 
-      color: #333;
+    :root {
+      --primary-purple: #6a0dad;       /* Royal Purple */
+      --secondary-purple: #8a2be2;     /* Medium Purple */
+      --accent-gold: #f0a500;          /* Warm Gold */
+      --background-light: #ffffff;     /* Weiß */
+      --text-dark: #1a1a1a;            /* Dunkles Anthrazit */
+      --text-light: #6b7280;           /* Graublau für sekundären Text */
+      --shadow-dark: rgba(0, 0, 0, 0.1);
+      --radius: 12px;
+      --transition: 0.3s ease;
+      --font-main: 'Trebuchet MS', sans-serif;
     }
+
+    /* Reset & Basics */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-main);
+      background: var(--background-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      user-select: none;
+    }
+    a {
+      color: var(--primary-purple);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* Header (Top Navigation) */
     header {
-      background: #2563eb;
-      padding: 15px 20px;
-      color: white;
+      background: white;
+      box-shadow: 0 2px 6px var(--shadow-dark);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .header {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     .logo {
-      font-weight: 700;
-      font-size: 1.6rem;
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--primary-purple);
+      letter-spacing: 2px;
+      user-select: none;
+      cursor: default;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
     nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
       font-weight: 600;
+      font-size: 1rem;
+      color: var(--text-dark);
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.25s ease, color var(--transition);
     }
+    nav a.active,
     nav a:hover {
-      text-decoration: underline;
+      color: white;
+      background-color: var(--accent-gold);
+      box-shadow: 0 4px 10px rgba(240, 165, 0, 0.5);
     }
+
+    /* Right buttons (Login, Premium) */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .btn {
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.4em 1em;
+      border-radius: 30px;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.4);
+      color: white;
+      background: var(--primary-purple);
+    }
+    .btn.premium {
+      background: linear-gradient(45deg, var(--primary-purple), var(--accent-gold));
+      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.7);
+    }
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+
+    /* Main Content */
     main {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px 50px 20px;
+      max-width: 720px;
+      margin: 2rem auto 4rem;
+      padding: 0 1rem;
+      user-select: text;
     }
     h1 {
-      margin-bottom: 20px;
-      color: #0f172a;
-      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--primary-purple);
+      margin-bottom: 2rem;
+      user-select: text;
     }
 
     /* Formular */
     form {
       background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
+      border-radius: var(--radius);
+      padding: 1.8rem 2rem;
+      box-shadow: 0 5px 20px rgba(240, 165, 0, 0.15);
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      user-select: text;
     }
-    form input, form textarea {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      flex: 1 1 180px;
-      min-width: 150px;
-      font-family: 'Segoe UI', sans-serif;
+    form input,
+    form textarea {
+      flex: 1 1 220px;
+      min-width: 180px;
+      padding: 0.7rem 1rem;
+      border: 2px solid var(--primary-purple);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-family: var(--font-main);
+      color: var(--text-dark);
+      transition: border-color var(--transition), background-color var(--transition);
+    }
+    form input:focus,
+    form textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      background: #fff8e1;
     }
     form textarea {
       resize: vertical;
-      min-height: 40px;
+      min-height: 60px;
     }
     form button {
-      background: #2563eb;
+      background: linear-gradient(45deg, var(--primary-purple), var(--accent-gold));
+      background-size: 300%;
       color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 25px;
       font-weight: 700;
+      border: none;
+      border-radius: 30px;
+      padding: 0.8em 1.6em;
       cursor: pointer;
-      transition: background 0.3s ease;
-      flex: 1 1 100px;
-      min-width: 100px;
+      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.6);
+      transition: background-position 0.4s ease;
+      flex: 1 1 140px;
+      min-width: 140px;
+      user-select: none;
+      align-self: center;
     }
     form button:hover {
-      background: #1e40af;
+      background-position: right center;
+      box-shadow: 0 8px 25px rgba(240, 165, 0, 0.85);
     }
 
     /* Aufgabenliste */
-    ul.task-list {
+    .task-list {
       list-style: none;
       padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      user-select: text;
     }
-    li.task {
+    .task {
       background: white;
-      margin-bottom: 15px;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: transform var(--transition), box-shadow var(--transition);
       position: relative;
-      user-select: none;
-      overflow: hidden;
-      touch-action: pan-y;
+      user-select: text;
     }
-    li.task .content {
-      pointer-events: none; /* damit Swipe nicht blockiert */
+    .task:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.13);
     }
-    li.task h3 {
-      margin: 0 0 8px 0;
-      color: #2563eb;
+    .task.done h3,
+    .task.done p,
+    .task.done small {
+      text-decoration: line-through;
+      color: var(--text-light);
     }
-    li.task p {
-      margin: 0 0 6px 0;
-      color: #555;
-      font-size: 14px;
+    .task h3 {
+      color: var(--primary-purple);
+      margin: 0 0 0.3rem 0;
+      font-weight: 800;
     }
-    li.task small {
-      color: #999;
-      font-size: 12px;
+    .task p {
+      margin: 0 0 0.3rem 0;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .task small {
+      color: var(--text-light);
+      font-size: 0.85rem;
     }
 
-    /* Swipe delete */
+    /* Checkbox */
+    .done-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid var(--primary-purple);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .done-checkbox:checked {
+      background: var(--primary-purple);
+      border-color: var(--accent-gold);
+    }
+
+    /* Delete Button */
     .delete-btn {
       position: absolute;
       right: 0;
       top: 0;
       bottom: 0;
-      width: 60px;
-      background: #dc2626;
+      width: 50px;
+      background: #cc3f47;
       color: white;
+      font-size: 24px;
+      font-weight: 700;
+      border-top-right-radius: var(--radius);
+      border-bottom-right-radius: var(--radius);
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
-      font-weight: bold;
       cursor: pointer;
       user-select: none;
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
       transform: translateX(100%);
-      transition: transform 0.3s ease;
+      transition: transform var(--transition);
+      z-index: 10;
     }
-    li.task.show-delete .delete-btn {
+    .task.show-delete .delete-btn {
       transform: translateX(0);
     }
 
-    /* Animation wenn gelöscht */
-    li.task.removing {
-      animation: slideOutLeft 0.4s forwards;
+    /* Footer */
+    footer {
+      background: #f9f9fb;
+      border-top: 1px solid #ddd;
+      padding: 1rem 0;
+      margin-top: auto;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      user-select: none;
     }
-    @keyframes slideOutLeft {
-      to { 
-        opacity: 0;
-        transform: translateX(-100%);
-        height: 0;
-        margin-bottom: 0;
-        padding-top: 0;
-        padding-bottom: 0;
-      }
+    footer .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+    footer a {
+      color: var(--text-light);
+      transition: color 0.3s ease;
+    }
+    footer a:hover {
+      color: var(--primary-purple);
     }
 
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 1rem;
+      }
+      main {
+        margin: 1.5rem 1rem 3rem;
+      }
+      form {
+        padding: 1rem 1rem;
+      }
+      form button {
+        flex-basis: 100%;
+        min-width: auto;
+      }
+      nav a {
+        font-size: 1.1rem;
+      }
+      footer .footer-inner {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">BrainBoost</div>
-  <nav>
-    <a href="index.html">Startseite</a>
-    <a href="lernplaner.html" style="text-decoration: underline;">Lernplaner</a>
-    <a href="bewerbungen.html">Bewerbungen</a>
-    <a href="termine.html">Termine</a>
-    <a href="tools.html">Tools</a>
-  </nav>
+  <div class="header">
+    <div class="logo">BrainBoost</div>
+    <nav>
+      <a href="index.html">Startseite</a>
+      <a href="lernplaner.html" class="active">Lernplaner</a>
+      <a href="bewerbungen.html">Bewerbungen</a>
+      <a href="termine.html">Termine</a>
+      <a href="tools.html">Tools</a>
+    </nav>
+    <div class="header-right">
+      <button class="btn login-btn">Login</button>
+      <button class="btn premium">Premium</button>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -192,12 +359,23 @@
   </ul>
 </main>
 
+<footer>
+  <div class="footer-inner">
+    <a href="impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
+    <a href="datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+    <a href="kontakt.html" target="_blank" rel="noopener noreferrer">Kontakt</a>
+  </div>
+</footer>
+
 <script>
   const form = document.getElementById('taskForm');
   const taskList = document.getElementById('taskList');
-
-  // Hol alle Aufgaben aus localStorage
   let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+  function formatDate(dateStr) {
+    const options = { day: '2-digit', month: 'long', year: 'numeric' };
+    return new Date(dateStr).toLocaleDateString('de-DE', options);
+  }
 
   function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -205,30 +383,47 @@
 
   function renderTasks() {
     taskList.innerHTML = '';
+    tasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
+
     tasks.forEach((task, index) => {
       const li = document.createElement('li');
       li.className = 'task';
+      if (task.done) li.classList.add('done');
       li.dataset.index = index;
 
       li.innerHTML = `
+        <input type="checkbox" class="done-checkbox" ${task.done ? 'checked' : ''} />
         <div class="content">
           <h3>${task.fach}: ${task.aufgabe}</h3>
           <p>${task.notiz || ''}</p>
-          <small>Deadline: ${task.deadline}</small>
+          <small>Deadline: ${formatDate(task.deadline)}</small>
         </div>
-        <div class="delete-btn">🗑️</div>
+        <div class="delete-btn" title="Löschen">🗑️</div>
       `;
 
-      // Swipe Funktion (mobil + Desktop)
-      let startX = 0;
-      let currentX = 0;
-      let touching = false;
+      // Checkbox erledigt
+      li.querySelector('.done-checkbox').addEventListener('change', e => {
+        tasks[index].done = e.target.checked;
+        saveTasks();
+        renderTasks();
+      });
 
+      // Löschen Button
+      li.querySelector('.delete-btn').addEventListener('click', () => {
+        tasks.splice(index, 1);
+        saveTasks();
+        renderTasks();
+      });
+
+      // Swipe to delete (mobile & desktop)
+      let startX = 0, currentX = 0, touching = false;
       const deleteBtn = li.querySelector('.delete-btn');
       const content = li.querySelector('.content');
+      const checkbox = li.querySelector('.done-checkbox');
 
       function setTranslateX(x) {
         content.style.transform = `translateX(${x}px)`;
+        checkbox.style.transform = `translateX(${x}px)`;
         if (x < -50) {
           li.classList.add('show-delete');
         } else {
@@ -246,7 +441,7 @@
         if (!touching) return;
         currentX = e.touches[0].clientX;
         let diff = currentX - startX;
-        if (diff < 0) { // nur links swipen
+        if (diff < 0) {
           e.preventDefault();
           setTranslateX(diff);
         }
@@ -258,17 +453,18 @@
           const moved = parseInt(content.style.transform.match(/-?\d+/)[0]);
           if (moved < -100) {
             li.classList.add('show-delete');
-            setTranslateX(-60);
+            setTranslateX(-50);
           } else {
             li.classList.remove('show-delete');
             setTranslateX(0);
           }
           li.style.transition = 'transform 0.3s ease';
-          content.style.transform = li.classList.contains('show-delete') ? 'translateX(-60px)' : 'translateX(0)';
+          content.style.transform = li.classList.contains('show-delete') ? 'translateX(-50px)' : 'translateX(0)';
+          checkbox.style.transform = content.style.transform;
         }
       });
 
-      // Für Desktop (Drag mit Maus)
+      // Desktop Drag
       let mouseDown = false;
       let mouseStartX = 0;
       li.addEventListener('mousedown', (e) => {
@@ -282,13 +478,14 @@
         const moved = currentX - mouseStartX;
         if (moved < -100) {
           li.classList.add('show-delete');
-          setTranslateX(-60);
+          setTranslateX(-50);
         } else {
           li.classList.remove('show-delete');
           setTranslateX(0);
         }
         li.style.transition = 'transform 0.3s ease';
-        content.style.transform = li.classList.contains('show-delete') ? 'translateX(-60px)' : 'translateX(0)';
+        content.style.transform = li.classList.contains('show-delete') ? 'translateX(-50px)' : 'translateX(0)';
+        checkbox.style.transform = content.style.transform;
       });
       li.addEventListener('mousemove', (e) => {
         if (!mouseDown) return;
@@ -298,16 +495,6 @@
           e.preventDefault();
           setTranslateX(diff);
         }
-      });
-
-      // Löschen Button
-      deleteBtn.addEventListener('click', () => {
-        li.classList.add('removing');
-        setTimeout(() => {
-          tasks.splice(index, 1);
-          saveTasks();
-          renderTasks();
-        }, 400);
       });
 
       taskList.appendChild(li);
@@ -326,14 +513,12 @@
       return;
     }
 
-    tasks.push({ fach, aufgabe, notiz, deadline });
+    tasks.push({ fach, aufgabe, notiz, deadline, done: false });
     saveTasks();
     renderTasks();
-
     form.reset();
   });
 
-  // Beim Laden rendern
   renderTasks();
 </script>
 
