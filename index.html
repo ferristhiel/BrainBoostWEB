@@ -5,9 +5,266 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BrainBoost – Schüler & Azubi Webtool</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .button {
+      width: fit-content;
+      display: flex;
+      align-items: center;
+      padding: 1.2em 1rem;
+      cursor: pointer;
+      gap: 0.4rem;
+      font-weight: bold;
+      border-radius: 30px;
+      text-shadow: 2px 2px 3px rgb(136 0 136 / 50%);
+      background: linear-gradient(15deg, #880088, #aa2068, #cc3f47, #de6f3d, #f09f33, #de6f3d, #cc3f47, #aa2068, #880088) no-repeat;
+      background-size: 300%;
+      color: #fff;
+      border: none;
+      background-position: left center;
+      box-shadow: 0 30px 10px -20px rgba(0,0,0,.2);
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background-size: 320%;
+      background-position: right center;
+    }
+
+    .button:hover svg {
+      fill: #fff;
+    }
+
+    .button svg {
+      width: 23px;
+      fill: #f09f33;
+      transition: 0.3s ease;
+    }
+
+    /* === OVERLAY === */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .popup {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      width: 90%;
+      max-width: 900px;
+      position: relative;
+      text-align: center;
+    }
+
+    .popup h2 {
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #0f172a;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #64748b;
+    }
+
+    /* === PAYMENT CARDS CONTAINER === */
+    .payment-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding-top: 1rem;
+    }
+
+    /* === CARD STYLES === */
+    .main-container {
+      font-family: "Trebuchet MS", sans-serif;
+      position: relative;
+      height: 203px;
+      aspect-ratio: 1.579;
+      border-radius: 1em;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 300ms ease-in;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background-color: #999;
+      opacity: 0.8;
+      background-image: linear-gradient(to right, #777, #777 2px, #999 2px, #999);
+      background-size: 4px 100%;
+    }
+
+    .main-container:hover {
+      transform: rotateZ(1deg) rotateY(10deg) scale(1.1);
+      box-shadow: 0 5em 2em #111;
+    }
+
+    .border {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 1em;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(115deg,
+        rgba(0, 0, 0, 0.33) 12%,
+        rgba(255, 255, 255, 0.33) 27%,
+        rgba(255, 255, 255, 0.33) 31%,
+        rgba(0, 0, 0, 0.33) 52%);
+      position: relative;
+    }
+
+    .border:hover::after {
+      position: absolute;
+      content: " ";
+      height: 50em;
+      aspect-ratio: 1.58;
+      border-radius: 1em;
+      background: linear-gradient(115deg,
+        rgba(0, 0, 0, 1) 42%,
+        rgba(255, 255, 255, 1) 47%,
+        rgba(255, 255, 255, 1) 51%,
+        rgba(0, 0, 0, 1) 52%);
+      animation: rotate 4s linear infinite;
+      z-index: 1;
+      opacity: 0.05;
+    }
+
+    .card {
+      height: 12.5em;
+      aspect-ratio: 1.586;
+      border-radius: 1em;
+      position: relative;
+      width: 100%;
+      background-color: transparent;
+      opacity: 1;
+      background-image: none;
+      box-shadow: none;
+    }
+
+    .shadow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 0.85em;
+      border: 1px solid #bbb;
+      background: radial-gradient(circle at 100% 100%, #ffffff 0, #ffffff 8px, transparent 8px) 0% 0%/13px 13px no-repeat,
+                  radial-gradient(circle at 0 100%, #ffffff 0, #ffffff 8px, transparent 8px) 100% 0%/13px 13px no-repeat,
+                  radial-gradient(circle at 100% 0, #ffffff 0, #ffffff 8px, transparent 8px) 0% 100%/13px 13px no-repeat,
+                  radial-gradient(circle at 0 0, #ffffff 0, #ffffff 8px, transparent 8px) 100% 100%/13px 13px no-repeat,
+                  linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 10px) calc(100% - 26px) no-repeat,
+                  linear-gradient(#ffffff, #ffffff) 50% 50% / calc(100% - 26px) calc(100% - 10px) no-repeat,
+                  linear-gradient(135deg, rgba(3, 3, 3, 0.5) 0%, transparent 22%, transparent 47%, transparent 73%, rgba(0, 0, 0, 0.5) 100%);
+      box-sizing: border-box;
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      border-radius: 0.6em;
+      border: 1px solid #aaa;
+      box-shadow: -1px -1px 0 #ddd;
+      transform: translate(-50%, -50%);
+      height: 12em;
+      aspect-ratio: 1.604;
+      background-image: linear-gradient(to right, #777, #555 2px, #aaa 2px, #aaa);
+      background-size: 4px 100%;
+      color: white;
+      font-weight: bold;
+      text-shadow: 0 0 4px black;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    .rev, .sparkasse, .volksbank {
+      position: absolute;
+      top: 0.5em;
+      left: 0.75em;
+      font-size: 1.25em;
+      text-transform: uppercase;
+      opacity: 0.9;
+    }
+
+    .master {
+      position: absolute;
+      bottom: 1.25em;
+      right: 0.5em;
+      background: linear-gradient(90deg, rgba(75, 75, 75, 0.25) 0%, rgba(121, 121, 121, 1) 100%);
+      color: #fff;
+      height: 2.5em;
+      width: 2.5em;
+      border: 1px solid #bbb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-transform: lowercase;
+      opacity: 0.9;
+    }
+
+    .master.one { right: 2em; }
+
+    .master-text {
+      bottom: 0.25em;
+      right: 0.8em;
+      font-size: 0.75em;
+      position: absolute;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 1px 1px 3px black;
+    }
+
+    .ultra-text {
+      top: 0.7em;
+      right: 2.5em;
+      font-size: 0.5em;
+      color: rgba(255, 255, 255, 0.66);
+      position: absolute;
+      text-shadow: -1px -1px #333;
+    }
+
+    .chip {
+      position: absolute;
+      top: 27.5%;
+      left: 8.25%;
+      width: 30px;
+      height: 30px;
+    }
+
+    @keyframes rotate {
+      0% { transform: translate(-25em, -15em); }
+      20% { transform: translate(25em, 15em); }
+      100% { transform: translate(25em, 15em); }
+    }
+
+  </style>
 </head>
 <body>
   <!-- OVERLAYS -->
+
+  <!-- Premium Paket Overlay -->
   <div id="premiumOverlay" class="overlay hidden">
     <div class="popup">
       <h2>Wähle dein BrainBoost-Paket</h2>
@@ -45,13 +302,83 @@
     </div>
   </div>
 
+  <!-- Login Overlay -->
   <div id="loginOverlay" class="overlay hidden">
     <div class="login-popup">
       <h2>Login bei BrainBoost</h2>
-      <input type="text" placeholder="Benutzername" class="field">
-      <input type="password" placeholder="Passwort" class="field">
+      <input type="text" placeholder="Benutzername" class="field" />
+      <input type="password" placeholder="Passwort" class="field" />
       <button class="login-btn-action">Einloggen</button>
       <button class="close-btn" onclick="closeLogin()">✖</button>
+    </div>
+  </div>
+
+  <!-- Neue Payment-Karten Overlay -->
+  <div id="paymentOverlay" class="overlay hidden" onclick="closePayment(event)">
+    <div class="popup" onclick="event.stopPropagation()">
+      <h2>Zahlungsmethode wählen</h2>
+      <div class="payment-cards">
+
+        <!-- Karte 1: Revolut -->
+        <div class="main-container" onclick="alert('Revolut ausgewählt!')">
+          <div class="border">
+            <div class="card">
+              <div class="shadow">
+                <div class="content" style="background: linear-gradient(45deg, #3b82f6, #2563eb);">
+                  <p class="rev">Revolut</p>
+                  <p class="ultra-text">ULTRA MEMBER</p>
+                  <p class="master-text">mastercard</p>
+                  <div class="master one">M</div>
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Karte 2: Sparkasse -->
+        <div class="main-container" onclick="alert('Sparkasse ausgewählt!')">
+          <div class="border">
+            <div class="card">
+              <div class="shadow">
+                <div class="content" style="background: linear-gradient(45deg, #ef4444, #b91c1c);">
+                  <p class="sparkasse">Sparkasse</p>
+                  <p class="ultra-text">CLASSIC MEMBER</p>
+                  <p class="master-text">visa</p>
+                  <div class="master one">S</div>
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Karte 3: Volksbank -->
+        <div class="main-container" onclick="alert('Volksbank ausgewählt!')">
+          <div class="border">
+            <div class="card">
+              <div class="shadow">
+                <div class="content" style="background: linear-gradient(45deg, #10b981, #047857);">
+                  <p class="volksbank">Volksbank</p>
+                  <p class="ultra-text">PREMIUM MEMBER</p>
+                  <p class="master-text">maestro</p>
+                  <div class="master one">V</div>
+                  <svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="close-btn" onclick="closePayment()">✖</button>
     </div>
   </div>
 
@@ -66,7 +393,13 @@
         <a href="tools.html">Tools</a>
       </nav>
       <div class="header-actions">
-        <button class="Btn" id="openPremium"></button>
+        <!-- Neuer Premium Button -->
+        <button class="button" id="openPremium">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+            <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+          </svg>
+          Unlock Pro
+        </button>
         <button class="login-btn" id="openLogin">Login</button>
       </div>
     </div>
@@ -94,7 +427,13 @@
     <section class="promo">
       <p>🔓 Noch mehr Tools & Support? Hol dir <strong>Premium</strong>!</p>
       <div class="promo-btn-wrapper">
-        <button class="Btn" id="openPremium2"></button>
+        <!-- Neuer Promo Button -->
+        <button class="button" id="openPremium2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+            <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+          </svg>
+          Unlock Pro
+        </button>
       </div>
     </section>
   </main>
@@ -111,10 +450,11 @@
     const openPremiumBtns = [document.getElementById("openPremium"), document.getElementById("openPremium2")];
     const premiumOverlay = document.getElementById("premiumOverlay");
     const loginOverlay = document.getElementById("loginOverlay");
+    const paymentOverlay = document.getElementById("paymentOverlay");
 
     openPremiumBtns.forEach(btn => {
       btn.addEventListener("click", () => {
-        premiumOverlay.classList.remove("hidden");
+        paymentOverlay.classList.remove("hidden"); // Hier wird jetzt das Payment Overlay geöffnet
       });
     });
 
@@ -130,14 +470,24 @@
       loginOverlay.classList.add("hidden");
     }
 
-    // Streak vorbereiten (geht später mit Lernplaner richtig)
+    function closePayment(event) {
+      if (!event || event.target === paymentOverlay) {
+        paymentOverlay.classList.add("hidden");
+      }
+    }
+
+    // Streak vorbereiten
     let streak = localStorage.getItem("brainboost_streak") || 0;
     let lastDate = localStorage.getItem("brainboost_lastDate");
     const today = new Date().toLocaleDateString();
 
     if (lastDate && lastDate !== today) {
       const diff = (new Date(today) - new Date(lastDate)) / (1000 * 60 * 60 * 24);
-      if (diff === 1) { streak++; } else { streak = 0; }
+      if (diff === 1) {
+        streak++;
+      } else {
+        streak = 0;
+      }
     }
 
     document.getElementById("streak-count").textContent = streak;
