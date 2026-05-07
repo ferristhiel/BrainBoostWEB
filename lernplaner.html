@@ -323,6 +323,8 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
 
@@ -332,7 +334,7 @@
     <nav>
       <a href="index.html">Startseite</a>
       <a href="lernplaner.html" class="active">Lernplaner</a>
-      <a href="bewerbungen.html">Bewerbungen</a>
+      <a href="bewerbung.html">Bewerbungen</a>
       <a href="termine.html">Termine</a>
       <a href="tools.html">Tools</a>
     </nav>
@@ -370,7 +372,50 @@
 <script>
   const form = document.getElementById('taskForm');
   const taskList = document.getElementById('taskList');
-  let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  const demoTasks = [
+    {
+      fach: 'Mathe · Prozent-Profi',
+      aufgabe: 'Lektion „Rabatt im Sneaker-Shop“ abschließen',
+      notiz: 'Teste die neue Kurskarte auf der Startseite und hake die Aufgabe danach ab.',
+      deadline: '2026-05-08',
+      done: false
+    },
+    {
+      fach: 'Deutsch · Argumentation',
+      aufgabe: 'These + Begründung + Beispiel formulieren',
+      notiz: 'Beispielthema: Sollten Schulen digitale Lernstreaks nutzen?',
+      deadline: '2026-05-10',
+      done: false
+    },
+    {
+      fach: 'Englisch · Speaking',
+      aufgabe: 'Mini-Vorstellung für ein Praktikum üben',
+      notiz: 'Nutze: Hi, my name is ... I am interested in technology and teamwork.',
+      deadline: '2026-05-12',
+      done: false
+    },
+    {
+      fach: 'KI · Prompt-Werkstatt',
+      aufgabe: 'Prompt für einen 7-Tage-Lernplan schreiben',
+      notiz: 'Nenne Ziel, Prüfungstermin, Zeitbudget und schwache Themen.',
+      deadline: '2026-05-14',
+      done: false
+    }
+  ];
+
+  const TASK_KEY = 'brainboost_tasks';
+  const oldTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+  let tasks = JSON.parse(localStorage.getItem(TASK_KEY) || '[]');
+
+  if (tasks.length === 0 && oldTasks.length > 0) {
+    tasks = oldTasks;
+    saveTasks();
+  }
+
+  if (tasks.length === 0) {
+    tasks = demoTasks;
+    saveTasks();
+  }
 
   function formatDate(dateStr) {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
@@ -378,6 +423,7 @@
   }
 
   function saveTasks() {
+    localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }
 
@@ -391,15 +437,26 @@
       if (task.done) li.classList.add('done');
       li.dataset.index = index;
 
-      li.innerHTML = `
-        <input type="checkbox" class="done-checkbox" ${task.done ? 'checked' : ''} />
-        <div class="content">
-          <h3>${task.fach}: ${task.aufgabe}</h3>
-          <p>${task.notiz || ''}</p>
-          <small>Deadline: ${formatDate(task.deadline)}</small>
-        </div>
-        <div class="delete-btn" title="Löschen">🗑️</div>
-      `;
+      const checkboxInput = document.createElement('input');
+      checkboxInput.type = 'checkbox';
+      checkboxInput.className = 'done-checkbox';
+      checkboxInput.checked = Boolean(task.done);
+
+      const contentBox = document.createElement('div');
+      contentBox.className = 'content';
+      const title = document.createElement('h3');
+      title.textContent = `${task.fach}: ${task.aufgabe}`;
+      const note = document.createElement('p');
+      note.textContent = task.notiz || '';
+      const deadline = document.createElement('small');
+      deadline.textContent = `Deadline: ${formatDate(task.deadline)}`;
+      contentBox.append(title, note, deadline);
+
+      const deleteIcon = document.createElement('div');
+      deleteIcon.className = 'delete-btn';
+      deleteIcon.title = 'Löschen';
+      deleteIcon.textContent = '🗑️';
+      li.append(checkboxInput, contentBox, deleteIcon);
 
       // Checkbox erledigt
       li.querySelector('.done-checkbox').addEventListener('change', e => {
