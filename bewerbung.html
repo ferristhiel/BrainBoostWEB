@@ -151,6 +151,8 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
   </style>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
 
@@ -272,8 +274,38 @@
       return;
     }
 
-    // Platzhaltertext (echte KI kommt später hier rein)
-    output.innerText = `📄 Generierte Bewerbung basierend auf:\n\n"${input}"\n\nSehr geehrte Damen und Herren,\n\nmit großem Interesse bewerbe ich mich für ein ${input}. Ich bin Schüler an der XY-Schule und bringe hohe Motivation sowie Teamfähigkeit mit. Gerne würde ich erste praktische Erfahrungen in Ihrem Unternehmen sammeln.\n\nMit freundlichen Grüßen\n[Dein Name]`;
+    const cleanInput = input.replace(/\s+/g, ' ');
+    output.innerText = `📄 BrainBoost Bewerbungshilfe für: ${cleanInput}
+
+1) Anschreiben-Entwurf
+Sehr geehrte Damen und Herren,
+
+mit großem Interesse bewerbe ich mich für ${cleanInput}. Besonders spannend finde ich, dass ich dort praktische Erfahrungen sammeln und meine Stärken in Teamarbeit, Zuverlässigkeit und schnellem Lernen einbringen kann.
+
+Aktuell besuche ich die Schule und interessiere mich besonders für digitale Tools, Organisation und lösungsorientiertes Arbeiten. In Projekten übernehme ich gerne Verantwortung, arbeite strukturiert und frage aktiv nach Feedback, um mich zu verbessern.
+
+Ich freue mich darauf, Ihr Unternehmen kennenzulernen und zu zeigen, dass ich motiviert bin, Neues zu lernen und zuverlässig mitzuarbeiten.
+
+Mit freundlichen Grüßen
+[Dein Name]
+
+2) Stärken, die du anpassen kannst
+- Zuverlässigkeit: Ich erledige Aufgaben pünktlich und sorgfältig.
+- Lernbereitschaft: Ich arbeite mich schnell in neue Themen ein.
+- Teamfähigkeit: Ich kommuniziere offen und unterstütze andere.
+
+3) Lebenslauf-Checkliste
+[ ] Kontaktdaten vollständig
+[ ] Schule und Abschlussziel eingetragen
+[ ] Praktika / Projekte ergänzt
+[ ] Skills wie Office, Englisch, Programmieren oder Design genannt
+[ ] PDF-Dateiname seriös: Bewerbung_${cleanInput.replace(/[^a-zA-Z0-9]+/g, '_')}.pdf
+
+4) Gesprächsvorbereitung nach STAR
+Situation: In welchem Schulprojekt hast du Verantwortung übernommen?
+Task: Was war deine Aufgabe?
+Action: Was hast du konkret getan?
+Result: Was war das Ergebnis?`;
   }
 </script>
 

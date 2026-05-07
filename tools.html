@@ -121,6 +121,8 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
   </style>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
 
@@ -175,21 +177,34 @@
       alert('Bitte ein Thema eingeben!');
       return;
     }
-    // Dummy Gliederung als Beispiel
     const gliederung = 
-`Gliederung zum Thema: ${thema}
+`🧠 BrainBoost Lernpaket: ${thema}
 
-1. Einstieg: Warum ist das Thema für Schüler relevant?
-2. Grundlagen: wichtigste Begriffe einfach erklären
-3. Beispiel aus dem Alltag oder Unterricht
-4. Pro- und Contra-Punkte sammeln
-5. Mini-Lernplan: 3 Schritte zur Vorbereitung
-6. Fazit mit eigener Bewertung
+🎯 Lernziel
+Nach dieser Einheit kannst du das Thema in eigenen Worten erklären, ein Beispiel nennen und eine Prüfungsfrage beantworten.
 
-Demo-Übung:
-- Schreibe eine These.
-- Finde zwei Begründungen.
-- Formuliere eine Prüfungsfrage dazu.`;
+▶️ Video-Platzhalter
+Titel: ${thema} in 90 Sekunden
+Hook: Warum betrifft dich das im Schulalltag?
+Kapitel: 0:00 Einstieg · 0:25 Grundlagen · 1:00 Beispiel · 1:25 Mini-Quiz
+
+📚 Gliederung
+1. Einstieg: Problem oder Alltagssituation
+2. Begriffsklärung: 3 wichtige Wörter einfach erklären
+3. Ursachen / Hintergrund: Was steckt dahinter?
+4. Beispiel: Rechne, beschreibe oder argumentiere an einem konkreten Fall
+5. Pro & Contra: zwei starke Punkte je Seite
+6. Prüfungsteil: typische Aufgabe + Musterantwort
+7. Fazit: eigene Bewertung mit Ausblick
+
+🗓️ 3-Tage-Lernplan
+Tag 1: Video ansehen, 5 Stichpunkte notieren
+Tag 2: Beispielaufgabe lösen und Fehler markieren
+Tag 3: Mini-Test ohne Hilfe wiederholen
+
+✅ Mini-Quiz
+Frage: Was ist die wichtigste Kernaussage zu „${thema}“?
+Antwort-Vorlage: Die Kernaussage ist ..., weil ... . Ein Beispiel dafür ist ... .`;
 
     output.textContent = gliederung;
   });
