@@ -370,7 +370,42 @@
 <script>
   const form = document.getElementById('taskForm');
   const taskList = document.getElementById('taskList');
+  const demoTasks = [
+    {
+      fach: 'Mathe · Prozent-Profi',
+      aufgabe: 'Lektion „Rabatt im Sneaker-Shop“ abschließen',
+      notiz: 'Teste die neue Kurskarte auf der Startseite und hake die Aufgabe danach ab.',
+      deadline: '2026-05-08',
+      done: false
+    },
+    {
+      fach: 'Deutsch · Argumentation',
+      aufgabe: 'These + Begründung + Beispiel formulieren',
+      notiz: 'Beispielthema: Sollten Schulen digitale Lernstreaks nutzen?',
+      deadline: '2026-05-10',
+      done: false
+    },
+    {
+      fach: 'Englisch · Speaking',
+      aufgabe: 'Mini-Vorstellung für ein Praktikum üben',
+      notiz: 'Nutze: Hi, my name is ... I am interested in technology and teamwork.',
+      deadline: '2026-05-12',
+      done: false
+    },
+    {
+      fach: 'KI · Prompt-Werkstatt',
+      aufgabe: 'Prompt für einen 7-Tage-Lernplan schreiben',
+      notiz: 'Nenne Ziel, Prüfungstermin, Zeitbudget und schwache Themen.',
+      deadline: '2026-05-14',
+      done: false
+    }
+  ];
+
   let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+  if (tasks.length === 0) {
+    tasks = demoTasks;
+    saveTasks();
+  }
 
   function formatDate(dateStr) {
     const options = { day: '2-digit', month: 'long', year: 'numeric' };

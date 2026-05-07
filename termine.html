@@ -142,7 +142,7 @@
   <nav>
     <a href="index.html">Startseite</a>
     <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="bewerbung.html">Bewerbungen</a>
     <a href="termine.html" style="text-decoration: underline;">Termine</a>
     <a href="tools.html">Tools</a>
   </nav>
@@ -168,7 +168,17 @@
   const form = document.getElementById('terminForm');
   const terminList = document.getElementById('terminList');
 
+  const demoTermine = [
+    { titel: 'BrainBoost Tagesrunde testen', datum: '2026-05-08' },
+    { titel: 'Mathe Mini-Prüfung: Prozentrechnung', datum: '2026-05-13' },
+    { titel: 'Fiktives Praktikumsinterview vorbereiten', datum: '2026-05-18' }
+  ];
+
   let termine = JSON.parse(localStorage.getItem('termine')) || [];
+  if (termine.length === 0) {
+    termine = demoTermine;
+    saveTermine();
+  }
 
   function saveTermine() {
     localStorage.setItem('termine', JSON.stringify(termine));

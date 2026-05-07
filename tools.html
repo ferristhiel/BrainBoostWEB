@@ -83,6 +83,21 @@
     button:hover {
       background: #1e40af;
     }
+    .demo-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .demo-chips button {
+      background: #e0ecff;
+      color: #1d4ed8;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .demo-chips button:hover {
+      background: #bfdbfe;
+    }
     #output {
       white-space: pre-wrap;
       background: #f1f5f9;
@@ -114,7 +129,7 @@
   <nav>
     <a href="index.html">Startseite</a>
     <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="bewerbung.html">Bewerbungen</a>
     <a href="termine.html">Termine</a>
     <a href="tools.html" style="text-decoration: underline;">Tools</a>
   </nav>
@@ -125,7 +140,12 @@
 
   <section class="tool">
     <label for="textInput">Schreib ein Thema, z.B. „Klimawandel“</label>
-    <input type="text" id="textInput" placeholder="Gib ein Thema ein" />
+    <div class="demo-chips" aria-label="Demo-Themen">
+      <button type="button" data-topic="Klimawandel in der Schule">Klimawandel</button>
+      <button type="button" data-topic="Sollten Hausaufgaben durch Lernstreaks ersetzt werden?">Erörterung</button>
+      <button type="button" data-topic="Praktikum als Fachinformatiker">Praktikum</button>
+    </div>
+    <input type="text" id="textInput" placeholder="Gib ein Thema ein" value="Klimawandel in der Schule" />
     <button id="generateBtn">Gliederung generieren</button>
 
     <div id="output"></div>
@@ -142,6 +162,13 @@
   const output = document.getElementById('output');
   const btn = document.getElementById('generateBtn');
 
+  document.querySelectorAll('[data-topic]').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      input.value = chip.dataset.topic;
+      btn.click();
+    });
+  });
+
   btn.addEventListener('click', () => {
     const thema = input.value.trim();
     if (!thema) {
@@ -152,11 +179,17 @@
     const gliederung = 
 `Gliederung zum Thema: ${thema}
 
-1. Einführung
-2. Ursachen und Hintergrund
-3. Aktuelle Situation
-4. Lösungen und Zukunftsaussichten
-5. Fazit`;
+1. Einstieg: Warum ist das Thema für Schüler relevant?
+2. Grundlagen: wichtigste Begriffe einfach erklären
+3. Beispiel aus dem Alltag oder Unterricht
+4. Pro- und Contra-Punkte sammeln
+5. Mini-Lernplan: 3 Schritte zur Vorbereitung
+6. Fazit mit eigener Bewertung
+
+Demo-Übung:
+- Schreibe eine These.
+- Finde zwei Begründungen.
+- Formuliere eine Prüfungsfrage dazu.`;
 
     output.textContent = gliederung;
   });

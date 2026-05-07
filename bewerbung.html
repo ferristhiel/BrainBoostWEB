@@ -285,7 +285,29 @@
   const appForm = document.getElementById('appForm');
   const appList = document.getElementById('appList');
 
+  const demoApps = [
+    {
+      firma: 'ByteBäckerei GmbH · Schülerpraktikum IT',
+      status: 'offen',
+      notiz: 'Demo-Datensatz: Anschreiben mit KI-Hilfe erstellen und Lebenslauf prüfen.'
+    },
+    {
+      firma: 'GreenVolt Werkstatt · Ausbildung Elektroniker/in',
+      status: 'bewerbung',
+      notiz: 'Demo-Datensatz: STAR-Antwort für Vorstellungsgespräch vorbereiten.'
+    },
+    {
+      firma: 'MediaCampus Studio · Praktikum Design',
+      status: 'einladung',
+      notiz: 'Demo-Datensatz: Portfolio und 60-Sekunden-Selbstvorstellung üben.'
+    }
+  ];
+
   let apps = JSON.parse(localStorage.getItem('apps')) || [];
+  if (apps.length === 0) {
+    apps = demoApps;
+    saveApps();
+  }
 
   function saveApps() {
     localStorage.setItem('apps', JSON.stringify(apps));
