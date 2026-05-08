@@ -3,349 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BrainBoost – aktive Lern-App</title>
+  <title>BrainBoost – Startseite</title>
   <style>
     :root {
       --primary-purple: #880088;
       --secondary-purple: #aa2068;
       --accent-orange: #f09f33;
       --accent-green: #16a34a;
-      --accent-blue: #2563eb;
-      --background-light: #f9f9fb;
       --surface: #ffffff;
       --text-dark: #0f172a;
       --text-light: #64748b;
       --border-soft: #e2e8f0;
-      --shadow-dark: rgba(15, 23, 42, 0.14);
-      --radius: 18px;
-      --transition: 0.3s ease;
-      --font-main: 'Trebuchet MS', sans-serif;
+      --radius: 22px;
+      --font-main: 'Trebuchet MS', 'Segoe UI', sans-serif;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: var(--font-main);
-      background: radial-gradient(circle at top left, #fff2d9 0, transparent 28%), var(--background-light);
-      color: var(--text-dark);
-      line-height: 1.5;
-      min-height: 100vh;
-    }
-
-    a { color: var(--primary-purple); text-decoration: none; font-weight: 700; }
-    a:hover { color: var(--accent-orange); }
-
-    .container { max-width: 1180px; margin: 0 auto; padding: 0 1rem; width: 100%; }
-
-    header {
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 2px 14px var(--shadow-dark);
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      backdrop-filter: blur(16px);
-    }
-
-    .header {
-      min-height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .logo { font-size: 1.8rem; font-weight: 900; color: var(--primary-purple); letter-spacing: 1px; }
-
-    nav { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-    nav a { color: var(--text-dark); font-size: 0.95rem; }
-
-    .header-actions { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
-
-    .button, .login-btn, .select-btn, .lesson-action, .quiz-option, .secondary-btn {
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 800;
-      transition: transform var(--transition), box-shadow var(--transition), background-position var(--transition);
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: linear-gradient(15deg, var(--primary-purple), var(--secondary-purple), #cc3f47, #de6f3d, var(--accent-orange));
-      background-size: 300%;
-      color: white;
-      border-radius: 999px;
-      padding: 0.7em 1.25em;
-      box-shadow: 0 10px 22px rgba(240, 159, 51, 0.35);
-    }
-
-    .button svg { width: 20px; fill: var(--accent-orange); transition: fill var(--transition); }
-    .button:hover { background-position: right center; transform: translateY(-2px); }
-    .button:hover svg { fill: #fff; }
-
-    .login-btn {
-      background: transparent;
-      border: 2px solid var(--primary-purple);
-      padding: 0.6em 1.15em;
-      border-radius: 999px;
-      color: var(--primary-purple);
-    }
-
-    .login-btn:hover { background: var(--primary-purple); color: #fff; }
-
-    .hero {
-      background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
-      color: white;
-      padding: 4.5rem 1rem 3.5rem;
-      text-align: center;
-      box-shadow: inset 0 0 80px rgba(0,0,0,0.26);
-    }
-
-    .hero h1 { font-size: clamp(2.4rem, 6vw, 4.5rem); font-weight: 900; margin-bottom: 0.8rem; }
-    .hero h1 span { color: var(--accent-orange); }
-    .hero p { font-size: 1.2rem; max-width: 720px; margin: 0 auto 1.5rem; }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 0.8rem;
-      flex-wrap: wrap;
-      margin: 1.5rem auto 0;
-    }
-
-    .stat-pill {
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 999px;
-      padding: 0.65rem 1rem;
-      font-weight: 900;
-      box-shadow: 0 0 12px rgba(240,159,51,0.26);
-    }
-
-    .grid, .course-grid, .practice-grid, .plans, .daily-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.3rem;
-    }
-
-    .grid { margin: 3rem 0; }
-
-    .card, .course-card, .daily-card, .practice-card, .plan, .popup {
-      background: var(--surface);
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 34px rgba(15,23,42,0.08);
-    }
-
-    .card { padding: 1.6rem; }
-    .card h3, .course-card h3, .practice-card h3 { color: var(--primary-purple); margin-bottom: 0.6rem; }
-    .card p, .course-card p, .practice-card p { color: var(--text-light); }
-
-    .section-heading { margin: 3rem 0 1rem; }
-    .section-heading .eyebrow { color: var(--accent-orange); text-transform: uppercase; font-weight: 900; letter-spacing: 0.12em; font-size: 0.78rem; }
-    .section-heading h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--text-dark); }
-    .section-heading p { color: var(--text-light); max-width: 760px; }
-
-    .daily-card {
-      padding: 1.2rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border-left: 6px solid var(--accent-orange);
-    }
-
-    .daily-icon { font-size: 2.2rem; }
-    .daily-card strong { display: block; }
-    .daily-card span { color: var(--text-light); font-size: 0.95rem; }
-
-    .course-card {
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      min-height: 390px;
-    }
-
-    .course-top {
-      padding: 1.3rem;
-      color: #fff;
-      min-height: 142px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .course-top.math { background: linear-gradient(135deg, #7c3aed, #db2777); }
-    .course-top.german { background: linear-gradient(135deg, #2563eb, #06b6d4); }
-    .course-top.english { background: linear-gradient(135deg, #16a34a, #84cc16); }
-    .course-top.career { background: linear-gradient(135deg, #ea580c, #facc15); }
-    .course-top.science { background: linear-gradient(135deg, #0891b2, #0f766e); }
-    .course-top.ai { background: linear-gradient(135deg, #111827, #7c3aed); }
-
-    .course-top h3 { color: #fff; font-size: 1.45rem; }
-    .course-tag { align-self: flex-start; background: rgba(255,255,255,0.2); border-radius: 999px; padding: 0.3rem 0.65rem; font-size: 0.78rem; font-weight: 900; }
-
-    .course-body { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; gap: 0.9rem; }
-    .lesson-list { display: grid; gap: 0.55rem; list-style: none; }
-    .lesson-list li { background: #f8fafc; border-radius: 12px; padding: 0.6rem 0.7rem; color: var(--text-dark); font-size: 0.95rem; }
-
-    .progress-wrap { background: #e2e8f0; border-radius: 999px; height: 10px; overflow: hidden; }
-    .progress-bar { background: linear-gradient(90deg, var(--accent-orange), var(--accent-green)); height: 100%; width: 0%; transition: width 0.35s ease; }
-    .progress-label { font-size: 0.88rem; color: var(--text-light); font-weight: 800; }
-
-    .lesson-action, .secondary-btn, .select-btn {
-      border-radius: 999px;
-      padding: 0.75rem 1rem;
-    }
-
-    .lesson-action { background: var(--primary-purple); color: #fff; margin-top: auto; }
-    .lesson-action:hover { transform: translateY(-2px); box-shadow: 0 12px 20px rgba(136,0,136,0.22); }
-
-    .secondary-btn { background: #f1f5f9; color: var(--text-dark); }
-    .secondary-btn:hover { background: #e2e8f0; }
-
-    .practice-card { padding: 1.3rem; display: flex; flex-direction: column; gap: 0.75rem; }
-    .practice-card ul { color: var(--text-light); padding-left: 1.2rem; }
-
-    .promo {
-      background: linear-gradient(135deg, #f0e8ff, #fff7ed);
-      text-align: center;
-      padding: 2rem 1rem;
-      border-radius: var(--radius);
-      box-shadow: 0 4px 18px rgba(136,0,136,0.12);
-      margin: 3rem 0;
-      font-weight: 700;
-    }
-
-    .promo strong { color: var(--primary-purple); }
-    .promo-btn-wrapper { margin-top: 1rem; display: flex; justify-content: center; }
-
-    footer { background: #fff; text-align: center; padding: 1rem 0; color: var(--text-light); border-top: 1px solid #ddd; }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.62);
-      backdrop-filter: blur(8px);
-      display: flex;
-      align-items: center;
-      z-index: 10000;
-      padding: 1rem;
-      overflow-y: auto;
-    }
-
-    .hidden { display: none; }
-
-    .popup, .login-popup {
-      background: white;
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: 0 20px 50px var(--shadow-dark);
-      max-width: 940px;
-      width: min(100%, 940px);
-      position: relative;
-      text-align: center;
-    }
-
-    .lesson-popup { text-align: left; max-width: 760px; }
-    .popup h2, .login-popup h2 { margin-bottom: 1rem; color: var(--primary-purple); }
-    .close-btn { position: absolute; top: 1rem; right: 1rem; border: none; background: #f1f5f9; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; }
-    .field { background: #f8fafc; border: 1px solid var(--border-soft); border-radius: 12px; padding: 0.9rem; margin-bottom: 0.8rem; width: 100%; }
-    .login-btn-action { width: 100%; background: var(--primary-purple); color: #fff; border: none; border-radius: 999px; padding: 0.9rem; font-weight: 900; cursor: pointer; }
-
-    .plan { padding: 1.2rem; text-align: left; }
-    .plan h3 { color: var(--primary-purple); margin-bottom: 0.5rem; }
-    .plan ul { list-style: none; display: grid; gap: 0.5rem; margin-bottom: 1rem; }
-    .select-btn { background: var(--primary-purple); color: #fff; width: 100%; }
-    .plan.premium { border: 2px solid var(--accent-orange); }
-    .missing { color: #dc2626; }
-
-    .payment-cards { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding-top: 1rem; }
-    .main-container { font-family: var(--font-main); position: relative; height: 203px; aspect-ratio: 1.579; border-radius: 1em; overflow: hidden; display: flex; align-items: center; justify-content: center; transition: all 300ms ease-in; }
-    .main-container:hover { transform: rotateZ(1deg) rotateY(8deg) scale(1.04); box-shadow: 0 2em 2em rgba(17,17,17,0.25); }
-    .border { display: flex; align-items: center; justify-content: center; border-radius: 1em; background: linear-gradient(115deg, rgba(0,0,0,.33) 12%, rgba(255,255,255,.33) 27%, rgba(255,255,255,.33) 31%, rgba(0,0,0,.33) 52%); }
-    .card.payment-card { height: 12.5em; aspect-ratio: 1.586; border-radius: 1em; background-color: #999; opacity: .92; background-image: linear-gradient(to right, #777, #777 2px, #999 2px, #999); background-size: 4px 100%; padding: 0; box-shadow: none; }
-    .shadow { position: relative; width: 100%; height: 100%; border-radius: .85em; border: 1px solid #bbb; }
-    .content { position: absolute; top: 50%; left: 50%; border-radius: .6em; border: 1px solid #aaa; transform: translate(-50%, -50%); height: 12em; aspect-ratio: 1.604; }
-    .rev, .sparkasse, .volksbank, .ultra-text, .master-text { position: absolute; text-shadow: -1px -1px #333; color: #fff; opacity: .82; }
-    .rev, .sparkasse, .volksbank { top: .5em; left: .75em; font-size: 1.25em; }
-    .ultra-text { top: -4px; right: 1.75em; font-size: .5em; }
-    .master-text { bottom: .25em; right: .8em; font-size: .75em; }
-    .master { position: absolute; bottom: 1.25em; right: 2em; background: rgba(255,255,255,.22); color: #fff; height: 2.5em; width: 2.5em; border: 1px solid #bbb; border-radius: 50%; display: grid; place-items: center; }
-    .chip { position: absolute; top: 27.5%; left: 8.25%; width: 34px; height: 34px; }
-
-    .lesson-meta { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem; }
-    .lesson-meta span { background: #f1f5f9; border-radius: 999px; padding: 0.35rem 0.65rem; font-weight: 800; color: var(--text-light); }
-    .lesson-text { background: #f8fafc; border-left: 5px solid var(--accent-orange); border-radius: 14px; padding: 1rem; margin-bottom: 1rem; }
-    .quiz-box { display: grid; gap: 0.7rem; }
-    .quiz-option { background: #fff; border: 2px solid var(--border-soft); border-radius: 14px; padding: 0.8rem; text-align: left; color: var(--text-dark); }
-    .quiz-option:hover { border-color: var(--accent-orange); transform: translateY(-1px); }
-    .quiz-option.correct { border-color: var(--accent-green); background: #dcfce7; }
-    .quiz-option.wrong { border-color: #dc2626; background: #fee2e2; }
-    .lesson-result { min-height: 28px; margin-top: 0.7rem; font-weight: 900; }
-
-    .subject-picker, .journey-map, .reward-wall {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .subject-chip, .journey-step, .reward-card, .video-card {
-      background: #fff;
-      border: 1px solid var(--border-soft);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 26px rgba(15,23,42,0.08);
-      padding: 1rem;
-    }
-
-    .subject-chip {
-      text-align: left;
-      color: var(--text-dark);
-      cursor: pointer;
-    }
-
-    .subject-chip.active {
-      outline: 3px solid rgba(240,159,51,0.45);
-      background: #fff7ed;
-    }
-
-    .journey-step {
-      position: relative;
-      border-left: 6px solid var(--accent-orange);
-    }
-
-    .journey-step.locked { opacity: 0.72; border-left-color: #cbd5e1; }
-    .journey-step strong { display: block; color: var(--primary-purple); }
-    .journey-step span, .reward-card span { color: var(--text-light); }
-    .reward-card.unlocked { background: linear-gradient(135deg, #fff7ed, #dcfce7); border-color: var(--accent-orange); }
-
-    .video-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .video-placeholder {
-      min-height: 140px;
-      border-radius: 16px;
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--primary-purple), var(--accent-orange));
-      margin-bottom: 0.75rem;
-    }
-
-    @media (max-width: 820px) {
-      .header { align-items: flex-start; flex-direction: column; padding: 0.8rem 1rem; }
-      nav { gap: 0.8rem; }
-      .hero { padding-top: 3rem; }
-      .popup { padding: 1.4rem; }
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-main); color: var(--text-dark); background: radial-gradient(circle at top left, #fff2d9 0, transparent 30%), #f9f9fb; line-height: 1.55; }
+    a { text-decoration: none; font-weight: 800; }
+    .container { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
+    header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.92); box-shadow: 0 2px 14px rgba(15,23,42,0.10); backdrop-filter: blur(16px); }
+    .header { min-height: 70px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+    .logo { color: var(--primary-purple); font-weight: 900; font-size: 1.8rem; }
+    nav { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; }
+    nav a { color: var(--text-dark); border-radius: 999px; padding: 0.45rem 0.7rem; }
+    nav a.active, nav a:hover { background: #fff4df; color: var(--primary-purple); }
+    .header-actions { display: flex; gap: 0.7rem; align-items: center; }
+    .button, .login-btn, .start-btn, .subject-card { border: 0; cursor: pointer; font-family: inherit; font-weight: 900; }
+    .button, .start-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: white; background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple), var(--accent-orange)); border-radius: 999px; padding: 0.8rem 1.2rem; box-shadow: 0 12px 24px rgba(240,159,51,0.24); }
+    .login-btn { background: white; color: var(--primary-purple); border: 2px solid var(--primary-purple); border-radius: 999px; padding: 0.65rem 1rem; }
+    .hero { padding: clamp(3rem, 8vw, 6rem) 0 2rem; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr); gap: 2rem; align-items: center; }
+    .eyebrow { color: var(--accent-orange); font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.78rem; }
+    h1 { font-size: clamp(2.7rem, 6vw, 5rem); line-height: 1.02; margin: 0.6rem 0 1rem; color: var(--text-dark); }
+    h1 span, h2 span { color: var(--primary-purple); }
+    .lead { color: var(--text-light); font-size: 1.18rem; max-width: 680px; }
+    .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    .ghost-btn { border: 1px solid var(--border-soft); background: #fff; color: var(--text-dark); border-radius: 999px; padding: 0.8rem 1.1rem; font-weight: 900; }
+    .panel, .feature-card, .onboarding-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: 0 14px 34px rgba(15,23,42,0.10); }
+    .panel { padding: 1.3rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem; }
+    .stat { background: #f8fafc; border-radius: 16px; padding: 1rem; text-align: center; }
+    .stat strong { display: block; color: var(--primary-purple); font-size: 1.4rem; }
+    .section { padding: 2.2rem 0; }
+    .section h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .feature-card { padding: 1.2rem; }
+    .feature-card h3 { color: var(--primary-purple); margin-bottom: 0.45rem; }
+    .feature-card p { color: var(--text-light); }
+    .onboarding-card { padding: 1.4rem; margin-top: 1rem; }
+    .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+    .subject-card { text-align: left; background: #fff; border: 2px solid var(--border-soft); border-radius: 18px; padding: 1rem; color: var(--text-dark); }
+    .subject-card.active { border-color: var(--accent-orange); background: #fff7ed; }
+    .subject-card strong { display: block; color: var(--primary-purple); }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+    select, input { width: 100%; border: 1px solid var(--border-soft); border-radius: 14px; padding: 0.85rem; font-family: inherit; }
+    .summary-box { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #f8fafc; color: var(--text-light); }
+    footer { text-align: center; padding: 2rem 1rem; color: var(--text-light); }
+    @media (max-width: 850px) { .hero-grid { grid-template-columns: 1fr; } .header { align-items: flex-start; flex-direction: column; padding: 0.8rem 0; } .stats { grid-template-columns: 1fr; } }
   </style>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
@@ -355,503 +70,137 @@
     <div class="container header">
       <div class="logo">BrainBoost</div>
       <nav aria-label="Hauptnavigation">
+        <a href="index.html" class="active">Startseite</a>
+        <a href="lernen.html">Lernen</a>
         <a href="lernplaner.html">Lernplaner</a>
         <a href="bewerbung.html">Bewerbungen</a>
         <a href="termine.html">Termine</a>
         <a href="tools.html">Tools</a>
       </nav>
       <div class="header-actions">
-        <button class="button" id="openPremium" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24" aria-hidden="true"><path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"/></svg>
-          Unlock Pro
-        </button>
-        <button class="login-btn" id="openLogin" type="button">Login</button>
+        <a class="button" href="lernen.html">Lernen starten</a>
+        <button class="login-btn" type="button">Login</button>
       </div>
     </div>
   </header>
 
-  <section class="hero" role="banner" aria-label="Willkommen bei BrainBoost">
-    <div class="hero-content container">
-      <h1>Studyflix-Wissen trifft <span>Duolingo-Motivation</span></h1>
-      <p>Teste BrainBoost jetzt mit erfundenen Mathe-, Deutsch-, Englisch-, Karriere-, Science- und KI-Micro-Lessons – inklusive XP, Quiz, Streak und Fortschritt.</p>
-      <div class="hero-stats" aria-live="polite" aria-atomic="true">
-        <div class="stat-pill">🔥 <span id="streak-count">1</span>-Tage-Streak</div>
-        <div class="stat-pill">⭐ <span id="xp-count">0</span> XP</div>
-        <div class="stat-pill">🏆 Level <span id="level-count">1</span></div>
-        <div class="stat-pill">🎁 <span id="reward-count">0</span> Belohnungen</div>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Studyflix erklärt · Duolingo motiviert</p>
+          <h1>Dein smarter <span>Lern-Workspace</span> für Schule, Bewerbung und Alltag.</h1>
+          <p class="lead">BrainBoost verbindet kurze Lernvideos, Micro-Lessons, Quiz-Feedback, XP-Belohnungen, Lernplaner, Bewerbungshilfe und Tools in einer übersichtlichen App.</p>
+          <div class="hero-actions">
+            <a class="start-btn" href="lernen.html">Jetzt lernen</a>
+            <a class="ghost-btn" href="#einstieg">Einstiegsfragen beantworten</a>
+          </div>
+        </div>
+        <aside class="panel" aria-label="Dein Fortschritt">
+          <p class="eyebrow">Dein Demo-Profil</p>
+          <h2>Heute weiterlernen</h2>
+          <p class="lead">Starte mit deiner Fächerauswahl oder spring direkt in den Lernbereich.</p>
+          <div class="stats">
+            <div class="stat"><strong id="homeXp">0</strong><span>XP</span></div>
+            <div class="stat"><strong id="homeLevel">1</strong><span>Level</span></div>
+            <div class="stat"><strong id="homeStreak">1</strong><span>Streak</span></div>
+          </div>
+        </aside>
       </div>
-    </div>
-  </section>
-
-  <main class="container" role="main">
-    <section class="grid" aria-label="Funktionen">
-      <article class="card" tabindex="0"><h3>📚 Aktiver Lernplaner</h3><p>Demo-Aufgaben sind vorbereitet, damit du Fristen, Erledigt-Haken und Lernfortschritt sofort testen kannst.</p></article>
-      <article class="card" tabindex="0"><h3>🧩 Micro-Lessons</h3><p>Kurze, erfundene Lektionen mit Lernziel, Beispiel und Quizfrage für schnelle Erfolgsmomente.</p></article>
-      <article class="card" tabindex="0"><h3>🎮 Motivation Layer</h3><p>XP, Level, tägliche Challenges und Streaks machen Lernen sichtbar und spielerisch.</p></article>
-      <article class="card" tabindex="0"><h3>🤖 KI-ready Tools</h3><p>Prompts, Bewerbungen und Lernhilfen sind als testbare App-Bereiche bereits angelegt.</p></article>
     </section>
 
-    <section class="section-heading" aria-labelledby="dailyTitle">
-      <p class="eyebrow">Heute lernen</p>
-      <h2 id="dailyTitle">Deine aktive Tagesrunde</h2>
-      <p>Diese Demo-Daten simulieren eine volle Lern-App: Warm-up, Kurslektion, Wiederholung und Karriere-Snack.</p>
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Was ist BrainBoost?</p>
+        <h2>Alles getrennt, aber <span>klar verbunden</span>.</h2>
+        <div class="features">
+          <article class="feature-card"><h3>📚 Lernen</h3><p>Eigener Bereich für Kurse, Lernreise, Quiz, Videos und XP – nicht mehr alles auf der Startseite.</p></article>
+          <article class="feature-card"><h3>🗓️ Organisieren</h3><p>Lernplaner und Termine speichern Aufgaben lokal und helfen dir, Deadlines im Blick zu behalten.</p></article>
+          <article class="feature-card"><h3>📝 Bewerben</h3><p>Bewerbungshilfe mit Anschreiben, Checkliste und Interview-Vorbereitung.</p></article>
+          <article class="feature-card"><h3>🧠 Tools</h3><p>Gliederungen, Lernpakete, Mini-Quiz und später KI-Hilfe für deine Schulaufgaben.</p></article>
+        </div>
+      </div>
     </section>
 
-    <section class="daily-grid" aria-label="Tagesaufgaben">
-      <article class="daily-card"><div class="daily-icon">⚡</div><div><strong>5-Minuten-Warm-up</strong><span>1 Mathe-Quiz + 1 Englisch-Vokabel, +25 XP</span></div></article>
-      <article class="daily-card"><div class="daily-icon">🎯</div><div><strong>Fokus-Mission</strong><span>Eine Lektion abschließen und deinen Kursbalken füllen.</span></div></article>
-      <article class="daily-card"><div class="daily-icon">🧠</div><div><strong>Wiederholen</strong><span>Gestern gelernte Konzepte in einem Mini-Quiz festigen.</span></div></article>
-    </section>
-
-    <section class="section-heading" aria-labelledby="subjectsTitle">
-      <p class="eyebrow">Onboarding</p>
-      <h2 id="subjectsTitle">Welche Fächer willst du lernen?</h2>
-      <p>Wähle deine Interessen wie bei einer Lernreise. Die Auswahl wird lokal gespeichert und kann später für persönliche Lernpfade genutzt werden.</p>
-    </section>
-    <section class="subject-picker" id="subjectPicker" aria-label="Fächerauswahl"></section>
-
-    <section class="section-heading" aria-labelledby="journeyTitle">
-      <p class="eyebrow">Lernreise</p>
-      <h2 id="journeyTitle">Von Einstieg bis Prüfung</h2>
-      <p>BrainBoost zeigt nicht nur einzelne Optionen, sondern eine komplette Duolingo-ähnliche Reise: Einstieg, Grundlagen, Training, Prüfung und Wiederholung.</p>
-    </section>
-    <section class="journey-map" aria-label="Lernreise">
-      <article class="journey-step"><strong>1. Einstiegstest</strong><span>Finde heraus, wo du stehst. Demo: +80 XP.</span></article>
-      <article class="journey-step"><strong>2. Grundlagen-Insel</strong><span>Kurze Lernvideos, Merksätze und Beispiele.</span></article>
-      <article class="journey-step"><strong>3. Übungs-Liga</strong><span>Gemischte Aufgaben mit Sofortfeedback.</span></article>
-      <article class="journey-step"><strong>4. Prüfungssimulation</strong><span>Mini-Klassenarbeit mit Auswertung.</span></article>
-      <article class="journey-step locked"><strong>5. Meisterschaft</strong><span>Wird mit 1000 XP freigeschaltet.</span></article>
-    </section>
-
-    <section class="section-heading" aria-labelledby="videoTitle">
-      <p class="eyebrow">Video-Plätze</p>
-      <h2 id="videoTitle">Platzhalter für Studyflix-ähnliche Lernvideos</h2>
-    </section>
-    <section class="video-row" aria-label="Videoplatzhalter">
-      <article class="video-card"><div class="video-placeholder">▶ Mathe in 90 Sekunden</div><p>Kurzes Erklärvideo mit Formel, Beispiel und Mini-Quiz darunter.</p></article>
-      <article class="video-card"><div class="video-placeholder">▶ Deutsch Aufsatz-Coach</div><p>Video-Platz für Aufbau, typische Fehler und Musterlösung.</p></article>
-      <article class="video-card"><div class="video-placeholder">▶ Bewerbungsgespräch</div><p>Video-Platz für Rollenspiel, Fragen und STAR-Methode.</p></article>
-    </section>
-
-    <section class="section-heading" aria-labelledby="rewardsTitle">
-      <p class="eyebrow">Belohnungen</p>
-      <h2 id="rewardsTitle">XP-Meilensteine</h2>
-      <p>Bei 1000 XP wird die Meisterschaft freigeschaltet. Weitere Belohnungen motivieren wie Badges in einer Lern-App.</p>
-    </section>
-    <section class="reward-wall" id="rewardWall" aria-label="Belohnungen"></section>
-
-    <section class="section-heading" aria-labelledby="courseTitle">
-      <p class="eyebrow">Lernbibliothek</p>
-      <h2 id="courseTitle">Ausgedachte Kurse zum vollständigen Testen</h2>
-      <p>Jede Karte enthält mehrere Lektionen, Fortschrittsbalken und eine interaktive Quizfrage. Deine Abschlüsse werden lokal gespeichert.</p>
-    </section>
-
-    <section class="course-grid" id="courseGrid" aria-label="Kursübersicht"></section>
-
-    <section class="section-heading" aria-labelledby="practiceTitle">
-      <p class="eyebrow">Skill Training</p>
-      <h2 id="practiceTitle">Zusätzliche Übungsmodi</h2>
-    </section>
-
-    <section class="practice-grid" aria-label="Übungsmodi">
-      <article class="practice-card"><h3>⏱️ Speed Runde</h3><p>10 schnelle Fragen aus allen Demo-Kursen.</p><ul><li>Ideal für Pausen</li><li>Belohnung: +60 XP</li><li>Fehler direkt wiederholen</li></ul><button class="secondary-btn" type="button" data-practice="speed">Demo starten</button></article>
-      <article class="practice-card"><h3>🧪 Prüfungsmodus</h3><p>Simuliert eine Mini-Klassenarbeit mit gemischten Aufgaben.</p><ul><li>Mathe + Deutsch + Englisch</li><li>Auswertung in Prozent</li><li>Fiktive Note als Feedback</li></ul><button class="secondary-btn" type="button" data-practice="exam">Demo starten</button></article>
-      <article class="practice-card"><h3>💬 Erklär-Coach</h3><p>Zeigt, wie ein späterer KI-Coach Aufgaben erklären könnte.</p><ul><li>Schritt-für-Schritt</li><li>Merksatz</li><li>Übungsfrage</li></ul><button class="secondary-btn" type="button" data-practice="coach">Demo starten</button></article>
-    </section>
-
-    <section class="promo" aria-label="Premium Angebote">
-      <p>🔓 Noch mehr Tools & Support? Hol dir <strong>Premium</strong> und teste die Unlock-Mechanik.</p>
-      <div class="promo-btn-wrapper"><button class="button" id="openPremium2" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24" aria-hidden="true"><path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"/></svg>Unlock Pro</button></div>
+    <section class="section" id="einstieg">
+      <div class="container">
+        <p class="eyebrow">Einstieg</p>
+        <h2>Was musst du noch üben?</h2>
+        <p class="lead">Wähle deine Fächer und dein Ziel. BrainBoost speichert diese Demo-Auswahl lokal und nutzt sie im Lernbereich als Grundlage.</p>
+        <div class="onboarding-card">
+          <div class="subject-grid" id="subjectGrid" aria-label="Fächerauswahl">
+            <button class="subject-card active" type="button" data-subject="mathe"><strong>📐 Mathe</strong><span>Prozent, Dreisatz, Prüfungen</span></button>
+            <button class="subject-card active" type="button" data-subject="deutsch"><strong>✍️ Deutsch</strong><span>Aufsatz, Argumentation</span></button>
+            <button class="subject-card" type="button" data-subject="englisch"><strong>🇬🇧 Englisch</strong><span>Speaking, Vokabeln</span></button>
+            <button class="subject-card" type="button" data-subject="science"><strong>🔬 Science</strong><span>Klima, Energie</span></button>
+            <button class="subject-card" type="button" data-subject="career"><strong>💼 Bewerbung</strong><span>Praktikum, Interview</span></button>
+            <button class="subject-card" type="button" data-subject="ai"><strong>🤖 KI-Skills</strong><span>Prompts, Lernpläne</span></button>
+          </div>
+          <div class="form-row">
+            <label>Dein Ziel
+              <select id="goalSelect">
+                <option value="Prüfung sicher bestehen">Prüfung sicher bestehen</option>
+                <option value="Bessere Noten schreiben">Bessere Noten schreiben</option>
+                <option value="Bewerbung vorbereiten">Bewerbung vorbereiten</option>
+                <option value="Regelmäßig lernen">Regelmäßig lernen</option>
+              </select>
+            </label>
+            <label>Zeit pro Tag
+              <select id="timeSelect">
+                <option value="10 Minuten">10 Minuten</option>
+                <option value="20 Minuten">20 Minuten</option>
+                <option value="45 Minuten">45 Minuten</option>
+              </select>
+            </label>
+          </div>
+          <button class="start-btn" id="saveOnboarding" type="button">Auswahl speichern & Lernen öffnen</button>
+          <div class="summary-box" id="onboardingSummary">Ausgewählt: Mathe und Deutsch. Ziel: Prüfung sicher bestehen.</div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer role="contentinfo"><div class="container">© 2026 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a></div></footer>
-
-  <div id="lessonOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="lessonTitle" tabindex="-1">
-    <div class="popup lesson-popup">
-      <button class="close-btn" id="closeLesson" type="button" aria-label="Schließen">✖</button>
-      <h2 id="lessonTitle">Lektion</h2>
-      <div class="lesson-meta" id="lessonMeta"></div>
-      <div class="lesson-text" id="lessonText"></div>
-      <div class="quiz-box" id="quizBox"></div>
-      <p class="lesson-result" id="lessonResult" aria-live="polite"></p>
-    </div>
-  </div>
-
-  <div id="premiumOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="premiumTitle" tabindex="-1">
-    <div class="popup">
-      <button class="close-btn" onclick="closeOverlay()" type="button" aria-label="Schließen">✖</button>
-      <h2 id="premiumTitle">Wähle dein BrainBoost-Paket</h2>
-      <div class="plans">
-        <div class="plan"><h3>🟢 Beginner</h3><ul><li>✔ Lernplaner, Termine & Tools</li><li>✔ Bewerbungshilfe</li><li><span class="missing">❌ KI begrenzt</span></li></ul><button class="select-btn" type="button" data-plan="Beginner">Gratis aktivieren</button></div>
-        <div class="plan premium"><h3>🟡 Premium</h3><ul><li>✔ Alles aus Beginner</li><li>✔ KI unbegrenzt + Premium-Antworten</li><li>✔ Premium-Lernpfade</li></ul><button class="select-btn" type="button" data-plan="Premium">4,99 €/Monat</button></div>
-        <div class="plan"><h3>🔴 Premium+</h3><ul><li>✔ Alles aus Premium</li><li>✔ Exklusiver Lernbereich</li><li>✔ Persönlicher AI-Coach</li></ul><button class="select-btn" type="button" data-plan="Premium+">9,99 €/Monat</button></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="loginOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="loginTitle" tabindex="-1">
-    <div class="login-popup popup">
-      <button class="close-btn" onclick="closeLogin()" type="button" aria-label="Schließen">✖</button>
-      <h2 id="loginTitle">Demo-Login bei BrainBoost</h2>
-      <input type="text" id="loginName" placeholder="Benutzername: demo-schueler" class="field" aria-label="Benutzername" />
-      <input type="password" id="loginPassword" placeholder="Passwort: brainboost" class="field" aria-label="Passwort" />
-      <button class="login-btn-action" id="loginSubmit" type="button">Einloggen simulieren</button>
-    </div>
-  </div>
-
-  <div id="paymentOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="paymentTitle" tabindex="-1" onclick="closePayment(event)">
-    <div class="popup" onclick="event.stopPropagation()">
-      <button class="close-btn" onclick="closePayment()" type="button" aria-label="Schließen">✖</button>
-      <h2 id="paymentTitle">Zahlungsmethode wählen</h2>
-      <p id="paymentHint">Mock-Payment: Karte auswählen, um Premium lokal freizuschalten.</p>
-      <div class="payment-cards">
-        <div class="main-container" data-payment="Revolut" role="button" tabindex="0" aria-label="Zahlungsmethode Revolut auswählen"><div class="border"><div class="card payment-card"><div class="shadow"><div class="content" style="background: linear-gradient(45deg, #3b82f6, #2563eb);"><p class="rev">Revolut</p><p class="ultra-text">ULTRA MEMBER</p><p class="master-text">mastercard</p><div class="master">M</div><svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" /></svg></div></div></div></div></div>
-        <div class="main-container" data-payment="Sparkasse" role="button" tabindex="0" aria-label="Zahlungsmethode Sparkasse auswählen"><div class="border"><div class="card payment-card"><div class="shadow"><div class="content" style="background: linear-gradient(45deg, #ef4444, #b91c1c);"><p class="sparkasse">Sparkasse</p><p class="ultra-text">CLASSIC MEMBER</p><p class="master-text">visa</p><div class="master">S</div><svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" /></svg></div></div></div></div></div>
-        <div class="main-container" data-payment="Volksbank" role="button" tabindex="0" aria-label="Zahlungsmethode Volksbank auswählen"><div class="border"><div class="card payment-card"><div class="shadow"><div class="content" style="background: linear-gradient(45deg, #10b981, #047857);"><p class="volksbank">Volksbank</p><p class="ultra-text">PREMIUM MEMBER</p><p class="master-text">maestro</p><div class="master">V</div><svg class="chip" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="20" y="20" width="60" height="60" rx="10" fill="#ddd" /></svg></div></div></div></div></div>
-      </div>
-    </div>
-  </div>
+  <footer>© 2026 BrainBoost – Lernen, Organisation, Bewerbung und KI-Hilfe in einer App.</footer>
 
   <script>
-    const STORAGE_KEYS = {
-      progress: 'brainboost_demo_progress',
-      xp: 'brainboost_xp',
-      streak: 'brainboost_streak',
-      lastDate: 'brainboost_lastDate',
-      pendingPlan: 'brainboost_pending_plan',
-      plan: 'brainboost_plan',
-      subjects: 'brainboost_subjects'
-    };
+    const subjectButtons = document.querySelectorAll('[data-subject]');
+    const summary = document.getElementById('onboardingSummary');
+    const goalSelect = document.getElementById('goalSelect');
+    const timeSelect = document.getElementById('timeSelect');
 
-    const courses = [
-      {
-        id: 'mathe', title: 'Mathe: Prozent-Profi', tag: 'Klasse 7–10', style: 'math', xp: 35,
-        description: 'Lerne Rabatte, Aufschläge und Dreisatz mit Alltagsbeispielen.',
-        lessons: [
-          { title: 'Rabatt im Sneaker-Shop', minutes: 4, text: 'Wenn ein Hoodie 80 € kostet und 25 % reduziert ist, rechnest du 80 · 0,25 = 20 € Rabatt. Neuer Preis: 60 €.', question: 'Ein Rucksack kostet 50 € und ist 20 % reduziert. Was zahlst du?', options: ['40 €', '45 €', '30 €'], answer: 0 },
-          { title: 'Mehrwertsteuer-Mission', minutes: 5, text: 'Bei einem Aufschlag addierst du den Prozentanteil: 100 € + 19 % = 119 €.', question: 'Was sind 10 % Aufschlag auf 70 €?', options: ['77 €', '80 €', '63 €'], answer: 0 },
-          { title: 'Dreisatz-Sprint', minutes: 6, text: 'Beim proportionalen Dreisatz wächst beides gleich: 3 Hefte kosten 6 €, also kostet 1 Heft 2 €.', question: '5 Hefte kosten bei 2 € pro Heft wie viel?', options: ['7 €', '10 €', '12 €'], answer: 1 }
-        ]
-      },
-      {
-        id: 'deutsch', title: 'Deutsch: Argumentations-Boost', tag: 'Aufsatz', style: 'german', xp: 40,
-        description: 'Baue starke Erörterungen mit These, Begründung, Beispiel und Fazit.',
-        lessons: [
-          { title: 'These in 10 Sekunden', minutes: 3, text: 'Eine These ist eine klare Meinung, die du begründen kannst: „Hausaufgaben sollten flexibler sein.“', question: 'Welche Formulierung ist eine These?', options: ['Vielleicht irgendwie Schule.', 'Digitale Lernpläne verbessern die Organisation.', 'Am Montag war Sport.'], answer: 1 },
-          { title: 'Begründung + Beispiel', minutes: 5, text: 'Nach der These folgt eine Warum-Erklärung und dann ein konkretes Beispiel aus Schule oder Alltag.', question: 'Was kommt direkt nach einer These?', options: ['Eine Begründung', 'Die Quellenliste', 'Nur ein Emoji'], answer: 0 },
-          { title: 'Fazit mit Wirkung', minutes: 4, text: 'Ein Fazit fasst nicht alles stumpf neu zusammen, sondern bewertet und gibt einen Ausblick.', question: 'Ein gutes Fazit sollte...', options: ['eine neue Hauptthese verstecken', 'bewerten und abrunden', 'gar nichts sagen'], answer: 1 }
-        ]
-      },
-      {
-        id: 'englisch', title: 'Englisch: Everyday Speaking', tag: 'A2–B1', style: 'english', xp: 30,
-        description: 'Trainiere kurze Dialoge für Schule, Praktikum und Reisen.',
-        lessons: [
-          { title: 'Introduce yourself', minutes: 4, text: 'Ein einfacher Start: „Hi, my name is Alex. I am interested in technology and teamwork.“', question: 'Wie sagst du „Ich interessiere mich für Technik“?', options: ['I am interested in technology.', 'I am boring technology.', 'I have technology hungry.'], answer: 0 },
-          { title: 'Ask for help', minutes: 3, text: 'Höflich fragen: „Could you explain that again, please?“', question: 'Welche Frage ist höflich?', options: ['Explain now!', 'Could you explain that again, please?', 'You repeat.'], answer: 1 },
-          { title: 'Mini job interview', minutes: 6, text: 'Im Interview hilft: Stärke nennen + Beispiel: „I am reliable. I always finish my tasks.“', question: 'Was bedeutet „reliable“?', options: ['zuverlässig', 'langsam', 'laut'], answer: 0 }
-        ]
-      },
-      {
-        id: 'career', title: 'Karriere: Praktikum bewerben', tag: 'Azubi-ready', style: 'career', xp: 45,
-        description: 'Übe Lebenslauf, Anschreiben und Gesprächsfragen mit fiktiven Firmen.',
-        lessons: [
-          { title: 'Starker Einstieg', minutes: 5, text: 'Ein Anschreiben startet konkret: Stelle, Motivation, Bezug zum Unternehmen.', question: 'Was gehört in den Einstieg?', options: ['Lieblingsessen', 'Stelle und Motivation', 'Nur Gehaltswunsch'], answer: 1 },
-          { title: 'Lebenslauf sortieren', minutes: 4, text: 'Der Lebenslauf ist übersichtlich, antichronologisch und zeigt Schule, Erfahrung, Skills.', question: 'Was heißt antichronologisch?', options: ['Neuestes zuerst', 'Alphabetisch', 'Zufällig'], answer: 0 },
-          { title: 'Interview-Antwort', minutes: 5, text: 'STAR hilft: Situation, Task, Action, Result – also kurz Lage, Aufgabe, Handlung, Ergebnis.', question: 'Wofür steht das A in STAR?', options: ['Action', 'Adresse', 'Angst'], answer: 0 }
-        ]
-      },
-      {
-        id: 'science', title: 'Science: Klima & Energie', tag: 'Alltag verstehen', style: 'science', xp: 35,
-        description: 'Verstehe Energieformen, Strommix und einfache Klimabegriffe.',
-        lessons: [
-          { title: 'Energieformen', minutes: 4, text: 'Energie kann chemisch, elektrisch, thermisch oder kinetisch gespeichert bzw. übertragen werden.', question: 'Bewegungsenergie heißt...', options: ['kinetische Energie', 'chemische Energie', 'digitale Energie'], answer: 0 },
-          { title: 'CO₂-Fußabdruck', minutes: 5, text: 'Der CO₂-Fußabdruck beschreibt, wie viele Treibhausgase durch Handlungen entstehen.', question: 'Was senkt oft den Fußabdruck?', options: ['Mehrweg nutzen', 'Licht immer anlassen', 'Einweg täglich kaufen'], answer: 0 },
-          { title: 'Strommix lesen', minutes: 4, text: 'Der Strommix zeigt, aus welchen Quellen Strom stammt, z. B. Wind, Sonne, Gas oder Kohle.', question: 'Was ist Teil eines Strommixes?', options: ['Windenergie', 'Matheheft', 'Schulranzen'], answer: 0 }
-        ]
-      },
-      {
-        id: 'ai', title: 'KI: Prompt-Werkstatt', tag: 'Future Skill', style: 'ai', xp: 50,
-        description: 'Lerne, wie du klare Prompts für Zusammenfassungen und Lernpläne formulierst.',
-        lessons: [
-          { title: 'Guter Prompt', minutes: 4, text: 'Ein guter Prompt enthält Rolle, Ziel, Kontext und Format: „Erkläre mir als Schüler... in 5 Stichpunkten.“', question: 'Was macht einen Prompt besser?', options: ['Kontext und Ziel nennen', 'Nur ein Wort schreiben', 'Alles offen lassen'], answer: 0 },
-          { title: 'Zusammenfassen', minutes: 5, text: 'Für Zusammenfassungen nenne Länge, Niveau und Fokus: „maximal 120 Wörter, Klasse 9, wichtigste Ursachen.“', question: 'Welche Angabe hilft?', options: ['gewünschte Länge', 'Lieblingsfarbe der App', 'Akkuanzeige'], answer: 0 },
-          { title: 'Lernplan prompten', minutes: 6, text: 'Ein Lernplan braucht Zeitbudget, Prüfungstermin, Themen und Schwächen.', question: 'Was braucht ein Lernplan-Prompt?', options: ['Zeitbudget und Themen', 'Nur Musikgeschmack', 'Keine Details'], answer: 0 }
-        ]
-      }
-    ];
-
-    const subjects = [
-      { id: 'mathe', label: '📐 Mathe', note: 'Prozentrechnung, Dreisatz, Prüfungen' },
-      { id: 'deutsch', label: '✍️ Deutsch', note: 'Aufsatz, Argumentation, Grammatik' },
-      { id: 'englisch', label: '🇬🇧 Englisch', note: 'Speaking, Vokabeln, Bewerbung' },
-      { id: 'science', label: '🔬 Science', note: 'Klima, Energie, Experimente' },
-      { id: 'career', label: '💼 Karriere', note: 'Lebenslauf, Anschreiben, Interview' },
-      { id: 'ai', label: '🤖 KI-Skills', note: 'Prompts, Lernpläne, Zusammenfassungen' }
-    ];
-
-    const rewards = [
-      { xp: 100, title: 'Starter-Flamme', text: 'Du hast die ersten Aufgaben erledigt.' },
-      { xp: 500, title: 'Fokus-Boost', text: 'Halber Weg zur Meisterschaft.' },
-      { xp: 1000, title: 'Meisterschaft freigeschaltet', text: 'Neue Prüfungs- und Boss-Level sind bereit.' },
-      { xp: 2500, title: 'BrainBoost Champion', text: 'Langfristige Motivation erreicht.' }
-    ];
-
-    const subjectPicker = document.getElementById('subjectPicker');
-    const rewardWall = document.getElementById('rewardWall');
-    const courseGrid = document.getElementById('courseGrid');
-    const lessonOverlay = document.getElementById('lessonOverlay');
-    const lessonTitle = document.getElementById('lessonTitle');
-    const lessonMeta = document.getElementById('lessonMeta');
-    const lessonText = document.getElementById('lessonText');
-    const quizBox = document.getElementById('quizBox');
-    const lessonResult = document.getElementById('lessonResult');
-    const premiumOverlay = document.getElementById('premiumOverlay');
-    const loginOverlay = document.getElementById('loginOverlay');
-    const paymentOverlay = document.getElementById('paymentOverlay');
-
-    function readJson(key, fallback) {
-      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+    function getSelectedSubjects() {
+      return Array.from(subjectButtons).filter((button) => button.classList.contains('active')).map((button) => button.dataset.subject);
     }
 
-    function saveJson(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
-
-    function todayIso() { return new Date().toISOString().slice(0, 10); }
-
-    function updateStreak() {
-      const today = todayIso();
-      const lastDate = localStorage.getItem(STORAGE_KEYS.lastDate);
-      let streak = Number(localStorage.getItem(STORAGE_KEYS.streak) || 0);
-
-      if (!lastDate) {
-        streak = 1;
-      } else if (lastDate !== today) {
-        const diffDays = Math.round((new Date(today) - new Date(lastDate)) / 86400000);
-        streak = diffDays === 1 ? streak + 1 : 1;
-      }
-
-      localStorage.setItem(STORAGE_KEYS.lastDate, today);
-      localStorage.setItem(STORAGE_KEYS.streak, String(streak));
-      document.getElementById('streak-count').textContent = streak;
+    function updateSummary() {
+      const labels = Array.from(subjectButtons)
+        .filter((button) => button.classList.contains('active'))
+        .map((button) => button.querySelector('strong').textContent.trim());
+      summary.textContent = `Ausgewählt: ${labels.join(', ') || 'noch kein Fach'}. Ziel: ${goalSelect.value}. Zeit: ${timeSelect.value} pro Tag.`;
     }
 
-    function getProgress() { return readJson(STORAGE_KEYS.progress, {}); }
-    function setProgress(progress) { saveJson(STORAGE_KEYS.progress, progress); }
-
-    function addXp(amount) {
-      const current = Number(localStorage.getItem(STORAGE_KEYS.xp) || 0) + amount;
-      localStorage.setItem(STORAGE_KEYS.xp, String(current));
-      renderStats();
-    }
-
-    function renderStats() {
-      const xp = Number(localStorage.getItem(STORAGE_KEYS.xp) || 0);
-      document.getElementById('xp-count').textContent = xp;
-      document.getElementById('level-count').textContent = Math.max(1, Math.floor(xp / 120) + 1);
-      document.getElementById('reward-count').textContent = rewards.filter((reward) => xp >= reward.xp).length;
-      renderRewards(xp);
-    }
-
-    function renderSubjects() {
-      const selected = new Set(readJson(STORAGE_KEYS.subjects, ['mathe', 'deutsch', 'englisch']));
-      subjectPicker.innerHTML = '';
-      subjects.forEach((subject) => {
-        const chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = `subject-chip${selected.has(subject.id) ? ' active' : ''}`;
-        chip.innerHTML = `<strong>${subject.label}</strong><br><span>${subject.note}</span>`;
-        chip.addEventListener('click', () => {
-          if (selected.has(subject.id)) selected.delete(subject.id);
-          else selected.add(subject.id);
-          saveJson(STORAGE_KEYS.subjects, Array.from(selected));
-          renderSubjects();
-        });
-        subjectPicker.appendChild(chip);
-      });
-    }
-
-    function renderRewards(xp) {
-      rewardWall.innerHTML = '';
-      rewards.forEach((reward) => {
-        const card = document.createElement('article');
-        const unlocked = xp >= reward.xp;
-        card.className = `reward-card${unlocked ? ' unlocked' : ''}`;
-        card.innerHTML = `<strong>${unlocked ? '✅' : '🔒'} ${reward.title}</strong><br><span>${reward.xp} XP · ${reward.text}</span>`;
-        rewardWall.appendChild(card);
-      });
-    }
-
-    function courseCompletion(course, progress) {
-      const done = progress[course.id] || [];
-      return Math.round((done.length / course.lessons.length) * 100);
-    }
-
-    function renderCourses() {
-      const progress = getProgress();
-      courseGrid.innerHTML = '';
-
-      courses.forEach((course) => {
-        const completion = courseCompletion(course, progress);
-        const card = document.createElement('article');
-        card.className = 'course-card';
-
-        const top = document.createElement('div');
-        top.className = `course-top ${course.style}`;
-        top.innerHTML = `<span class="course-tag">${course.tag}</span><h3>${course.title}</h3>`;
-
-        const body = document.createElement('div');
-        body.className = 'course-body';
-
-        const description = document.createElement('p');
-        description.textContent = course.description;
-
-        const list = document.createElement('ul');
-        list.className = 'lesson-list';
-        course.lessons.forEach((lesson, index) => {
-          const item = document.createElement('li');
-          const isDone = (progress[course.id] || []).includes(index);
-          item.textContent = `${isDone ? '✅' : '🔒'} ${lesson.title} · ${lesson.minutes} Min.`;
-          list.appendChild(item);
-        });
-
-        const progressLabel = document.createElement('div');
-        progressLabel.className = 'progress-label';
-        progressLabel.textContent = `${completion}% abgeschlossen`;
-
-        const progressWrap = document.createElement('div');
-        progressWrap.className = 'progress-wrap';
-        progressWrap.innerHTML = `<div class="progress-bar" style="width: ${completion}%"></div>`;
-
-        const action = document.createElement('button');
-        action.className = 'lesson-action';
-        action.type = 'button';
-        action.textContent = completion === 100 ? 'Wiederholen' : 'Nächste Lektion starten';
-        action.addEventListener('click', () => openNextLesson(course));
-
-        body.append(description, list, progressLabel, progressWrap, action);
-        card.append(top, body);
-        courseGrid.appendChild(card);
-      });
-    }
-
-    function openNextLesson(course) {
-      const progress = getProgress();
-      const doneLessons = progress[course.id] || [];
-      const nextIndex = course.lessons.findIndex((_, index) => !doneLessons.includes(index));
-      openLesson(course, nextIndex === -1 ? 0 : nextIndex);
-    }
-
-    function openLesson(course, lessonIndex) {
-      const lesson = course.lessons[lessonIndex];
-      lessonTitle.textContent = lesson.title;
-      lessonMeta.innerHTML = '';
-      [course.title, `${lesson.minutes} Minuten`, `+${course.xp} XP`].forEach((meta) => {
-        const chip = document.createElement('span');
-        chip.textContent = meta;
-        lessonMeta.appendChild(chip);
-      });
-      lessonText.textContent = lesson.text;
-      lessonResult.textContent = '';
-      quizBox.innerHTML = '';
-
-      const question = document.createElement('h3');
-      question.textContent = lesson.question;
-      quizBox.appendChild(question);
-
-      lesson.options.forEach((option, optionIndex) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'quiz-option';
-        button.textContent = option;
-        button.addEventListener('click', () => completeLesson(course, lessonIndex, optionIndex, button));
-        quizBox.appendChild(button);
-      });
-
-      lessonOverlay.classList.remove('hidden');
-      lessonOverlay.focus();
-    }
-
-    function completeLesson(course, lessonIndex, selectedIndex, selectedButton) {
-      const lesson = course.lessons[lessonIndex];
-      const allOptions = quizBox.querySelectorAll('.quiz-option');
-      allOptions.forEach((button, index) => {
-        button.disabled = true;
-        if (index === lesson.answer) button.classList.add('correct');
-      });
-
-      if (selectedIndex !== lesson.answer) {
-        selectedButton.classList.add('wrong');
-        lessonResult.textContent = 'Fast! Die grüne Antwort ist richtig. Du bekommst trotzdem Wiederholungs-XP: +10 XP.';
-        addXp(10);
-        return;
-      }
-
-      const progress = getProgress();
-      const doneLessons = new Set(progress[course.id] || []);
-      const wasNew = !doneLessons.has(lessonIndex);
-      doneLessons.add(lessonIndex);
-      progress[course.id] = Array.from(doneLessons);
-      setProgress(progress);
-      addXp(wasNew ? course.xp : 12);
-      lessonResult.textContent = wasNew ? `Richtig! Lektion abgeschlossen: +${course.xp} XP.` : 'Richtig wiederholt! +12 XP.';
-      renderCourses();
-    }
-
-    function closeLesson() { lessonOverlay.classList.add('hidden'); }
-    function closeOverlay() { premiumOverlay.classList.add('hidden'); }
-    function closeLogin() { loginOverlay.classList.add('hidden'); }
-    function closePayment(event) { if (!event || event.target === paymentOverlay) paymentOverlay.classList.add('hidden'); }
-
-    document.getElementById('openPremium').addEventListener('click', () => premiumOverlay.classList.remove('hidden'));
-    document.getElementById('openPremium2').addEventListener('click', () => premiumOverlay.classList.remove('hidden'));
-    document.getElementById('openLogin').addEventListener('click', () => loginOverlay.classList.remove('hidden'));
-    document.getElementById('closeLesson').addEventListener('click', closeLesson);
-    document.getElementById('loginSubmit').addEventListener('click', () => {
-      const name = document.getElementById('loginName').value.trim() || 'demo-schueler';
-      localStorage.setItem('brainboost_user', name);
-      closeLogin();
-      if (window.brainBoostUpdateLoginButtons) window.brainBoostUpdateLoginButtons();
-      alert(`Login erfolgreich: Willkommen, ${name}!`);
-    });
-
-    document.querySelectorAll('[data-plan]').forEach((button) => {
+    subjectButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const plan = button.dataset.plan;
-        if (plan === 'Beginner') {
-          localStorage.setItem(STORAGE_KEYS.plan, plan);
-          alert('Beginner wurde als Demo-Plan aktiviert.');
-          closeOverlay();
-          return;
-        }
-        localStorage.setItem(STORAGE_KEYS.pendingPlan, plan);
-        closeOverlay();
-        paymentOverlay.classList.remove('hidden');
+        button.classList.toggle('active');
+        updateSummary();
       });
     });
+    goalSelect.addEventListener('change', updateSummary);
+    timeSelect.addEventListener('change', updateSummary);
 
-    document.querySelectorAll('[data-payment]').forEach((card) => {
-      card.addEventListener('click', () => {
-        const plan = localStorage.getItem(STORAGE_KEYS.pendingPlan) || 'Premium';
-        localStorage.setItem(STORAGE_KEYS.plan, plan);
-        localStorage.removeItem(STORAGE_KEYS.pendingPlan);
-        alert(`${plan} wurde mit ${card.dataset.payment} als Mock-Payment freigeschaltet!`);
-        closePayment();
-      });
+    document.getElementById('saveOnboarding').addEventListener('click', () => {
+      const subjects = getSelectedSubjects();
+      localStorage.setItem('brainboost_subjects', JSON.stringify(subjects.length ? subjects : ['mathe']));
+      localStorage.setItem('brainboost_goal', goalSelect.value);
+      localStorage.setItem('brainboost_daily_time', timeSelect.value);
+      window.location.href = 'lernen.html';
     });
 
-    document.querySelectorAll('[data-practice]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const type = button.dataset.practice;
-        const rewards = { speed: 60, exam: 90, coach: 35 };
-        addXp(rewards[type]);
-        alert(`Demo-${type}-Modus abgeschlossen. +${rewards[type]} XP wurden gutgeschrieben.`);
-      });
-    });
-
-    updateStreak();
-    renderSubjects();
-    renderStats();
-    renderCourses();
+    const xp = Number(localStorage.getItem('brainboost_xp') || 0);
+    document.getElementById('homeXp').textContent = xp;
+    document.getElementById('homeLevel').textContent = Math.max(1, Math.floor(xp / 120) + 1);
+    document.getElementById('homeStreak').textContent = localStorage.getItem('brainboost_streak') || '1';
+    updateSummary();
   </script>
 </body>
 </html>

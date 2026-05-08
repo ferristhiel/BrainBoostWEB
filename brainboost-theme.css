@@ -108,3 +108,37 @@ footer {
   padding: 0.45rem 0.75rem;
   font-weight: 900;
 }
+
+/* App-specific button exceptions so interactive learning cards keep their meaning. */
+.subject-card,
+.quiz-option {
+  background: #ffffff !important;
+  color: var(--bb-text) !important;
+  border: 2px solid var(--bb-border) !important;
+  box-shadow: none !important;
+  border-radius: 18px !important;
+}
+
+.subject-card.active,
+.quiz-option.correct {
+  background: #fff7ed !important;
+  border-color: var(--bb-accent) !important;
+}
+
+.quiz-option.correct {
+  background: #dcfce7 !important;
+  border-color: #16a34a !important;
+}
+
+.quiz-option.wrong {
+  background: #fee2e2 !important;
+  border-color: #dc2626 !important;
+}
+
+.payment-card-shell.revolut { background: linear-gradient(135deg, #2563eb, #7c3aed) !important; }
+.payment-card-shell.sparkasse { background: linear-gradient(135deg, #dc2626, #f97316) !important; }
+.payment-card-shell.volksbank { background: linear-gradient(135deg, #047857, #10b981) !important; }
+.payment-card-shell {
+  color: #ffffff !important;
+  border: 0 !important;
+}
