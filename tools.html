@@ -83,6 +83,21 @@
     button:hover {
       background: #1e40af;
     }
+    .demo-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .demo-chips button {
+      background: #e0ecff;
+      color: #1d4ed8;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+    .demo-chips button:hover {
+      background: #bfdbfe;
+    }
     #output {
       white-space: pre-wrap;
       background: #f1f5f9;
@@ -106,6 +121,8 @@
       box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
   </style>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
 
@@ -113,8 +130,9 @@
   <div class="logo">BrainBoost</div>
   <nav>
     <a href="index.html">Startseite</a>
+      <a href="lernen.html">Lernen</a>
     <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbungen.html">Bewerbungen</a>
+    <a href="bewerbung.html">Bewerbungen</a>
     <a href="termine.html">Termine</a>
     <a href="tools.html" style="text-decoration: underline;">Tools</a>
   </nav>
@@ -125,7 +143,12 @@
 
   <section class="tool">
     <label for="textInput">Schreib ein Thema, z.B. „Klimawandel“</label>
-    <input type="text" id="textInput" placeholder="Gib ein Thema ein" />
+    <div class="demo-chips" aria-label="Demo-Themen">
+      <button type="button" data-topic="Klimawandel in der Schule">Klimawandel</button>
+      <button type="button" data-topic="Sollten Hausaufgaben durch Lernstreaks ersetzt werden?">Erörterung</button>
+      <button type="button" data-topic="Praktikum als Fachinformatiker">Praktikum</button>
+    </div>
+    <input type="text" id="textInput" placeholder="Gib ein Thema ein" value="Klimawandel in der Schule" />
     <button id="generateBtn">Gliederung generieren</button>
 
     <div id="output"></div>
@@ -142,21 +165,47 @@
   const output = document.getElementById('output');
   const btn = document.getElementById('generateBtn');
 
+  document.querySelectorAll('[data-topic]').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      input.value = chip.dataset.topic;
+      btn.click();
+    });
+  });
+
   btn.addEventListener('click', () => {
     const thema = input.value.trim();
     if (!thema) {
       alert('Bitte ein Thema eingeben!');
       return;
     }
-    // Dummy Gliederung als Beispiel
     const gliederung = 
-`Gliederung zum Thema: ${thema}
+`🧠 BrainBoost Lernpaket: ${thema}
 
-1. Einführung
-2. Ursachen und Hintergrund
-3. Aktuelle Situation
-4. Lösungen und Zukunftsaussichten
-5. Fazit`;
+🎯 Lernziel
+Nach dieser Einheit kannst du das Thema in eigenen Worten erklären, ein Beispiel nennen und eine Prüfungsfrage beantworten.
+
+▶️ Video-Platzhalter
+Titel: ${thema} in 90 Sekunden
+Hook: Warum betrifft dich das im Schulalltag?
+Kapitel: 0:00 Einstieg · 0:25 Grundlagen · 1:00 Beispiel · 1:25 Mini-Quiz
+
+📚 Gliederung
+1. Einstieg: Problem oder Alltagssituation
+2. Begriffsklärung: 3 wichtige Wörter einfach erklären
+3. Ursachen / Hintergrund: Was steckt dahinter?
+4. Beispiel: Rechne, beschreibe oder argumentiere an einem konkreten Fall
+5. Pro & Contra: zwei starke Punkte je Seite
+6. Prüfungsteil: typische Aufgabe + Musterantwort
+7. Fazit: eigene Bewertung mit Ausblick
+
+🗓️ 3-Tage-Lernplan
+Tag 1: Video ansehen, 5 Stichpunkte notieren
+Tag 2: Beispielaufgabe lösen und Fehler markieren
+Tag 3: Mini-Test ohne Hilfe wiederholen
+
+✅ Mini-Quiz
+Frage: Was ist die wichtigste Kernaussage zu „${thema}“?
+Antwort-Vorlage: Die Kernaussage ist ..., weil ... . Ein Beispiel dafür ist ... .`;
 
     output.textContent = gliederung;
   });
