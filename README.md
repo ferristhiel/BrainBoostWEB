@@ -1,12 +1,13 @@
 # BrainBoostWEB
 
-BrainBoostWEB ist eine responsive Lern-App für Schülerinnen und Schüler. Die App kombiniert einen langen, gamifizierten Lernpfad, einen Video-Bereich, Lernplanung, Terminverwaltung, Bewerbungstracking und smarte Lern-Tools.
+BrainBoostWEB ist eine responsive Lern-App für Schülerinnen und Schüler. Die App kombiniert einen langen, gamifizierten Lernpfad, einen kontraststarken Video-Bereich, Lernplanung, Terminverwaltung, Bewerbungstracking und smarte Lern-Tools.
 
 ## Funktionen
 
-- **Duolingo-inspirierter Lernpfad** mit XP, Leveln, Streaks, Boss-Leveln und Fortschrittsbalken.
-- **Video-Bereich** mit kompakten Lernkarten für schnelle Wiederholung.
-- **Lernplaner, Termine und Bewerbungen** mit lokaler Speicherung im Browser.
+- **Duolingo-inspirierter Lernpfad** mit XP, Leveln, Streaks, Boss-Leveln und lokal gespeichertem Fortschritt.
+- **Video-Bereich** mit dunklen, gut lesbaren Videokarten für schnelle Wiederholung.
+- **Lernplaner, Termine und Bewerbungen** ohne Beispiel-Datensätze: Nutzerinnen und Nutzer tragen echte Daten ein, die im Browser gespeichert werden.
+- **Lokaler Browser-Speicher** mit Statusanzeige und leeren Startzuständen statt Fake-Inhalten.
 - **Tools-Seite** für Lernpakete, Mini-Quiz und Gliederungen.
 - **Production-ready Express-Server** mit Healthcheck, Security-Headern, statischen Assets und robustem API-Fallback.
 
@@ -40,3 +41,4 @@ PORT=3000
 - Node.js 18 oder neuer verwenden.
 - `NODE_ENV=production` setzen, damit statische Assets gecacht werden.
 - `/health` als Healthcheck-Endpunkt nutzen.
+- Browserdaten werden bewusst lokal im jeweiligen Browser gespeichert; für Multi-Geräte-Sync wäre später ein Backend-Account nötig.

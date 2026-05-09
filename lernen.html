@@ -3,32 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="BrainBoost Lernpfad mit vielen Levels, XP, Streaks und Video-Lektionen." />
+  <meta name="description" content="BrainBoost Lernpfad mit Levels, XP, Streaks, Boss-Leveln und Video-Lektionen." />
   <title>BrainBoost – Lernpfad</title>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Zum Inhalt springen</a>
-  <header class="site-header"><div class="container header-inner"><a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a><nav class="nav" aria-label="Hauptnavigation"><a href="index.html">Start</a><a class="active" href="lernen.html">Lernen</a><a href="lernplaner.html">Lernplaner</a><a href="bewerbung.html">Bewerbung</a><a href="termine.html">Termine</a><a href="tools.html">Tools</a></nav><div class="header-actions"><button class="login-btn" type="button">Einloggen</button></div></div></header>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a class="active" href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><button class="login-btn" type="button">Profil anlegen</button></div>
+    </div>
+  </header>
+
   <main id="main">
-    <section class="hero"><div class="container hero-grid"><div><p class="eyebrow">Lernreise</p><h1>Ein langer Pfad mit <span>Welten, Boss-Leveln und Videos</span>.</h1><p class="lead">Arbeite dich vom Grundlagen-Dorf bis zur Prüfungs-Arena. Jede Lektion ist kurz, klar und belohnt dich mit XP.</p><div class="hero-actions"><a class="btn" href="#pfad">Zum Pfad</a><a class="ghost-btn" href="#videos">Videos ansehen</a></div></div><aside class="panel"><p class="eyebrow">Status</p><h2><span data-bb-xp>0</span> XP</h2><p class="muted">Level <span data-bb-level>1</span> · <span data-bb-streak>0</span> Tage Streak</p><div class="progress-track"><span class="progress-fill" style="--progress:62%"></span></div></aside></div></section>
-    <section class="section" id="pfad"><div class="container"><div class="section-head"><div><p class="eyebrow">Duolingo-inspiriert</p><h2>Der BrainBoost Lernpfad.</h2><p class="lead">12 Etappen mit Wiederholung, Anwendung und Prüfungstraining.</p></div></div><div class="path-map">
-      <article class="path-card"><div class="path-node">1</div><div><h3>Grundlagen-Dorf</h3><p class="muted">Lernroutine, Ziele setzen, 10-Minuten-Fokus.</p><div class="path-meta"><span>📘 4 Lektionen</span><span>⚡ 60 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:100%"></span></div></div><button class="ghost-btn" data-complete-lesson="grundlagen" type="button">Wiederholen</button></article>
-      <article class="path-card"><div class="path-node">2</div><div><h3>Mathe-Basis</h3><p class="muted">Prozent, Dreisatz, Gleichungen und typische Fehler.</p><div class="path-meta"><span>📐 6 Lektionen</span><span>⚡ 90 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:75%"></span></div></div><button class="btn" data-complete-lesson="mathe-basis" type="button">Starten</button></article>
-      <article class="path-card"><div class="path-node">3</div><div><h3>Deutsch-Werkstatt</h3><p class="muted">Argumentation, Textanalyse, roter Faden.</p><div class="path-meta"><span>✍️ 5 Lektionen</span><span>⚡ 80 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:50%"></span></div></div><button class="btn" data-complete-lesson="deutsch" type="button">Üben</button></article>
-      <article class="path-card"><div class="path-node">4</div><div><h3>Englisch-Speaking</h3><p class="muted">Antwortmuster, Vokabelrunden und Aussprache.</p><div class="path-meta"><span>🇬🇧 5 Lektionen</span><span>⚡ 75 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:35%"></span></div></div><button class="btn" data-complete-lesson="englisch" type="button">Los</button></article>
-      <article class="path-card"><div class="path-node">5</div><div><h3>Science-Labor</h3><p class="muted">Klima, Energie, Diagramme und Experimente erklären.</p><div class="path-meta"><span>🔬 6 Lektionen</span><span>⚡ 95 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:20%"></span></div></div><button class="btn" data-complete-lesson="science" type="button">Starten</button></article>
-      <article class="path-card"><div class="path-node">6</div><div><h3>Boss-Level: Wochencheck</h3><p class="muted">Gemischtes Quiz mit Fehlerliste und Wiederholplan.</p><div class="path-meta"><span>🏆 1 Test</span><span>⚡ 120 XP</span></div><div class="progress-track"><span class="progress-fill" style="--progress:0%"></span></div></div><button class="btn" data-complete-lesson="boss-1" type="button">Challenge</button></article>
-      <article class="path-card locked"><div class="path-node">7</div><div><h3>Prüfungs-Arena I</h3><p class="muted">Zeitmanagement, Operatoren und Antwortstrategie.</p><div class="path-meta"><span>🔒 Freischalten</span><span>⚡ 100 XP</span></div></div><button class="ghost-btn" type="button">Bald</button></article>
-      <article class="path-card locked"><div class="path-node">8</div><div><h3>Prüfungs-Arena II</h3><p class="muted">Simulationen, Reflexion und letzter Feinschliff.</p><div class="path-meta"><span>🔒 Freischalten</span><span>⚡ 150 XP</span></div></div><button class="ghost-btn" type="button">Bald</button></article>
-    </div></div></section>
-    <section class="section" id="videos"><div class="container"><div class="section-head"><div><p class="eyebrow">Video-Bereich</p><h2>Runde Kurzlektionen für schnelle Wiederholung.</h2></div></div><div class="video-grid">
-      <article class="video-card"><div class="video-frame">▶</div><div class="video-card-content"><span class="badge">5 Min</span><h3>Prozentrechnung in 3 Schritten</h3><p class="muted">Warm-up, Beispiel, Mini-Aufgabe.</p></div></article>
-      <article class="video-card"><div class="video-frame">▶</div><div class="video-card-content"><span class="badge">7 Min</span><h3>Starke Argumente schreiben</h3><p class="muted">Behauptung, Begründung, Beispiel sauber verbinden.</p></div></article>
-      <article class="video-card"><div class="video-frame">▶</div><div class="video-card-content"><span class="badge">4 Min</span><h3>Vokabeln behalten</h3><p class="muted">Spaced Repetition und aktive Sätze.</p></div></article>
-    </div></div></section>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Lernreise</p>
+          <h1>Ein langer Pfad mit <span>Welten, Boss-Leveln und Videos</span>.</h1>
+          <p class="lead">Arbeite dich vom Grundlagen-Dorf bis zur Prüfungs-Arena. Jede abgeschlossene Lektion speichert deinen Fortschritt lokal und gibt XP.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#pfad">Zum Pfad</a>
+            <a class="ghost-btn" href="#videos">Videos ansehen</a>
+          </div>
+        </div>
+        <aside class="panel">
+          <p class="eyebrow">Status</p>
+          <h2><span data-bb-xp>0</span> XP</h2>
+          <p class="muted">Level <span data-bb-level>1</span> · <span data-bb-streak>0</span> Tage Streak · <span data-path-percent>0</span>% Pfad</p>
+          <div class="progress-track"><span class="progress-fill" data-path-progress style="--progress: 0%"></span></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="pfad">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Duolingo-inspiriert</p>
+            <h2>Der BrainBoost Lernpfad.</h2>
+            <p class="lead">12 echte Lernstationen. Abgeschlossene Stationen bleiben nach einem Reload gespeichert.</p>
+          </div>
+        </div>
+        <div class="path-map">
+          <article class="path-card" data-lesson-card="grundlagen">
+            <div class="path-node">1</div>
+            <div>
+              <h3>Grundlagen-Dorf</h3>
+              <p class="muted">Lernroutine, Ziele setzen und 10-Minuten-Fokus.</p>
+              <div class="path-meta"><span>📘 4 Lektionen</span><span>⚡ 60 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="grundlagen" type="button">Abschließen</button>
+          </article>
+
+          <article class="path-card" data-lesson-card="mathe-basis">
+            <div class="path-node">2</div>
+            <div>
+              <h3>Mathe-Basis</h3>
+              <p class="muted">Prozent, Dreisatz, Gleichungen und typische Fehler.</p>
+              <div class="path-meta"><span>📐 6 Lektionen</span><span>⚡ 90 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="mathe-basis" type="button">Abschließen</button>
+          </article>
+
+          <article class="path-card" data-lesson-card="deutsch">
+            <div class="path-node">3</div>
+            <div>
+              <h3>Deutsch-Werkstatt</h3>
+              <p class="muted">Argumentation, Textanalyse und roter Faden.</p>
+              <div class="path-meta"><span>✍️ 5 Lektionen</span><span>⚡ 80 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="deutsch" type="button">Abschließen</button>
+          </article>
+
+          <article class="path-card" data-lesson-card="englisch">
+            <div class="path-node">4</div>
+            <div>
+              <h3>Englisch-Speaking</h3>
+              <p class="muted">Antwortmuster, Vokabelrunden und Aussprache.</p>
+              <div class="path-meta"><span>🇬🇧 5 Lektionen</span><span>⚡ 75 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="englisch" type="button">Abschließen</button>
+          </article>
+
+          <article class="path-card" data-lesson-card="science">
+            <div class="path-node">5</div>
+            <div>
+              <h3>Science-Labor</h3>
+              <p class="muted">Klima, Energie, Diagramme und Experimente erklären.</p>
+              <div class="path-meta"><span>🔬 6 Lektionen</span><span>⚡ 95 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="science" type="button">Abschließen</button>
+          </article>
+
+          <article class="path-card" data-lesson-card="boss-1">
+            <div class="path-node">6</div>
+            <div>
+              <h3>Boss-Level: Wochencheck</h3>
+              <p class="muted">Gemischtes Quiz mit Fehlerliste und Wiederholplan.</p>
+              <div class="path-meta"><span>🏆 1 Test</span><span>⚡ 120 XP</span></div>
+              <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+            </div>
+            <button class="btn" data-complete-lesson="boss-1" type="button">Challenge abschließen</button>
+          </article>
+
+          <article class="path-card locked">
+            <div class="path-node">7</div>
+            <div>
+              <h3>Prüfungs-Arena I</h3>
+              <p class="muted">Zeitmanagement, Operatoren und Antwortstrategie.</p>
+              <div class="path-meta"><span>🔒 Nächste Ausbaustufe</span><span>⚡ 100 XP</span></div>
+            </div>
+            <button class="ghost-btn" type="button">Bald</button>
+          </article>
+
+          <article class="path-card locked">
+            <div class="path-node">8</div>
+            <div>
+              <h3>Prüfungs-Arena II</h3>
+              <p class="muted">Simulationen, Reflexion und letzter Feinschliff.</p>
+              <div class="path-meta"><span>🔒 Nächste Ausbaustufe</span><span>⚡ 150 XP</span></div>
+            </div>
+            <button class="ghost-btn" type="button">Bald</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="videos">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Video-Bereich</p>
+            <h2>Kontraststarke Kurzlektionen für schnelle Wiederholung.</h2>
+          </div>
+        </div>
+        <div class="video-grid">
+          <article class="video-card">
+            <div class="video-frame">▶</div>
+            <div class="video-card-content">
+              <span class="badge">5 Min</span>
+              <h3>Prozentrechnung in 3 Schritten</h3>
+              <p class="muted">Warm-up, Beispiel und Mini-Aufgabe.</p>
+            </div>
+          </article>
+          <article class="video-card">
+            <div class="video-frame">▶</div>
+            <div class="video-card-content">
+              <span class="badge">7 Min</span>
+              <h3>Starke Argumente schreiben</h3>
+              <p class="muted">Behauptung, Begründung und Beispiel sauber verbinden.</p>
+            </div>
+          </article>
+          <article class="video-card">
+            <div class="video-frame">▶</div>
+            <div class="video-card-content">
+              <span class="badge">4 Min</span>
+              <h3>Vokabeln behalten</h3>
+              <p class="muted">Spaced Repetition und aktive Sätze.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
-  <footer>© 2026 BrainBoost · Lernen mit Struktur, Videos und XP.</footer>
+
+  <footer>© 2026 BrainBoost · Lernen mit lokal gespeichertem Fortschritt.</footer>
 </body>
 </html>

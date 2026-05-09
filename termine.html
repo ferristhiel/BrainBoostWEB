@@ -1,6 +1,77 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="BrainBoost Terminkalender für Prüfungen, Abgaben und Interviews." /><title>BrainBoost – Termine</title><link rel="stylesheet" href="brainboost-theme.css" /><script src="brainboost-shared.js" defer></script></head>
-<body><a class="skip-link" href="#main">Zum Inhalt springen</a><header class="site-header"><div class="container header-inner"><a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a><nav class="nav" aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="lernen.html">Lernen</a><a href="lernplaner.html">Lernplaner</a><a href="bewerbung.html">Bewerbung</a><a class="active" href="termine.html">Termine</a><a href="tools.html">Tools</a></nav><div class="header-actions"><button class="login-btn" type="button">Einloggen</button></div></div></header>
-<main id="main"><section class="hero"><div class="container hero-grid"><div><p class="eyebrow">Deadline-Schutz</p><h1>Kein Test, keine Abgabe und kein Interview geht <span>unter</span>.</h1><p class="lead">Sammle wichtige Termine an einem Ort und kombiniere sie mit deinem Lernplan.</p></div><aside class="panel"><h2>Nächster Schritt</h2><p class="muted">Trage deine nächste Prüfung ein und plane drei Vorbereitungsblöcke.</p></aside></div></section>
-<section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow">Kalender</p><h2>Termine speichern.</h2></div></div><form class="form-card" id="appointmentsForm"><div class="form-grid"><label>Titel<input name="title" placeholder="Mathe Klassenarbeit" required /></label><label>Datum<input name="date" type="date" /></label><label>Notiz<input name="note" placeholder="Themen, Raum, Material …" /></label></div><p><button class="btn" type="submit">Termin speichern</button></p></form><ul class="list" id="appointmentsList"></ul></div></section></main><footer>© 2026 BrainBoost · Termine werden lokal gespeichert.</footer></body></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BrainBoost Terminkalender mit lokalem Browser-Speicher für Prüfungen, Abgaben und Interviews." />
+  <title>BrainBoost – Termine</title>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a class="active" href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><button class="login-btn" type="button">Profil anlegen</button></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Deadline-Schutz</p>
+          <h1>Kein Test, keine Abgabe und kein Interview geht <span>unter</span>.</h1>
+          <p class="lead">Trage nur deine echten Termine ein. BrainBoost erzeugt keine Beispieltermine und speichert alles lokal.</p>
+        </div>
+        <aside class="storage-panel">
+          <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+          <h2><span data-storage-count="appointments">0</span> gespeicherte Termine</h2>
+          <p class="muted">Ideal für Klassenarbeiten, Bewerbungsfristen, Abgaben und Gespräche.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Kalender</p>
+            <h2>Termin speichern.</h2>
+          </div>
+          <button class="ghost-btn" data-clear-storage="appointments" type="button">Alle Termine leeren</button>
+        </div>
+        <form class="form-card" id="appointmentsForm">
+          <div class="form-grid">
+            <label>Titel
+              <input name="title" placeholder="Mathe Klassenarbeit" required />
+            </label>
+            <label>Datum
+              <input name="date" type="date" />
+            </label>
+            <label>Uhrzeit
+              <input name="time" type="time" />
+            </label>
+          </div>
+          <label>Notiz
+            <textarea name="note" placeholder="Themen, Raum, Material, Vorbereitung …"></textarea>
+          </label>
+          <p><button class="btn" type="submit">Termin speichern</button></p>
+        </form>
+        <ul class="list" id="appointmentsList" aria-live="polite"></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 BrainBoost · Termine werden lokal gespeichert.</footer>
+</body>
+</html>

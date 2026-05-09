@@ -1,7 +1,85 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="BrainBoost Lernplaner für Aufgaben, Fächer und Deadlines." /><title>BrainBoost – Lernplaner</title><link rel="stylesheet" href="brainboost-theme.css" /><script src="brainboost-shared.js" defer></script></head>
-<body><a class="skip-link" href="#main">Zum Inhalt springen</a><header class="site-header"><div class="container header-inner"><a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a><nav class="nav" aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="lernen.html">Lernen</a><a class="active" href="lernplaner.html">Lernplaner</a><a href="bewerbung.html">Bewerbung</a><a href="termine.html">Termine</a><a href="tools.html">Tools</a></nav><div class="header-actions"><button class="login-btn" type="button">Einloggen</button></div></div></header>
-<main id="main"><section class="hero"><div class="container hero-grid"><div><p class="eyebrow">Plan statt Chaos</p><h1>Baue deinen <span>Wochenplan</span> aus kleinen Lernblöcken.</h1><p class="lead">Speichere Aufgaben lokal, hake sie ab und sammle XP für echte Routine.</p></div><aside class="panel"><h2>Heute</h2><p class="muted">25 Minuten Fokus · 5 Minuten Wiederholen · 1 Aufgabe abschließen</p></aside></div></section>
-<section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow">Aufgaben</p><h2>Dein Lernplaner.</h2></div></div><form class="form-card" id="plannerForm"><div class="form-grid"><label>Aufgabe<input name="title" placeholder="z. B. Mathe Übungsblatt 4" required /></label><label>Fach<input name="subject" placeholder="Mathe, Deutsch, Englisch …" /></label><label>Deadline<input name="date" type="date" /></label></div><p><button class="btn" type="submit">Aufgabe speichern</button></p></form><ul class="list" id="plannerList"></ul></div></section>
-<section class="section"><div class="container grid"><article class="card"><h3>📌 Priorisieren</h3><p>Erledige zuerst Aufgaben mit naher Deadline und hohem Prüfungswert.</p></article><article class="card"><h3>⏱️ Zeitboxen</h3><p>Plane 25-Minuten-Blöcke und beende jeden Block mit einem Mini-Check.</p></article><article class="card"><h3>🔁 Wiederholen</h3><p>Setze schwierige Themen nach 1, 3 und 7 Tagen erneut auf den Plan.</p></article></div></section></main><footer>© 2026 BrainBoost · Dein Plan bleibt lokal im Browser.</footer></body></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BrainBoost Lernplaner mit echtem lokalem Browser-Speicher für Aufgaben, Fächer und Deadlines." />
+  <title>BrainBoost – Lernplaner</title>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a class="active" href="lernplaner.html">Lernplaner</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><button class="login-btn" type="button">Profil anlegen</button></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Plan statt Chaos</p>
+          <h1>Baue deinen <span>Wochenplan</span> aus echten Lernblöcken.</h1>
+          <p class="lead">Keine Beispielaufgaben: Trage deine eigenen To-dos ein, lade die Seite neu und sie sind noch da.</p>
+        </div>
+        <aside class="storage-panel">
+          <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+          <h2><span data-storage-count="tasks">0</span> gespeicherte Aufgaben</h2>
+          <p class="muted">Die Daten bleiben nur in diesem Browser. Du brauchst keinen Account.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Aufgaben</p>
+            <h2>Dein Lernplaner.</h2>
+          </div>
+          <button class="ghost-btn" data-clear-storage="tasks" type="button">Alle Aufgaben leeren</button>
+        </div>
+        <form class="form-card" id="plannerForm">
+          <div class="form-grid">
+            <label>Aufgabe
+              <input name="title" placeholder="z. B. Mathe Übungsblatt 4" required />
+            </label>
+            <label>Fach
+              <input name="subject" placeholder="Mathe, Deutsch, Englisch …" />
+            </label>
+            <label>Deadline
+              <input name="date" type="date" />
+            </label>
+          </div>
+          <label>Notizen
+            <textarea name="notes" placeholder="Was genau musst du erledigen?"></textarea>
+          </label>
+          <p><button class="btn" type="submit">Aufgabe speichern</button></p>
+        </form>
+        <ul class="list" id="plannerList" aria-live="polite"></ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <article class="card"><h3>📌 Priorisieren</h3><p>Erledige zuerst Aufgaben mit naher Deadline und hohem Prüfungswert.</p></article>
+        <article class="card"><h3>⏱️ Zeitboxen</h3><p>Plane 25-Minuten-Blöcke und beende jeden Block mit einem Mini-Check.</p></article>
+        <article class="card"><h3>🔁 Wiederholen</h3><p>Setze schwierige Themen nach 1, 3 und 7 Tagen erneut auf den Plan.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 BrainBoost · Dein Plan bleibt lokal im Browser.</footer>
+</body>
+</html>

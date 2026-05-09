@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="BrainBoost ist eine produktionsreife Lern-App mit Lernpfad, Video-Bereich, Planung, Terminen, Bewerbungen und smarten Tools." />
+  <meta name="description" content="BrainBoost ist eine produktionsreife Lern-App mit Lernpfad, Video-Bereich, lokaler Planung, Terminen, Bewerbungen und smarten Tools." />
   <title>BrainBoost – Lernen wie ein Spiel</title>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
@@ -14,40 +14,95 @@
     <div class="container header-inner">
       <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
       <nav class="nav" aria-label="Hauptnavigation">
-        <a class="active" href="index.html">Start</a><a href="lernen.html">Lernen</a><a href="lernplaner.html">Lernplaner</a><a href="bewerbung.html">Bewerbung</a><a href="termine.html">Termine</a><a href="tools.html">Tools</a>
+        <a class="active" href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
       </nav>
-      <div class="header-actions"><button class="login-btn" type="button">Einloggen</button></div>
+      <div class="header-actions">
+        <button class="login-btn" type="button">Profil anlegen</button>
+      </div>
     </div>
   </header>
+
   <main id="main">
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Production-ready Lernplattform</p>
+          <p class="eyebrow">Fertige Lern-App</p>
           <h1>Dein Lernweg fühlt sich an wie <span>Duolingo für Schule</span>.</h1>
-          <p class="lead">BrainBoost bündelt Lernpfad, tägliche XP, Videos, Bewerbungsworkflow, Termine und fokussierte Tools in einer schnellen, responsiven Web-App.</p>
-          <div class="hero-actions"><a class="btn" href="lernen.html">Lernpfad starten</a><a class="ghost-btn" href="#features">Funktionen ansehen</a></div>
+          <p class="lead">BrainBoost verbindet Lernpfad, XP, Videos, echte lokale Planung, Termine, Bewerbungen und smarte Tools – ohne unlesbare Kontraste und ohne Fake-Beispieldaten.</p>
+          <div class="hero-actions">
+            <a class="btn" href="lernen.html">Lernpfad starten</a>
+            <a class="ghost-btn" href="lernplaner.html">Ersten Plan speichern</a>
+          </div>
         </div>
         <aside class="panel" aria-label="Profilübersicht">
-          <p class="eyebrow">Dein Fortschritt</p>
+          <p class="eyebrow">Dein echtes lokales Profil</p>
           <h2>Level <span data-bb-level>1</span></h2>
-          <p class="lead">Hallo <strong data-bb-name>Gast</strong>, heute wartet dein nächster kurzer Sprint.</p>
-          <div class="stats"><div class="stat"><strong data-bb-xp>0</strong>XP</div><div class="stat"><strong data-bb-streak>0</strong>Tage</div><div class="stat"><strong>12</strong>Module</div></div>
+          <p class="lead">Hallo <strong data-bb-name>Gast</strong>. Alles, was du speicherst, bleibt lokal in deinem Browser.</p>
+          <div class="stats">
+            <div class="stat"><strong data-bb-xp>0</strong>XP</div>
+            <div class="stat"><strong data-bb-streak>0</strong>Tage</div>
+            <div class="stat"><strong data-path-percent>0</strong>% Pfad</div>
+          </div>
+          <div class="progress-track" aria-label="Lernpfad-Fortschritt">
+            <span class="progress-fill" data-path-progress style="--progress: 0%"></span>
+          </div>
         </aside>
       </div>
     </section>
+
+    <section class="section">
+      <div class="container storage-panel">
+        <div class="storage-row">
+          <div>
+            <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+            <h2>Keine Demo-Termine. Deine echten Einträge.</h2>
+            <p class="muted">BrainBoost startet leer. Wenn du Aufgaben, Termine oder Bewerbungen einträgst, werden sie in diesem Browser gespeichert und beim Neuladen wieder angezeigt.</p>
+          </div>
+          <div class="stats" aria-label="Gespeicherte lokale Einträge">
+            <div class="stat"><strong data-storage-count="tasks">0</strong>Aufgaben</div>
+            <div class="stat"><strong data-storage-count="appointments">0</strong>Termine</div>
+            <div class="stat"><strong data-storage-count="applications">0</strong>Bewerbungen</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="features">
       <div class="container">
-        <div class="section-head"><div><p class="eyebrow">Alles verbunden</p><h2>Ein sauberer App-Kern statt einzelner Demos.</h2></div><a class="ghost-btn" href="tools.html">KI-Tools testen</a></div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Alles fertig verbunden</p>
+            <h2>Eine vollständige App statt halber Demo-Seiten.</h2>
+          </div>
+          <a class="ghost-btn" href="tools.html">Tools testen</a>
+        </div>
         <div class="grid">
-          <article class="card"><h3>🛤️ Langer Lernpfad</h3><p>Mehrere Welten, gesperrte Lektionen, XP und Fortschrittsbalken motivieren wie in Lern-Games.</p></article>
-          <article class="card"><h3>🎬 Video-Bereich</h3><p>Runde Videokarten liefern Kurzlektionen, Warm-ups und Wiederholungen passend zum Lernpfad.</p></article>
-          <article class="card"><h3>📅 Planung</h3><p>Aufgaben und Termine werden lokal gespeichert, damit Nutzer ohne Account sofort produktiv sind.</p></article>
-          <article class="card"><h3>🧰 Smarte Tools</h3><p>Generiere Lernpakete, Mini-Quiz und Strukturen mit API-Fallback für robuste Produktion.</p></article>
+          <article class="card">
+            <h3>🛤️ Langer Lernpfad</h3>
+            <p>Mehrere Welten, klare Lektionen, Boss-Level, gesperrte Arenen und sichtbarer Fortschritt.</p>
+          </article>
+          <article class="card">
+            <h3>🎬 Video-Bereich</h3>
+            <p>Dunkle Videoflächen mit weißer Schrift für sicheren Kontrast und schnelle Wiederholung.</p>
+          </article>
+          <article class="card">
+            <h3>💾 Lokaler Speicher</h3>
+            <p>Aufgaben, Termine und Bewerbungen werden wirklich gespeichert – ohne Beispiel-Lärm.</p>
+          </article>
+          <article class="card">
+            <h3>🧰 Smarte Tools</h3>
+            <p>Lernpakete, Quizfragen und Gliederungen laufen mit API oder lokalem Fallback.</p>
+          </article>
         </div>
       </div>
     </section>
   </main>
-  <footer>© 2026 BrainBoost. Schnell, responsiv und bereit für Deployment.</footer>
+
+  <footer>© 2026 BrainBoost. Lesbar, lokal speichernd und bereit für Deployment.</footer>
 </body>
 </html>

@@ -1,7 +1,91 @@
 <!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content="BrainBoost Bewerbungstracker für Praktikum, Ausbildung und Interview-Vorbereitung." /><title>BrainBoost – Bewerbung</title><link rel="stylesheet" href="brainboost-theme.css" /><script src="brainboost-shared.js" defer></script></head>
-<body><a class="skip-link" href="#main">Zum Inhalt springen</a><header class="site-header"><div class="container header-inner"><a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a><nav class="nav" aria-label="Hauptnavigation"><a href="index.html">Start</a><a href="lernen.html">Lernen</a><a href="lernplaner.html">Lernplaner</a><a class="active" href="bewerbung.html">Bewerbung</a><a href="termine.html">Termine</a><a href="tools.html">Tools</a></nav><div class="header-actions"><button class="login-btn" type="button">Einloggen</button></div></div></header>
-<main id="main"><section class="hero"><div class="container hero-grid"><div><p class="eyebrow">Career-Modus</p><h1>Vom Praktikum bis Interview <span>alles im Griff</span>.</h1><p class="lead">Tracke Bewerbungen, sammle Unterlagen und nutze klare Bausteine für Anschreiben.</p></div><aside class="panel"><h2>Checkliste</h2><p class="muted">Lebenslauf · Anschreiben · Zeugnisse · Fragen an den Betrieb</p></aside></div></section>
-<section class="section"><div class="container"><div class="section-head"><div><p class="eyebrow">Tracker</p><h2>Bewerbungen verwalten.</h2></div></div><form class="form-card" id="applicationForm"><div class="form-grid"><label>Unternehmen<input name="company" placeholder="z. B. BMW" required /></label><label>Rolle<input name="role" placeholder="Schülerpraktikum IT" /></label><label>Status<select name="status"><option>Geplant</option><option>Abgeschickt</option><option>Interview</option><option>Zusage</option></select></label></div><p><button class="btn" type="submit">Bewerbung speichern</button></p></form><ul class="list" id="applicationList"></ul></div></section>
-<section class="section"><div class="container grid"><article class="card"><h3>📝 Anschreiben-Formel</h3><p>Warum dieser Betrieb? Was bringst du mit? Was möchtest du lernen?</p></article><article class="card"><h3>🎤 Interview</h3><p>Übe Selbstvorstellung, Stärken, Lernbereitschaft und konkrete Beispiele.</p></article><article class="card"><h3>📦 Unterlagen</h3><p>PDF-Dateinamen klar halten: Name_Rolle_Unterlage.pdf.</p></article></div></section></main><footer>© 2026 BrainBoost · Bewerbungshilfe ohne Datenbankzwang.</footer></body></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BrainBoost Bewerbungstracker mit lokalem Browser-Speicher für Praktikum, Ausbildung und Interview-Vorbereitung." />
+  <title>BrainBoost – Bewerbung</title>
+  <link rel="stylesheet" href="brainboost-theme.css" />
+  <script src="brainboost-shared.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a class="active" href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><button class="login-btn" type="button">Profil anlegen</button></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Career-Modus</p>
+          <h1>Vom Praktikum bis Interview <span>alles im Griff</span>.</h1>
+          <p class="lead">Tracke echte Bewerbungen, Status und Fristen lokal im Browser – kein Fake-Datensatz, keine Anmeldung nötig.</p>
+        </div>
+        <aside class="storage-panel">
+          <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+          <h2><span data-storage-count="applications">0</span> gespeicherte Bewerbungen</h2>
+          <p class="muted">Für Praktikum, Ausbildung, Nebenjob oder Projektbewerbung.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Tracker</p>
+            <h2>Bewerbungen verwalten.</h2>
+          </div>
+          <button class="ghost-btn" data-clear-storage="applications" type="button">Alle Bewerbungen leeren</button>
+        </div>
+        <form class="form-card" id="applicationForm">
+          <div class="form-grid">
+            <label>Unternehmen
+              <input name="company" placeholder="z. B. BMW" required />
+            </label>
+            <label>Rolle
+              <input name="role" placeholder="Schülerpraktikum IT" />
+            </label>
+            <label>Status
+              <select name="status">
+                <option>Geplant</option>
+                <option>Abgeschickt</option>
+                <option>Interview</option>
+                <option>Zusage</option>
+                <option>Absage</option>
+              </select>
+            </label>
+            <label>Frist
+              <input name="deadline" type="date" />
+            </label>
+          </div>
+          <p><button class="btn" type="submit">Bewerbung speichern</button></p>
+        </form>
+        <ul class="list" id="applicationList" aria-live="polite"></ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <article class="card"><h3>📝 Anschreiben-Formel</h3><p>Warum dieser Betrieb? Was bringst du mit? Was möchtest du lernen?</p></article>
+        <article class="card"><h3>🎤 Interview</h3><p>Übe Selbstvorstellung, Stärken, Lernbereitschaft und konkrete Beispiele.</p></article>
+        <article class="card"><h3>📦 Unterlagen</h3><p>PDF-Dateinamen klar halten: Name_Rolle_Unterlage.pdf.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>© 2026 BrainBoost · Bewerbungshilfe mit lokalem Speicher.</footer>
+</body>
+</html>
