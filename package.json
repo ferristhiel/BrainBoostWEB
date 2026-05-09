@@ -1,18 +1,26 @@
 {
   "name": "brainboostweb",
   "version": "1.0.0",
-  "description": "",
+  "description": "Production-ready static learning companion for school, planning, applications and study tools.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node --experimental-modules index.js"
+    "start": "node index.js",
+    "check": "node --check index.js && node --check brainboost-shared.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "learning",
+    "education",
+    "planner"
+  ],
+  "author": "BrainBoost",
   "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
-    "node-fetch": "^3.3.2",
     "openai": "^5.9.0"
   }
 }
