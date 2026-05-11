@@ -213,6 +213,29 @@
       const key = node.dataset.storageCount;
       node.textContent = store.get(key, []).length;
     });
+    const label = document.querySelector('[data-active-subject-label]');
+    const title = document.querySelector('[data-active-subject-title]');
+    const description = document.querySelector('[data-active-subject-description]');
+    if (label) label.textContent = path.label;
+    if (title) title.textContent = path.title;
+    if (description) description.textContent = path.description;
+    road.innerHTML = path.stages.map((stage, index) => {
+      const [type, name, copy, badge, xp] = stage;
+      const id = lessonId(safeSubject, index);
+      const node = type === 'quiz' ? '?' : type === 'exam' ? '★' : String(index + 1);
+      const stateClass = type === 'quiz' ? ' is-query' : type === 'exam' ? ' is-boss' : '';
+      return `<article class="road-stage${stateClass}" data-lesson-card="${id}">
+        <div class="road-card">
+          <span class="badge">${escapeHtml(badge)}</span>
+          <h3>${escapeHtml(name)}</h3>
+          <p class="muted">${escapeHtml(copy)}</p>
+          <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
+        </div>
+        <div class="road-node">${node}</div>
+      </article>`;
+    }).join('');
+    renderEverything();
   }
 
   function renderLessonProgress() {
