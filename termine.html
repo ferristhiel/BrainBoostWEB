@@ -3,233 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BrainBoost Terminkalender mit lokalem Browser-Speicher für Prüfungen, Abgaben und Interviews." />
   <title>BrainBoost – Termine</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      color: #333;
-    }
-    header {
-      background: #2563eb;
-      padding: 15px 20px;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-weight: 700;
-      font-size: 1.6rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    main {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px 50px 20px;
-    }
-    h1 {
-      margin-bottom: 20px;
-      color: #0f172a;
-      text-align: center;
-    }
-    form {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      margin-bottom: 30px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      justify-content: center;
-    }
-    form input {
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      flex: 1 1 200px;
-      min-width: 150px;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    form button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 25px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      flex: 1 1 100px;
-      min-width: 100px;
-    }
-    form button:hover {
-      background: #1e40af;
-    }
-    ul.termin-list {
-      list-style: none;
-      padding: 0;
-    }
-    li.termin {
-      background: white;
-      margin-bottom: 15px;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-family: 'Segoe UI', sans-serif;
-    }
-    li.termin div.info {
-      max-width: 80%;
-    }
-    li.termin h3 {
-      margin: 0 0 6px 0;
-      color: #2563eb;
-      font-size: 18px;
-    }
-    li.termin p {
-      margin: 0;
-      color: #555;
-      font-size: 14px;
-    }
-    button.delete-btn {
-      background: #dc2626;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 8px 14px;
-      transition: background 0.3s ease;
-    }
-    button.delete-btn:hover {
-      background: #a81c1c;
-    }
-    footer {
-      background: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #64748b;
-      max-width: 700px;
-      margin: 50px auto 20px;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-  </style>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="spiele.html">Spiele</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a class="active" href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><a class="github-button" href="https://github.com/BrainBoostWEB" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22c.58.11.8-.25.8-.56v-2.02c-3.26.71-3.95-1.4-3.95-1.4-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.8 2.75 1.28 3.42.98.11-.76.41-1.28.75-1.57-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.32 1.21-3.14-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.22 1.2A11.1 11.1 0 0 1 12 5c1 0 1.99.13 2.93.39 2.23-1.52 3.21-1.2 3.21-1.2.64 1.6.24 2.8.12 3.1.76.82 1.21 1.86 1.21 3.14 0 4.5-2.74 5.48-5.35 5.77.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a><button class="login-btn" type="button">Profil anlegen</button></div>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">BrainBoost</div>
-  <nav>
-    <a href="index.html">Startseite</a>
-      <a href="lernen.html">Lernen</a>
-    <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbung.html">Bewerbungen</a>
-    <a href="termine.html" style="text-decoration: underline;">Termine</a>
-    <a href="tools.html">Tools</a>
-  </nav>
-</header>
-
-<main>
-  <h1>Deine Termine</h1>
-
-  <form id="terminForm" autocomplete="off">
-    <input type="text" id="titel" placeholder="Titel (z.B. Arzttermin)" required />
-    <input type="date" id="datum" required />
-    <button type="submit">Hinzufügen</button>
-  </form>
-
-  <ul class="termin-list" id="terminList"></ul>
-</main>
-
-<footer>
-  © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
-</footer>
-
-<script>
-  const form = document.getElementById('terminForm');
-  const terminList = document.getElementById('terminList');
-
-  const demoTermine = [
-    { titel: 'BrainBoost Tagesrunde testen', datum: '2026-05-08' },
-    { titel: 'Mathe Mini-Prüfung: Prozentrechnung', datum: '2026-05-13' },
-    { titel: 'Fiktives Praktikumsinterview vorbereiten', datum: '2026-05-18' }
-  ];
-
-  let termine = JSON.parse(localStorage.getItem('termine')) || [];
-  if (termine.length === 0) {
-    termine = demoTermine;
-    saveTermine();
-  }
-
-  function saveTermine() {
-    localStorage.setItem('termine', JSON.stringify(termine));
-  }
-
-  function renderTermine() {
-    terminList.innerHTML = '';
-    termine.forEach((t, i) => {
-      const li = document.createElement('li');
-      li.className = 'termin';
-
-      li.innerHTML = `
-        <div class="info">
-          <h3>${t.titel}</h3>
-          <p>Datum: ${t.datum}</p>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Deadline-Schutz</p>
+          <h1>Kein Test, keine Abgabe und kein Interview geht <span>unter</span>.</h1>
+          <p class="lead">Trage nur deine echten Termine ein. BrainBoost erzeugt keine Beispieltermine und speichert alles lokal.</p>
         </div>
-        <button class="delete-btn" data-index="${i}">Löschen</button>
-      `;
+        <aside class="storage-panel">
+          <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+          <h2><span data-storage-count="appointments">0</span> gespeicherte Termine</h2>
+          <p class="muted">Ideal für Klassenarbeiten, Bewerbungsfristen, Abgaben und Gespräche.</p>
+        </aside>
+      </div>
+    </section>
 
-      terminList.appendChild(li);
-    });
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Kalender</p>
+            <h2>Termin speichern.</h2>
+          </div>
+          <button class="ghost-btn" data-clear-storage="appointments" type="button">Alle Termine leeren</button>
+        </div>
+        <form class="form-card" id="appointmentsForm">
+          <div class="form-grid">
+            <label>Titel
+              <input name="title" placeholder="Mathe Klassenarbeit" required />
+            </label>
+            <label>Datum
+              <input name="date" type="date" />
+            </label>
+            <label>Uhrzeit
+              <input name="time" type="time" />
+            </label>
+          </div>
+          <label>Notiz
+            <textarea name="note" placeholder="Themen, Raum, Material, Vorbereitung …"></textarea>
+          </label>
+          <p><button class="btn" type="submit">Termin speichern</button></p>
+        </form>
+        <ul class="list" id="appointmentsList" aria-live="polite"></ul>
+      </div>
+    </section>
+  </main>
 
-    document.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.onclick = (e) => {
-        const idx = e.target.dataset.index;
-        termine.splice(idx, 1);
-        saveTermine();
-        renderTermine();
-      };
-    });
-  }
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const titel = document.getElementById('titel').value.trim();
-    const datum = document.getElementById('datum').value;
-    if (!titel || !datum) {
-      alert('Bitte Titel und Datum ausfüllen!');
-      return;
-    }
-    termine.push({ titel, datum });
-    saveTermine();
-    renderTermine();
-    form.reset();
-  });
-
-  renderTermine();
-</script>
-
+  <footer>© 2026 BrainBoost · Termine werden lokal gespeichert.</footer>
 </body>
 </html>
