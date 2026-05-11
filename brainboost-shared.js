@@ -79,6 +79,19 @@
     renderEverything();
   }
 
+
+  function mountLoader() {
+    if (document.querySelector('.app-loader')) return;
+    const loader = document.createElement('div');
+    loader.className = 'app-loader';
+    loader.setAttribute('role', 'status');
+    loader.setAttribute('aria-live', 'polite');
+    loader.innerHTML = '<div class="loader-card"><div class="loader-brand"><span>BrainBoost startet</span><span class="loader-percent">100%</span></div><div class="loader-track"><span class="loader-fill"></span></div><p>Pfad, Speicher und Tools werden vorbereitet …</p></div>';
+    document.body.prepend(loader);
+    window.setTimeout(() => loader.classList.add('is-hidden'), 850);
+    window.setTimeout(() => loader.remove(), 1300);
+  }
+
   function renderProfile() {
     const current = profile();
     document.querySelectorAll('[data-bb-name]').forEach((node) => { node.textContent = current.name; });
@@ -186,38 +199,6 @@
         addXp(12);
         draw();
       }
-    },
-    set(key, value) {
-      try {
-        localStorage.setItem(`brainboost_${key}`, JSON.stringify(value));
-        document.dispatchEvent(new CustomEvent('brainboost:update'));
-      } catch {
-        // Local storage can be unavailable in strict privacy contexts; keep UI usable.
-      }
-    },
-  };
-
-  const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
-  const todayIso = () => new Date().toISOString().slice(0, 10);
-
-  function profile() {
-    return store.get('profile', { name: 'Gast', xp: 180, streak: 3, completed: ['grundlagen', 'fokus'] });
-  }
-
-  function saveProfile(next) {
-    store.set('profile', { ...profile(), ...next });
-    renderProfile();
-  }
-
-  function renderProfile() {
-    const current = profile();
-    document.querySelectorAll('[data-bb-name]').forEach((node) => { node.textContent = current.name; });
-    document.querySelectorAll('[data-bb-xp]').forEach((node) => { node.textContent = current.xp; });
-    document.querySelectorAll('[data-bb-level]').forEach((node) => { node.textContent = Math.max(1, Math.floor(current.xp / 140) + 1); });
-    document.querySelectorAll('[data-bb-streak]').forEach((node) => { node.textContent = current.streak; });
-    document.querySelectorAll('.login-btn').forEach((button) => {
-      button.textContent = current.name === 'Gast' ? 'Einloggen' : `👤 ${current.name}`;
-      button.setAttribute('aria-label', current.name === 'Gast' ? 'Demo-Profil anlegen' : `Profil ${current.name}`);
     });
 
     draw();
@@ -284,6 +265,7 @@
   storage.init();
 
   document.addEventListener('DOMContentLoaded', () => {
+    mountLoader();
     renderEverything();
     document.querySelectorAll('.login-btn').forEach((button) => button.addEventListener('click', login));
     bindLessonButtons();
