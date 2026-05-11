@@ -336,6 +336,7 @@
       longestStreak: Math.max(Number(current.longestStreak || 0), current.lastXpDay === today ? Number(current.streak || 0) : Number(current.streak || 0) + 1),
       lastXpDay: today,
     });
+    return true;
   }
 
   function spendXp(cost = 0, item = 'Belohnung') {

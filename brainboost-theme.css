@@ -313,6 +313,11 @@ footer { color: var(--bb-muted); text-align: center; padding: 2rem 1rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+.video-card-content { padding: 1rem; }
+.video-card h3 { color: var(--bb-primary-dark); }
 
 /* Final polish: clearer intro, square cards, GitHub CTA and a real lesson road. */
 .app-loader {
@@ -491,6 +496,18 @@ select { border-radius: 12px; }
   .road-stage .road-card,
   .road-stage:nth-child(even) .road-card { grid-column: 2; }
 }
+.road-stage.is-query .road-node {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+.road-stage.is-query .road-card {
+  border-color: rgba(217, 119, 6, .55);
+  background: #fffaf1;
+}
+.pricing-card.featured { border-color: #d97706; background: #fffaf1; }
+.price { font-size: 2rem; font-weight: 950; color: var(--bb-primary-dark); }
+.payment-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: .8rem; margin-top: 1rem; }
+.payment-card { min-height: 105px; display: grid; align-content: space-between; }
+.payment-card strong { color: var(--bb-primary-dark); }
 
 .subject-switcher {
   display: flex;
