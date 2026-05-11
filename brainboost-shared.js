@@ -92,18 +92,43 @@
     window.setTimeout(() => loader.remove(), 1300);
   }
 
+
+  function mountScrollAnimations() {
+    const targets = document.querySelectorAll('section, .card, .panel, .road-stage, .game-card, .form-card, .pricing-card, .payment-card, .profile-stat, .shop-card');
+    targets.forEach((node) => node.classList.add('reveal'));
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((node) => node.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    targets.forEach((node) => observer.observe(node));
+  }
+
   function renderProfile() {
     const current = profile();
     document.querySelectorAll('[data-bb-name]').forEach((node) => { node.textContent = current.name; });
     document.querySelectorAll('[data-bb-xp]').forEach((node) => { node.textContent = current.xp; });
     document.querySelectorAll('[data-bb-level]').forEach((node) => { node.textContent = Math.max(1, Math.floor(current.xp / 140) + 1); });
     document.querySelectorAll('[data-bb-streak]').forEach((node) => { node.textContent = current.streak; });
-    document.querySelectorAll('[data-bb-flames]').forEach((node) => { node.textContent = '🔥'; });
+    document.querySelectorAll('[data-bb-flames]').forEach((node) => { node.textContent = ''; });
     document.querySelectorAll('[data-bb-longest-streak]').forEach((node) => { node.textContent = current.longestStreak || current.streak || 0; });
     document.querySelectorAll('[data-bb-inventory]').forEach((node) => { node.textContent = (current.inventory || []).join(', ') || 'Noch keine Belohnungen gekauft'; });
     document.querySelectorAll('[data-bb-friends]').forEach((node) => { node.textContent = (current.friends || []).join(', ') || 'Noch keine Freunde'; });
+    document.querySelectorAll('[data-spend-xp]').forEach((button) => {
+      if ((current.inventory || []).includes(button.dataset.shopItem)) {
+        button.textContent = 'Gekauft';
+        button.disabled = true;
+      }
+    });
     document.querySelectorAll('.login-btn').forEach((button) => {
-      button.textContent = current.name === 'Gast' ? 'Profil anlegen' : `👤 ${current.name}`;
+      button.textContent = current.name === 'Gast' ? 'Profil anlegen' : current.name;
       button.setAttribute('aria-label', current.name === 'Gast' ? 'Lokales Demo-Profil anlegen' : `Lokales Profil ${current.name}`);
     });
   }
@@ -192,12 +217,13 @@
           <h3>${escapeHtml(name)}</h3>
           <p class="muted">${escapeHtml(copy)}</p>
           <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
-          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
+          <div class="road-actions"><span class="muted">${type === 'quiz' ? ' Abfrage nach 5 Übungen' : type === 'exam' ? 'Abschlussprüfung' : 'echte Übung'} · ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
         </div>
         <div class="road-node">${node}</div>
       </article>`;
     }).join('');
     renderEverything();
+    mountScrollAnimations();
   }
 
   function bindSubjectSwitcher() {
@@ -279,7 +305,7 @@
       const isComplete = completed.has(lesson);
       card.classList.toggle('is-complete', isComplete);
       const button = card.querySelector('[data-start-lesson]');
-      if (button && isComplete) button.textContent = '✅ Abgeschlossen';
+      if (button && isComplete) button.textContent = 'Abgeschlossen';
       const fill = card.querySelector('.progress-fill');
       if (fill && isComplete) fill.style.setProperty('--progress', '100%');
     });
@@ -310,6 +336,7 @@
       longestStreak: Math.max(Number(current.longestStreak || 0), current.lastXpDay === today ? Number(current.streak || 0) : Number(current.streak || 0) + 1),
       lastXpDay: today,
     });
+    return true;
   }
 
   function spendXp(cost = 0, item = 'Belohnung') {
@@ -536,7 +563,7 @@
         const cost = Number(button.dataset.spendXp || 0);
         const item = button.dataset.shopItem || 'Belohnung';
         if (spendXp(cost, item)) {
-          button.textContent = '✅ gekauft';
+          button.textContent = 'gekauft';
           button.disabled = true;
           if (shopFeedback) shopFeedback.textContent = `${item} gekauft. -${cost} XP wurden aus deinem Wallet abgezogen.`;
         } else if (shopFeedback) {
@@ -594,6 +621,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     mountLoader();
+    mountScrollAnimations();
     bindSubjectSwitcher();
     renderEverything();
     bindProfileButton();
