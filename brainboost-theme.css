@@ -313,6 +313,8 @@ footer { color: var(--bb-muted); text-align: center; padding: 2rem 1rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+.video-card-content { padding: 1rem; }
+.video-card h3 { color: var(--bb-primary-dark); }
 
 /* Final polish: clearer intro, square cards, GitHub CTA and a real lesson road. */
 .app-loader {
