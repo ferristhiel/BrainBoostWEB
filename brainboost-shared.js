@@ -1,6 +1,6 @@
 (() => {
   const PREFIX = 'brainboost_';
-  const DEFAULT_PROFILE = { name: 'Gast', xp: 0, streak: 0, completed: [], lastXpDay: '', inventory: [] };
+  const DEFAULT_PROFILE = { name: 'Gast', xp: 0, streak: 0, longestStreak: 0, completed: [], lastXpDay: '', inventory: [], friends: ['Lina', 'Max'] };
 
   const storage = {
     available: false,
@@ -71,7 +71,7 @@
 
   function profile() {
     const saved = store.get('profile', DEFAULT_PROFILE);
-    return { ...DEFAULT_PROFILE, ...saved, completed: Array.isArray(saved.completed) ? saved.completed : [], inventory: Array.isArray(saved.inventory) ? saved.inventory : [] };
+    return { ...DEFAULT_PROFILE, ...saved, completed: Array.isArray(saved.completed) ? saved.completed : [], inventory: Array.isArray(saved.inventory) ? saved.inventory : [], friends: Array.isArray(saved.friends) ? saved.friends : DEFAULT_PROFILE.friends };
   }
 
   function saveProfile(next) {
@@ -98,7 +98,10 @@
     document.querySelectorAll('[data-bb-xp]').forEach((node) => { node.textContent = current.xp; });
     document.querySelectorAll('[data-bb-level]').forEach((node) => { node.textContent = Math.max(1, Math.floor(current.xp / 140) + 1); });
     document.querySelectorAll('[data-bb-streak]').forEach((node) => { node.textContent = current.streak; });
-    document.querySelectorAll('[data-bb-flames]').forEach((node) => { node.textContent = '🔥'.repeat(Math.min(5, Number(current.streak || 0))) || '🔥'; });
+    document.querySelectorAll('[data-bb-flames]').forEach((node) => { node.textContent = '🔥'; });
+    document.querySelectorAll('[data-bb-longest-streak]').forEach((node) => { node.textContent = current.longestStreak || current.streak || 0; });
+    document.querySelectorAll('[data-bb-inventory]').forEach((node) => { node.textContent = (current.inventory || []).join(', ') || 'Noch keine Belohnungen gekauft'; });
+    document.querySelectorAll('[data-bb-friends]').forEach((node) => { node.textContent = (current.friends || []).join(', ') || 'Noch keine Freunde'; });
     document.querySelectorAll('.login-btn').forEach((button) => {
       button.textContent = current.name === 'Gast' ? 'Profil anlegen' : `👤 ${current.name}`;
       button.setAttribute('aria-label', current.name === 'Gast' ? 'Lokales Demo-Profil anlegen' : `Lokales Profil ${current.name}`);
@@ -205,6 +208,58 @@
     renderSubjectPath(store.get('active_subject', 'mathe'));
   }
 
+
+  function closeProfileMenus() {
+    document.querySelectorAll('.profile-menu').forEach((menu) => menu.remove());
+  }
+
+  function openProfileMenu(button) {
+    closeProfileMenus();
+    const menu = document.createElement('div');
+    menu.className = 'profile-menu';
+    menu.innerHTML = '<a href="profil.html">Profil öffnen</a><button type="button" data-logout>Ausloggen</button>';
+    button.closest('.header-actions')?.append(menu);
+  }
+
+  function bindProfileButton() {
+    document.querySelectorAll('.login-btn').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.stopPropagation();
+        if (profile().name === 'Gast') login();
+        else openProfileMenu(button);
+      });
+    });
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.profile-menu') && !event.target.closest('.login-btn')) closeProfileMenus();
+      if (event.target.matches('[data-logout]')) {
+        store.remove('profile');
+        closeProfileMenus();
+        renderEverything();
+        if (location.pathname.endsWith('profil.html')) location.href = 'index.html';
+      }
+    });
+  }
+
+  function bindProfilePage() {
+    const form = document.getElementById('profileEditForm');
+    if (!form) return;
+    const nameInput = document.getElementById('profileNameInput');
+    const friendInput = document.getElementById('friendInput');
+    if (nameInput) nameInput.value = profile().name === 'Gast' ? '' : profile().name;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const current = profile();
+      const nextName = nameInput?.value.trim() || current.name;
+      const nextFriend = friendInput?.value.trim();
+      saveProfile({
+        name: nextName.slice(0, 32),
+        friends: nextFriend ? Array.from(new Set([...(current.friends || []), nextFriend.slice(0, 32)])) : current.friends,
+      });
+      if (friendInput) friendInput.value = '';
+      renderEverything();
+    });
+  }
+
   function renderStorageStatus() {
     document.querySelectorAll('[data-storage-mode]').forEach((node) => {
       node.textContent = store.isPersistent() ? 'Lokaler Browser-Speicher aktiv' : 'Temporärer Speicher aktiv';
@@ -213,29 +268,6 @@
       const key = node.dataset.storageCount;
       node.textContent = store.get(key, []).length;
     });
-    const label = document.querySelector('[data-active-subject-label]');
-    const title = document.querySelector('[data-active-subject-title]');
-    const description = document.querySelector('[data-active-subject-description]');
-    if (label) label.textContent = path.label;
-    if (title) title.textContent = path.title;
-    if (description) description.textContent = path.description;
-    road.innerHTML = path.stages.map((stage, index) => {
-      const [type, name, copy, badge, xp] = stage;
-      const id = lessonId(safeSubject, index);
-      const node = type === 'quiz' ? '?' : type === 'exam' ? '★' : String(index + 1);
-      const stateClass = type === 'quiz' ? ' is-query' : type === 'exam' ? ' is-boss' : '';
-      return `<article class="road-stage${stateClass}" data-lesson-card="${id}">
-        <div class="road-card">
-          <span class="badge">${escapeHtml(badge)}</span>
-          <h3>${escapeHtml(name)}</h3>
-          <p class="muted">${escapeHtml(copy)}</p>
-          <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
-          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
-        </div>
-        <div class="road-node">${node}</div>
-      </article>`;
-    }).join('');
-    renderEverything();
   }
 
   function renderLessonProgress() {
@@ -275,6 +307,7 @@
     saveProfile({
       xp: Number(current.xp || 0) + points,
       streak: current.lastXpDay === today ? Number(current.streak || 0) : Number(current.streak || 0) + 1,
+      longestStreak: Math.max(Number(current.longestStreak || 0), current.lastXpDay === today ? Number(current.streak || 0) : Number(current.streak || 0) + 1),
       lastXpDay: today,
     });
   }
@@ -514,6 +547,33 @@
   }
 
 
+  function bindMonsterMenu() {
+    const status = document.getElementById('monsterStatus');
+    if (!status) return;
+    const state = { score: 0, lives: 3, difficulty: 'Easy' };
+    const draw = (message = '') => {
+      status.textContent = `Score: ${state.score} | Leben: ${state.lives} | Schwierigkeit: ${state.difficulty}${message ? ` · ${message}` : ''}`;
+    };
+    document.querySelectorAll('[data-difficulty]').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-difficulty]').forEach((item) => item.classList.remove('is-active'));
+        button.classList.add('is-active');
+        state.difficulty = button.dataset.difficulty;
+        draw('Schwierigkeit gewählt');
+      });
+    });
+    document.querySelectorAll('[data-monster-menu]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.monsterMenu;
+        if (action === 'intro') draw('Intro lädt: Monster Hunter bereit');
+        if (action === 'start') { state.score += 10; draw('Spiel gestartet +10 Score'); }
+        if (action === 'options') draw('Optionen: Ton an · Vollbild bereit · Profil lokal');
+        if (action === 'leave') { state.score = 0; state.lives = 3; draw('Zurück im Menü'); }
+      });
+    });
+  }
+
+
   function bindClearButtons() {
     document.querySelectorAll('[data-clear-storage]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -536,11 +596,13 @@
     mountLoader();
     bindSubjectSwitcher();
     renderEverything();
-    document.querySelectorAll('.login-btn').forEach((button) => button.addEventListener('click', login));
+    bindProfileButton();
+    bindProfilePage();
     bindLessonButtons();
     bindClearButtons();
     bindTools();
     bindGames();
+    bindMonsterMenu();
 
     bindStorageList({
       formId: 'plannerForm',
