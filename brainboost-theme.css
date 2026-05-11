@@ -524,3 +524,106 @@ select { border-radius: 12px; }
   border-color: rgba(217, 119, 6, .55);
   background: #fffaf1;
 }
+
+.lesson-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(17, 24, 39, .58);
+  backdrop-filter: blur(10px);
+}
+.lesson-modal-card {
+  width: min(680px, 100%);
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  padding: 1.35rem;
+  color: var(--bb-text);
+  background: #ffffff;
+  border: 2px solid var(--bb-border);
+  border-radius: 14px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .28);
+}
+.modal-close {
+  position: absolute;
+  right: .85rem;
+  top: .75rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--bb-text);
+  background: #f8fafc;
+  border: 1px solid var(--bb-border);
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 950;
+}
+.lesson-prompt {
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid var(--bb-border);
+  border-left: 6px solid var(--bb-accent);
+  border-radius: 12px;
+}
+.lesson-options,
+.lesson-task-list {
+  display: grid;
+  gap: .7rem;
+}
+.lesson-option,
+.lesson-task-list label {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  width: 100%;
+  padding: .85rem;
+  color: var(--bb-text);
+  background: #ffffff;
+  border: 2px solid var(--bb-border);
+  border-radius: 12px;
+  font-weight: 850;
+  text-align: left;
+}
+.lesson-option.is-selected {
+  border-color: var(--bb-accent);
+  background: #fffaf1;
+}
+.lesson-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+.lesson-modal-actions button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+  filter: grayscale(.3);
+}
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+.game-card {
+  display: grid;
+  gap: .8rem;
+  padding: 1.15rem;
+  background: #ffffff;
+  border: 2px solid var(--bb-border);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px rgba(17, 24, 39, .08);
+}
+.game-card.is-complete {
+  border-color: rgba(21, 128, 61, .55);
+  background: #f0fdf4;
+}
+.game-options {
+  display: grid;
+  gap: .55rem;
+}
+.game-options button:disabled {
+  opacity: .7;
+  cursor: not-allowed;
+}

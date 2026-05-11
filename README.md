@@ -10,6 +10,7 @@ BrainBoostWEB ist eine responsive Lern-App für Schülerinnen und Schüler. Die 
 - **Lernplaner, Termine und Bewerbungen** ohne Beispiel-Datensätze: Nutzerinnen und Nutzer tragen echte Daten ein, die im Browser gespeichert werden.
 - **Lokaler Browser-Speicher** mit Statusanzeige und leeren Startzuständen statt Fake-Inhalten.
 - **Tools-Seite** für Lernpakete, Mini-Quiz und Gliederungen.
+- **Spiele-Reiter** mit kurzen XP-Minispielen, die richtige Antworten direkt dem lokalen Profil gutschreiben.
 - **Intro/Ladebalken und GitHub-CTA** für einen klareren Einstieg und schnellen Sprung zur Projektseite.
 - **Production-ready Express-Server** mit Healthcheck, Security-Headern, statischen Assets und robustem API-Fallback.
 

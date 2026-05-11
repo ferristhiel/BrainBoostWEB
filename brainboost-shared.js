@@ -188,7 +188,7 @@
           <h3>${escapeHtml(name)}</h3>
           <p class="muted">${escapeHtml(copy)}</p>
           <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
-          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-complete-lesson="${id}" type="button">${type === 'quiz' ? 'Abfrage bestehen' : type === 'exam' ? 'Prüfung abschließen' : 'Übung abschließen'}</button></div>
+          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
         </div>
         <div class="road-node">${node}</div>
       </article>`;
@@ -222,7 +222,7 @@
       const lesson = card.dataset.lessonCard;
       const isComplete = completed.has(lesson);
       card.classList.toggle('is-complete', isComplete);
-      const button = card.querySelector('[data-complete-lesson]');
+      const button = card.querySelector('[data-start-lesson]');
       if (button && isComplete) button.textContent = '✅ Abgeschlossen';
       const fill = card.querySelector('.progress-fill');
       if (fill && isComplete) fill.style.setProperty('--progress', '100%');
@@ -335,16 +335,126 @@
     });
   }
 
+  function modalTemplate({ id, type, title, copy }) {
+    const isCheck = type === 'quiz' || type === 'exam';
+    const heading = type === 'quiz' ? 'Abfrage nach 5 Übungen' : type === 'exam' ? 'Prüfung starten' : 'Übung starten';
+    const options = isCheck
+      ? `<div class="lesson-options" role="radiogroup" aria-label="Antwort auswählen">
+          <button class="lesson-option" data-modal-answer="wrong" type="button">Ich rate ohne Begründung.</button>
+          <button class="lesson-option" data-modal-answer="correct" type="button">Ich löse, begründe und prüfe meinen Fehlerweg.</button>
+          <button class="lesson-option" data-modal-answer="wrong" type="button">Ich überspringe die Aufgabe.</button>
+        </div>`
+      : `<div class="lesson-task-list">
+          <label><input type="checkbox" data-task-check /> Aufgabe gelesen</label>
+          <label><input type="checkbox" data-task-check /> Lösung notiert</label>
+          <label><input type="checkbox" data-task-check /> Fehler kontrolliert</label>
+        </div>`;
+    return `<div class="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lessonModalTitle">
+      <div class="lesson-modal-card">
+        <button class="modal-close" data-close-modal type="button" aria-label="Übung schließen">×</button>
+        <span class="badge">${heading}</span>
+        <h2 id="lessonModalTitle">${escapeHtml(title)}</h2>
+        <p class="muted">${escapeHtml(copy)}</p>
+        <div class="lesson-prompt">
+          <strong>${isCheck ? 'Beantworte die Kontrollfrage:' : 'Arbeite diese Mini-Aufgabe ab:'}</strong>
+          <p>${isCheck ? 'Welche Strategie bringt dich sicher zur richtigen Lösung?' : 'Starte die Übung, schreibe deine Lösung auf und hake die Schritte ab.'}</p>
+        </div>
+        ${options}
+        <div class="lesson-modal-actions">
+          <button class="ghost-btn" data-close-modal type="button">Abbrechen</button>
+          <button class="btn" data-finish-lesson="${id}" data-finish-type="${type}" type="button" disabled>${isCheck ? 'Antwort prüfen & XP sichern' : 'Übung abschließen & XP sichern'}</button>
+        </div>
+        <p class="muted" data-modal-feedback>${isCheck ? 'Wähle eine Antwort aus.' : 'Hake alle Schritte ab, dann kannst du abschließen.'}</p>
+      </div>
+    </div>`;
+  }
+
+  function openLessonModal(button) {
+    if (button.textContent.includes('Abgeschlossen')) return;
+    document.querySelector('.lesson-modal')?.remove();
+    document.body.insertAdjacentHTML('beforeend', modalTemplate({
+      id: button.dataset.startLesson,
+      type: button.dataset.lessonType,
+      title: button.dataset.lessonTitle,
+      copy: button.dataset.lessonCopy,
+    }));
+  }
+
+  function updateModalState(modal) {
+    const finish = modal.querySelector('[data-finish-lesson]');
+    const feedback = modal.querySelector('[data-modal-feedback]');
+    const type = finish?.dataset.finishType;
+    if (!finish) return;
+    if (type === 'quiz' || type === 'exam') {
+      const selected = modal.querySelector('.lesson-option.is-selected');
+      finish.disabled = !selected || selected.dataset.modalAnswer !== 'correct';
+      if (feedback) feedback.textContent = selected
+        ? (selected.dataset.modalAnswer === 'correct' ? 'Richtig. Du kannst XP sichern.' : 'Noch nicht. Wähle die Strategie mit Begründen und Prüfen.')
+        : 'Wähle eine Antwort aus.';
+      return;
+    }
+    const checks = Array.from(modal.querySelectorAll('[data-task-check]'));
+    const done = checks.length > 0 && checks.every((check) => check.checked);
+    finish.disabled = !done;
+    if (feedback) feedback.textContent = done ? 'Alle Schritte erledigt. Du kannst XP sichern.' : 'Hake alle Schritte ab, dann kannst du abschließen.';
+  }
+
+  function completeLesson(id) {
+    const current = profile();
+    if ((current.completed || []).includes(id)) return;
+    saveProfile({ completed: Array.from(new Set([...(current.completed || []), id])), xp: Number(current.xp || 0) + 25 });
+  }
+
   function bindLessonButtons() {
     document.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-complete-lesson]');
-      if (!button) return;
-      const current = profile();
-      const lesson = button.dataset.completeLesson;
-      if ((current.completed || []).includes(lesson)) return;
-      saveProfile({ completed: Array.from(new Set([...(current.completed || []), lesson])), xp: Number(current.xp || 0) + 25 });
+      const startButton = event.target.closest('[data-start-lesson]');
+      if (startButton) {
+        openLessonModal(startButton);
+        return;
+      }
+      const closeButton = event.target.closest('[data-close-modal]');
+      if (closeButton) {
+        closeButton.closest('.lesson-modal')?.remove();
+        return;
+      }
+      const option = event.target.closest('[data-modal-answer]');
+      if (option) {
+        const modal = option.closest('.lesson-modal');
+        modal.querySelectorAll('.lesson-option').forEach((button) => button.classList.remove('is-selected'));
+        option.classList.add('is-selected');
+        updateModalState(modal);
+        return;
+      }
+      const finish = event.target.closest('[data-finish-lesson]');
+      if (finish && !finish.disabled) {
+        completeLesson(finish.dataset.finishLesson);
+        finish.closest('.lesson-modal')?.remove();
+      }
+    });
+    document.addEventListener('change', (event) => {
+      if (event.target.matches('[data-task-check]')) updateModalState(event.target.closest('.lesson-modal'));
     });
   }
+
+  function bindGames() {
+    const feedback = document.getElementById('gameFeedback');
+    document.querySelectorAll('[data-game-answer]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = button.closest('[data-game-card]');
+        if (card?.classList.contains('is-complete')) return;
+        if (button.dataset.gameAnswer === 'correct') {
+          const xp = Number(button.dataset.gameXp || 10);
+          addXp(xp);
+          card?.classList.add('is-complete');
+          card?.querySelectorAll('[data-game-answer]').forEach((option) => { option.disabled = true; });
+          if (feedback) feedback.textContent = `Richtig! +${xp} Game XP wurden gespeichert.`;
+        } else if (feedback) {
+          feedback.textContent = 'Knapp daneben. Versuch eine andere Antwort.';
+        }
+      });
+    });
+  }
+
 
   function bindClearButtons() {
     document.querySelectorAll('[data-clear-storage]').forEach((button) => {
@@ -372,6 +482,7 @@
     bindLessonButtons();
     bindClearButtons();
     bindTools();
+    bindGames();
 
     bindStorageList({
       formId: 'plannerForm',
