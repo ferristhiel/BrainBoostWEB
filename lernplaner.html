@@ -3,582 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lernplaner – BrainBoost</title>
-  <style>
-    :root {
-      --primary-purple: #6a0dad;       /* Royal Purple */
-      --secondary-purple: #8a2be2;     /* Medium Purple */
-      --accent-gold: #f0a500;          /* Warm Gold */
-      --background-light: #ffffff;     /* Weiß */
-      --text-dark: #1a1a1a;            /* Dunkles Anthrazit */
-      --text-light: #6b7280;           /* Graublau für sekundären Text */
-      --shadow-dark: rgba(0, 0, 0, 0.1);
-      --radius: 12px;
-      --transition: 0.3s ease;
-      --font-main: 'Trebuchet MS', sans-serif;
-    }
-
-    /* Reset & Basics */
-    * {
-      margin: 0; padding: 0; box-sizing: border-box;
-    }
-    body {
-      font-family: var(--font-main);
-      background: var(--background-light);
-      color: var(--text-dark);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      line-height: 1.5;
-      user-select: none;
-    }
-    a {
-      color: var(--primary-purple);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color var(--transition);
-    }
-    a:hover {
-      color: var(--accent-gold);
-    }
-
-    /* Header (Top Navigation) */
-    header {
-      background: white;
-      box-shadow: 0 2px 6px var(--shadow-dark);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    .header {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      height: 60px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-weight: 900;
-      font-size: 1.8rem;
-      color: var(--primary-purple);
-      letter-spacing: 2px;
-      user-select: none;
-      cursor: default;
-    }
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    nav a {
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text-dark);
-      padding: 0.3rem 0.5rem;
-      border-radius: 6px;
-      transition: background-color 0.25s ease, color var(--transition);
-    }
-    nav a.active,
-    nav a:hover {
-      color: white;
-      background-color: var(--accent-gold);
-      box-shadow: 0 4px 10px rgba(240, 165, 0, 0.5);
-    }
-
-    /* Right buttons (Login, Premium) */
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .btn {
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 0.4em 1em;
-      border-radius: 30px;
-      cursor: pointer;
-      user-select: none;
-      border: none;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.4);
-      color: white;
-      background: var(--primary-purple);
-    }
-    .btn.premium {
-      background: linear-gradient(45deg, var(--primary-purple), var(--accent-gold));
-      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.7);
-    }
-    .btn:hover {
-      filter: brightness(1.1);
-    }
-
-    /* Main Content */
-    main {
-      max-width: 720px;
-      margin: 2rem auto 4rem;
-      padding: 0 1rem;
-      user-select: text;
-    }
-    h1 {
-      font-size: 2.5rem;
-      font-weight: 900;
-      color: var(--primary-purple);
-      margin-bottom: 2rem;
-      user-select: text;
-    }
-
-    /* Formular */
-    form {
-      background: white;
-      border-radius: var(--radius);
-      padding: 1.8rem 2rem;
-      box-shadow: 0 5px 20px rgba(240, 165, 0, 0.15);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-bottom: 3rem;
-      user-select: text;
-    }
-    form input,
-    form textarea {
-      flex: 1 1 220px;
-      min-width: 180px;
-      padding: 0.7rem 1rem;
-      border: 2px solid var(--primary-purple);
-      border-radius: var(--radius);
-      font-size: 1rem;
-      font-family: var(--font-main);
-      color: var(--text-dark);
-      transition: border-color var(--transition), background-color var(--transition);
-    }
-    form input:focus,
-    form textarea:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-      background: #fff8e1;
-    }
-    form textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-    form button {
-      background: linear-gradient(45deg, var(--primary-purple), var(--accent-gold));
-      background-size: 300%;
-      color: white;
-      font-weight: 700;
-      border: none;
-      border-radius: 30px;
-      padding: 0.8em 1.6em;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(240, 165, 0, 0.6);
-      transition: background-position 0.4s ease;
-      flex: 1 1 140px;
-      min-width: 140px;
-      user-select: none;
-      align-self: center;
-    }
-    form button:hover {
-      background-position: right center;
-      box-shadow: 0 8px 25px rgba(240, 165, 0, 0.85);
-    }
-
-    /* Aufgabenliste */
-    .task-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      user-select: text;
-    }
-    .task {
-      background: white;
-      border-radius: var(--radius);
-      padding: 1rem 1.5rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      transition: transform var(--transition), box-shadow var(--transition);
-      position: relative;
-      user-select: text;
-    }
-    .task:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.13);
-    }
-    .task.done h3,
-    .task.done p,
-    .task.done small {
-      text-decoration: line-through;
-      color: var(--text-light);
-    }
-    .task h3 {
-      color: var(--primary-purple);
-      margin: 0 0 0.3rem 0;
-      font-weight: 800;
-    }
-    .task p {
-      margin: 0 0 0.3rem 0;
-      color: var(--text-light);
-      font-weight: 600;
-    }
-    .task small {
-      color: var(--text-light);
-      font-size: 0.85rem;
-    }
-
-    /* Checkbox */
-    .done-checkbox {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid var(--primary-purple);
-      cursor: pointer;
-      flex-shrink: 0;
-      transition: background var(--transition), border-color var(--transition);
-    }
-    .done-checkbox:checked {
-      background: var(--primary-purple);
-      border-color: var(--accent-gold);
-    }
-
-    /* Delete Button */
-    .delete-btn {
-      position: absolute;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 50px;
-      background: #cc3f47;
-      color: white;
-      font-size: 24px;
-      font-weight: 700;
-      border-top-right-radius: var(--radius);
-      border-bottom-right-radius: var(--radius);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      transform: translateX(100%);
-      transition: transform var(--transition);
-      z-index: 10;
-    }
-    .task.show-delete .delete-btn {
-      transform: translateX(0);
-    }
-
-    /* Footer */
-    footer {
-      background: #f9f9fb;
-      border-top: 1px solid #ddd;
-      padding: 1rem 0;
-      margin-top: auto;
-      font-size: 0.9rem;
-      color: var(--text-light);
-      user-select: none;
-    }
-    footer .footer-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-    }
-    footer a {
-      color: var(--text-light);
-      transition: color 0.3s ease;
-    }
-    footer a:hover {
-      color: var(--primary-purple);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header {
-        padding: 0 1rem;
-      }
-      main {
-        margin: 1.5rem 1rem 3rem;
-      }
-      form {
-        padding: 1rem 1rem;
-      }
-      form button {
-        flex-basis: 100%;
-        min-width: auto;
-      }
-      nav a {
-        font-size: 1.1rem;
-      }
-      footer .footer-inner {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-    }
-  </style>
+  <meta name="description" content="BrainBoost Lernplaner mit echtem lokalem Browser-Speicher für Aufgaben, Fächer und Deadlines." />
+  <title>BrainBoost – Lernplaner</title>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
-
-<header>
-  <div class="header">
-    <div class="logo">BrainBoost</div>
-    <nav>
-      <a href="index.html">Startseite</a>
-      <a href="lernen.html">Lernen</a>
-      <a href="lernplaner.html" class="active">Lernplaner</a>
-      <a href="bewerbung.html">Bewerbungen</a>
-      <a href="termine.html">Termine</a>
-      <a href="tools.html">Tools</a>
-    </nav>
-    <div class="header-right">
-      <button class="btn login-btn">Login</button>
-      <button class="btn premium">Premium</button>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a class="active" href="lernplaner.html">Lernplaner</a>
+        <a href="spiele.html">Spiele</a>
+        <a href="profil.html">Profil</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><a class="github-button" href="https://github.com/BrainBoostWEB" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22c.58.11.8-.25.8-.56v-2.02c-3.26.71-3.95-1.4-3.95-1.4-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.8 2.75 1.28 3.42.98.11-.76.41-1.28.75-1.57-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.32 1.21-3.14-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.22 1.2A11.1 11.1 0 0 1 12 5c1 0 1.99.13 2.93.39 2.23-1.52 3.21-1.2 3.21-1.2.64 1.6.24 2.8.12 3.1.76.82 1.21 1.86 1.21 3.14 0 4.5-2.74 5.48-5.35 5.77.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a><span class="flame-pill" title="Streak"><span data-bb-flames>🔥</span> <strong data-bb-streak>0</strong></span><button class="login-btn" type="button">Profil anlegen</button></div>
     </div>
-  </div>
-</header>
+  </header>
 
-<main>
-  <h1>Dein Lernplaner</h1>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Plan statt Chaos</p>
+          <h1>Baue deinen <span>Wochenplan</span> aus echten Lernblöcken.</h1>
+          <p class="lead">Keine Beispielaufgaben: Trage deine eigenen To-dos ein, lade die Seite neu und sie sind noch da.</p>
+        </div>
+        <aside class="storage-panel">
+          <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+          <h2><span data-storage-count="tasks">0</span> gespeicherte Aufgaben</h2>
+          <p class="muted">Die Daten bleiben nur in diesem Browser. Du brauchst keinen Account.</p>
+        </aside>
+      </div>
+    </section>
 
-  <form id="taskForm" autocomplete="off">
-    <input type="text" id="fach" placeholder="Fach (z.B. Mathe)" required />
-    <input type="text" id="aufgabe" placeholder="Aufgabe (z.B. Integralrechnung)" required />
-    <textarea id="notiz" placeholder="Notiz (Details, Tipps)"></textarea>
-    <input type="date" id="deadline" required />
-    <button type="submit">Hinzufügen</button>
-  </form>
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Aufgaben</p>
+            <h2>Dein Lernplaner.</h2>
+          </div>
+          <button class="ghost-btn" data-clear-storage="tasks" type="button">Alle Aufgaben leeren</button>
+        </div>
+        <form class="form-card" id="plannerForm">
+          <div class="form-grid">
+            <label>Aufgabe
+              <input name="title" placeholder="z. B. Mathe Übungsblatt 4" required />
+            </label>
+            <label>Fach
+              <input name="subject" placeholder="Mathe, Deutsch, Englisch …" />
+            </label>
+            <label>Deadline
+              <input name="date" type="date" />
+            </label>
+          </div>
+          <label>Notizen
+            <textarea name="notes" placeholder="Was genau musst du erledigen?"></textarea>
+          </label>
+          <p><button class="btn" type="submit">Aufgabe speichern</button></p>
+        </form>
+        <ul class="list" id="plannerList" aria-live="polite"></ul>
+      </div>
+    </section>
 
-  <ul class="task-list" id="taskList">
-    <!-- Aufgaben kommen hier rein -->
-  </ul>
-</main>
+    <section class="section">
+      <div class="container grid">
+        <article class="card"><h3>📌 Priorisieren</h3><p>Erledige zuerst Aufgaben mit naher Deadline und hohem Prüfungswert.</p></article>
+        <article class="card"><h3>⏱️ Zeitboxen</h3><p>Plane 25-Minuten-Blöcke und beende jeden Block mit einem Mini-Check.</p></article>
+        <article class="card"><h3>🔁 Wiederholen</h3><p>Setze schwierige Themen nach 1, 3 und 7 Tagen erneut auf den Plan.</p></article>
+      </div>
+    </section>
+  </main>
 
-<footer>
-  <div class="footer-inner">
-    <a href="impressum.html" target="_blank" rel="noopener noreferrer">Impressum</a>
-    <a href="datenschutz.html" target="_blank" rel="noopener noreferrer">Datenschutz</a>
-    <a href="kontakt.html" target="_blank" rel="noopener noreferrer">Kontakt</a>
-  </div>
-</footer>
-
-<script>
-  const form = document.getElementById('taskForm');
-  const taskList = document.getElementById('taskList');
-  const demoTasks = [
-    {
-      fach: 'Mathe · Prozent-Profi',
-      aufgabe: 'Lektion „Rabatt im Sneaker-Shop“ abschließen',
-      notiz: 'Teste die neue Kurskarte auf der Startseite und hake die Aufgabe danach ab.',
-      deadline: '2026-05-08',
-      done: false
-    },
-    {
-      fach: 'Deutsch · Argumentation',
-      aufgabe: 'These + Begründung + Beispiel formulieren',
-      notiz: 'Beispielthema: Sollten Schulen digitale Lernstreaks nutzen?',
-      deadline: '2026-05-10',
-      done: false
-    },
-    {
-      fach: 'Englisch · Speaking',
-      aufgabe: 'Mini-Vorstellung für ein Praktikum üben',
-      notiz: 'Nutze: Hi, my name is ... I am interested in technology and teamwork.',
-      deadline: '2026-05-12',
-      done: false
-    },
-    {
-      fach: 'KI · Prompt-Werkstatt',
-      aufgabe: 'Prompt für einen 7-Tage-Lernplan schreiben',
-      notiz: 'Nenne Ziel, Prüfungstermin, Zeitbudget und schwache Themen.',
-      deadline: '2026-05-14',
-      done: false
-    }
-  ];
-
-  const TASK_KEY = 'brainboost_tasks';
-  const oldTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
-  let tasks = JSON.parse(localStorage.getItem(TASK_KEY) || '[]');
-
-  if (tasks.length === 0 && oldTasks.length > 0) {
-    tasks = oldTasks;
-    saveTasks();
-  }
-
-  if (tasks.length === 0) {
-    tasks = demoTasks;
-    saveTasks();
-  }
-
-  function formatDate(dateStr) {
-    const options = { day: '2-digit', month: 'long', year: 'numeric' };
-    return new Date(dateStr).toLocaleDateString('de-DE', options);
-  }
-
-  function saveTasks() {
-    localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }
-
-  function renderTasks() {
-    taskList.innerHTML = '';
-    tasks.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-
-    tasks.forEach((task, index) => {
-      const li = document.createElement('li');
-      li.className = 'task';
-      if (task.done) li.classList.add('done');
-      li.dataset.index = index;
-
-      const checkboxInput = document.createElement('input');
-      checkboxInput.type = 'checkbox';
-      checkboxInput.className = 'done-checkbox';
-      checkboxInput.checked = Boolean(task.done);
-
-      const contentBox = document.createElement('div');
-      contentBox.className = 'content';
-      const title = document.createElement('h3');
-      title.textContent = `${task.fach}: ${task.aufgabe}`;
-      const note = document.createElement('p');
-      note.textContent = task.notiz || '';
-      const deadline = document.createElement('small');
-      deadline.textContent = `Deadline: ${formatDate(task.deadline)}`;
-      contentBox.append(title, note, deadline);
-
-      const deleteIcon = document.createElement('div');
-      deleteIcon.className = 'delete-btn';
-      deleteIcon.title = 'Löschen';
-      deleteIcon.textContent = '🗑️';
-      li.append(checkboxInput, contentBox, deleteIcon);
-
-      // Checkbox erledigt
-      li.querySelector('.done-checkbox').addEventListener('change', e => {
-        tasks[index].done = e.target.checked;
-        saveTasks();
-        renderTasks();
-      });
-
-      // Löschen Button
-      li.querySelector('.delete-btn').addEventListener('click', () => {
-        tasks.splice(index, 1);
-        saveTasks();
-        renderTasks();
-      });
-
-      // Swipe to delete (mobile & desktop)
-      let startX = 0, currentX = 0, touching = false;
-      const deleteBtn = li.querySelector('.delete-btn');
-      const content = li.querySelector('.content');
-      const checkbox = li.querySelector('.done-checkbox');
-
-      function setTranslateX(x) {
-        content.style.transform = `translateX(${x}px)`;
-        checkbox.style.transform = `translateX(${x}px)`;
-        if (x < -50) {
-          li.classList.add('show-delete');
-        } else {
-          li.classList.remove('show-delete');
-        }
-      }
-
-      li.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        touching = true;
-        li.style.transition = '';
-      });
-
-      li.addEventListener('touchmove', (e) => {
-        if (!touching) return;
-        currentX = e.touches[0].clientX;
-        let diff = currentX - startX;
-        if (diff < 0) {
-          e.preventDefault();
-          setTranslateX(diff);
-        }
-      }, { passive: false });
-
-      li.addEventListener('touchend', () => {
-        touching = false;
-        if (content.style.transform !== '') {
-          const moved = parseInt(content.style.transform.match(/-?\d+/)[0]);
-          if (moved < -100) {
-            li.classList.add('show-delete');
-            setTranslateX(-50);
-          } else {
-            li.classList.remove('show-delete');
-            setTranslateX(0);
-          }
-          li.style.transition = 'transform 0.3s ease';
-          content.style.transform = li.classList.contains('show-delete') ? 'translateX(-50px)' : 'translateX(0)';
-          checkbox.style.transform = content.style.transform;
-        }
-      });
-
-      // Desktop Drag
-      let mouseDown = false;
-      let mouseStartX = 0;
-      li.addEventListener('mousedown', (e) => {
-        mouseDown = true;
-        mouseStartX = e.clientX;
-        li.style.transition = '';
-      });
-      window.addEventListener('mouseup', (e) => {
-        if (!mouseDown) return;
-        mouseDown = false;
-        const moved = currentX - mouseStartX;
-        if (moved < -100) {
-          li.classList.add('show-delete');
-          setTranslateX(-50);
-        } else {
-          li.classList.remove('show-delete');
-          setTranslateX(0);
-        }
-        li.style.transition = 'transform 0.3s ease';
-        content.style.transform = li.classList.contains('show-delete') ? 'translateX(-50px)' : 'translateX(0)';
-        checkbox.style.transform = content.style.transform;
-      });
-      li.addEventListener('mousemove', (e) => {
-        if (!mouseDown) return;
-        currentX = e.clientX;
-        let diff = currentX - mouseStartX;
-        if (diff < 0) {
-          e.preventDefault();
-          setTranslateX(diff);
-        }
-      });
-
-      taskList.appendChild(li);
-    });
-  }
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const fach = document.getElementById('fach').value.trim();
-    const aufgabe = document.getElementById('aufgabe').value.trim();
-    const notiz = document.getElementById('notiz').value.trim();
-    const deadline = document.getElementById('deadline').value;
-
-    if (!fach || !aufgabe || !deadline) {
-      alert('Bitte Fach, Aufgabe und Deadline ausfüllen!');
-      return;
-    }
-
-    tasks.push({ fach, aufgabe, notiz, deadline, done: false });
-    saveTasks();
-    renderTasks();
-    form.reset();
-  });
-
-  renderTasks();
-</script>
-
+  <footer>© 2026 BrainBoost · Dein Plan bleibt lokal im Browser.</footer>
 </body>
 </html>

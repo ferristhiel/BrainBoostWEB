@@ -3,213 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="BrainBoost Tools für Lernpakete, Quizfragen und Gliederungen mit API oder lokalem Fallback." />
   <title>BrainBoost – Tools</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f8fafc;
-      margin: 0; 
-      color: #333;
-    }
-    header {
-      background: #2563eb;
-      padding: 15px 20px;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .logo {
-      font-weight: 700;
-      font-size: 1.6rem;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    main {
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px 50px 20px;
-    }
-    h1 {
-      margin-bottom: 20px;
-      color: #0f172a;
-      text-align: center;
-    }
-    .tool {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #2563eb;
-    }
-    input[type="text"], textarea {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-family: 'Segoe UI', sans-serif;
-      margin-bottom: 15px;
-      font-size: 14px;
-      resize: vertical;
-    }
-    button {
-      background: #2563eb;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 15px;
-      transition: background 0.3s ease;
-    }
-    button:hover {
-      background: #1e40af;
-    }
-    .demo-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .demo-chips button {
-      background: #e0ecff;
-      color: #1d4ed8;
-      padding: 8px 12px;
-      font-size: 13px;
-    }
-    .demo-chips button:hover {
-      background: #bfdbfe;
-    }
-    #output {
-      white-space: pre-wrap;
-      background: #f1f5f9;
-      padding: 15px;
-      border-radius: 8px;
-      min-height: 80px;
-      font-size: 14px;
-      color: #333;
-      margin-top: 15px;
-      border: 1px solid #ccc;
-    }
-    footer {
-      background: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 0.9em;
-      color: #64748b;
-      max-width: 700px;
-      margin: 50px auto 20px;
-      border-radius: 0 0 12px 12px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-  </style>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
-
-<header>
-  <div class="logo">BrainBoost</div>
-  <nav>
-    <a href="index.html">Startseite</a>
-      <a href="lernen.html">Lernen</a>
-    <a href="lernplaner.html">Lernplaner</a>
-    <a href="bewerbung.html">Bewerbungen</a>
-    <a href="termine.html">Termine</a>
-    <a href="tools.html" style="text-decoration: underline;">Tools</a>
-  </nav>
-</header>
-
-<main>
-  <h1>BrainBoost Tools</h1>
-
-  <section class="tool">
-    <label for="textInput">Schreib ein Thema, z.B. „Klimawandel“</label>
-    <div class="demo-chips" aria-label="Demo-Themen">
-      <button type="button" data-topic="Klimawandel in der Schule">Klimawandel</button>
-      <button type="button" data-topic="Sollten Hausaufgaben durch Lernstreaks ersetzt werden?">Erörterung</button>
-      <button type="button" data-topic="Praktikum als Fachinformatiker">Praktikum</button>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a href="index.html">Start</a>
+        <a href="lernen.html">Lernen</a>
+        <a href="lernplaner.html">Lernplaner</a>
+        <a href="spiele.html">Spiele</a>
+        <a href="profil.html">Profil</a>
+        <a href="bewerbung.html">Bewerbung</a>
+        <a href="termine.html">Termine</a>
+        <a class="active" href="tools.html">Tools</a>
+      </nav>
+      <div class="header-actions"><a class="github-button" href="https://github.com/BrainBoostWEB" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22c.58.11.8-.25.8-.56v-2.02c-3.26.71-3.95-1.4-3.95-1.4-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.8 2.75 1.28 3.42.98.11-.76.41-1.28.75-1.57-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.32 1.21-3.14-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.22 1.2A11.1 11.1 0 0 1 12 5c1 0 1.99.13 2.93.39 2.23-1.52 3.21-1.2 3.21-1.2.64 1.6.24 2.8.12 3.1.76.82 1.21 1.86 1.21 3.14 0 4.5-2.74 5.48-5.35 5.77.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a><span class="flame-pill" title="Streak"><span data-bb-flames>🔥</span> <strong data-bb-streak>0</strong></span><button class="login-btn" type="button">Profil anlegen</button></div>
     </div>
-    <input type="text" id="textInput" placeholder="Gib ein Thema ein" value="Klimawandel in der Schule" />
-    <button id="generateBtn">Gliederung generieren</button>
+  </header>
 
-    <div id="output"></div>
-  </section>
+  <main id="main">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Smart lernen</p>
+          <h1>Erzeuge <span>Lernpakete, Quizfragen und Strukturen</span>.</h1>
+          <p class="lead">Die Tools funktionieren mit OpenAI-API und bleiben ohne API-Key nutzbar, weil BrainBoost einen lokalen Fallback liefert.</p>
+        </div>
+        <aside class="panel">
+          <h2>Robust</h2>
+          <p class="muted">Kein API-Key? Kein Problem. Du bekommst trotzdem eine lesbare Vorlage.</p>
+        </aside>
+      </div>
+    </section>
 
-</main>
+    <section class="section">
+      <div class="container">
+        <form class="form-card" id="toolForm">
+          <div class="form-grid">
+            <label>Thema
+              <input name="topic" placeholder="z. B. Prozentrechnung" required />
+            </label>
+            <label>Tool
+              <select name="mode">
+                <option value="lernplan">Lernpaket</option>
+                <option value="quiz">Mini-Quiz</option>
+                <option value="struktur">Gliederung</option>
+              </select>
+            </label>
+          </div>
+          <p><button class="btn" type="submit">Generieren</button></p>
+        </form>
+        <div class="output-box" id="toolOutput" aria-live="polite">Wähle ein Thema und starte ein Tool.</div>
+      </div>
+    </section>
 
-<footer>
-  © 2025 BrainBoost – <a href="#">Datenschutz</a> – <a href="#">Impressum</a>
-</footer>
+    <section class="section">
+      <div class="container grid">
+        <article class="card"><h3>🧠 Lernpaket</h3><p>Kurzer Plan mit Fokusphase, Übung und Reflexion.</p></article>
+        <article class="card"><h3>❓ Mini-Quiz</h3><p>Drei Fragen, mit denen du dich sofort selbst testen kannst.</p></article>
+        <article class="card"><h3>🧱 Gliederung</h3><p>Strukturiert Präsentationen, Aufsätze oder Lernzettel.</p></article>
+      </div>
+    </section>
+  </main>
 
-<script>
-  const input = document.getElementById('textInput');
-  const output = document.getElementById('output');
-  const btn = document.getElementById('generateBtn');
-
-  document.querySelectorAll('[data-topic]').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      input.value = chip.dataset.topic;
-      btn.click();
-    });
-  });
-
-  btn.addEventListener('click', () => {
-    const thema = input.value.trim();
-    if (!thema) {
-      alert('Bitte ein Thema eingeben!');
-      return;
-    }
-    const gliederung = 
-`🧠 BrainBoost Lernpaket: ${thema}
-
-🎯 Lernziel
-Nach dieser Einheit kannst du das Thema in eigenen Worten erklären, ein Beispiel nennen und eine Prüfungsfrage beantworten.
-
-▶️ Video-Platzhalter
-Titel: ${thema} in 90 Sekunden
-Hook: Warum betrifft dich das im Schulalltag?
-Kapitel: 0:00 Einstieg · 0:25 Grundlagen · 1:00 Beispiel · 1:25 Mini-Quiz
-
-📚 Gliederung
-1. Einstieg: Problem oder Alltagssituation
-2. Begriffsklärung: 3 wichtige Wörter einfach erklären
-3. Ursachen / Hintergrund: Was steckt dahinter?
-4. Beispiel: Rechne, beschreibe oder argumentiere an einem konkreten Fall
-5. Pro & Contra: zwei starke Punkte je Seite
-6. Prüfungsteil: typische Aufgabe + Musterantwort
-7. Fazit: eigene Bewertung mit Ausblick
-
-🗓️ 3-Tage-Lernplan
-Tag 1: Video ansehen, 5 Stichpunkte notieren
-Tag 2: Beispielaufgabe lösen und Fehler markieren
-Tag 3: Mini-Test ohne Hilfe wiederholen
-
-✅ Mini-Quiz
-Frage: Was ist die wichtigste Kernaussage zu „${thema}“?
-Antwort-Vorlage: Die Kernaussage ist ..., weil ... . Ein Beispiel dafür ist ... .`;
-
-    output.textContent = gliederung;
-  });
-</script>
-
+  <footer>© 2026 BrainBoost · Tools mit sicherem Fallback.</footer>
 </body>
 </html>

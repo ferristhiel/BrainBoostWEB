@@ -3,204 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BrainBoost – Startseite</title>
-  <style>
-    :root {
-      --primary-purple: #880088;
-      --secondary-purple: #aa2068;
-      --accent-orange: #f09f33;
-      --accent-green: #16a34a;
-      --surface: #ffffff;
-      --text-dark: #0f172a;
-      --text-light: #64748b;
-      --border-soft: #e2e8f0;
-      --radius: 22px;
-      --font-main: 'Trebuchet MS', 'Segoe UI', sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-main); color: var(--text-dark); background: radial-gradient(circle at top left, #fff2d9 0, transparent 30%), #f9f9fb; line-height: 1.55; }
-    a { text-decoration: none; font-weight: 800; }
-    .container { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; }
-    header { position: sticky; top: 0; z-index: 20; background: rgba(255,255,255,0.92); box-shadow: 0 2px 14px rgba(15,23,42,0.10); backdrop-filter: blur(16px); }
-    .header { min-height: 70px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-    .logo { color: var(--primary-purple); font-weight: 900; font-size: 1.8rem; }
-    nav { display: flex; gap: 0.55rem; flex-wrap: wrap; align-items: center; }
-    nav a { color: var(--text-dark); border-radius: 999px; padding: 0.45rem 0.7rem; }
-    nav a.active, nav a:hover { background: #fff4df; color: var(--primary-purple); }
-    .header-actions { display: flex; gap: 0.7rem; align-items: center; }
-    .button, .login-btn, .start-btn, .subject-card { border: 0; cursor: pointer; font-family: inherit; font-weight: 900; }
-    .button, .start-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; color: white; background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple), var(--accent-orange)); border-radius: 999px; padding: 0.8rem 1.2rem; box-shadow: 0 12px 24px rgba(240,159,51,0.24); }
-    .login-btn { background: white; color: var(--primary-purple); border: 2px solid var(--primary-purple); border-radius: 999px; padding: 0.65rem 1rem; }
-    .hero { padding: clamp(3rem, 8vw, 6rem) 0 2rem; }
-    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr); gap: 2rem; align-items: center; }
-    .eyebrow { color: var(--accent-orange); font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.78rem; }
-    h1 { font-size: clamp(2.7rem, 6vw, 5rem); line-height: 1.02; margin: 0.6rem 0 1rem; color: var(--text-dark); }
-    h1 span, h2 span { color: var(--primary-purple); }
-    .lead { color: var(--text-light); font-size: 1.18rem; max-width: 680px; }
-    .hero-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
-    .ghost-btn { border: 1px solid var(--border-soft); background: #fff; color: var(--text-dark); border-radius: 999px; padding: 0.8rem 1.1rem; font-weight: 900; }
-    .panel, .feature-card, .onboarding-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: var(--radius); box-shadow: 0 14px 34px rgba(15,23,42,0.10); }
-    .panel { padding: 1.3rem; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1rem; }
-    .stat { background: #f8fafc; border-radius: 16px; padding: 1rem; text-align: center; }
-    .stat strong { display: block; color: var(--primary-purple); font-size: 1.4rem; }
-    .section { padding: 2.2rem 0; }
-    .section h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.5rem; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1rem; }
-    .feature-card { padding: 1.2rem; }
-    .feature-card h3 { color: var(--primary-purple); margin-bottom: 0.45rem; }
-    .feature-card p { color: var(--text-light); }
-    .onboarding-card { padding: 1.4rem; margin-top: 1rem; }
-    .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
-    .subject-card { text-align: left; background: #fff; border: 2px solid var(--border-soft); border-radius: 18px; padding: 1rem; color: var(--text-dark); }
-    .subject-card.active { border-color: var(--accent-orange); background: #fff7ed; }
-    .subject-card strong { display: block; color: var(--primary-purple); }
-    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.8rem; margin: 1rem 0; }
-    select, input { width: 100%; border: 1px solid var(--border-soft); border-radius: 14px; padding: 0.85rem; font-family: inherit; }
-    .summary-box { margin-top: 1rem; padding: 1rem; border-radius: 16px; background: #f8fafc; color: var(--text-light); }
-    footer { text-align: center; padding: 2rem 1rem; color: var(--text-light); }
-    @media (max-width: 850px) { .hero-grid { grid-template-columns: 1fr; } .header { align-items: flex-start; flex-direction: column; padding: 0.8rem 0; } .stats { grid-template-columns: 1fr; } }
-  </style>
+  <meta name="description" content="BrainBoost ist eine produktionsreife Lern-App mit Lernpfad, Video-Bereich, lokaler Planung, Terminen, Bewerbungen und smarten Tools." />
+  <title>BrainBoost – Lernen wie ein Spiel</title>
   <link rel="stylesheet" href="brainboost-theme.css" />
   <script src="brainboost-shared.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="container header">
-      <div class="logo">BrainBoost</div>
-      <nav aria-label="Hauptnavigation">
-        <a href="index.html" class="active">Startseite</a>
+  <a class="skip-link" href="#main">Zum Inhalt springen</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>BrainBoost</a>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a class="active" href="index.html">Start</a>
         <a href="lernen.html">Lernen</a>
         <a href="lernplaner.html">Lernplaner</a>
-        <a href="bewerbung.html">Bewerbungen</a>
+        <a href="spiele.html">Spiele</a>
+        <a href="profil.html">Profil</a>
+        <a href="bewerbung.html">Bewerbung</a>
         <a href="termine.html">Termine</a>
         <a href="tools.html">Tools</a>
       </nav>
       <div class="header-actions">
-        <a class="button" href="lernen.html">Lernen starten</a>
-        <button class="login-btn" type="button">Login</button>
+        <a class="github-button" href="https://github.com/BrainBoostWEB" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22c.58.11.8-.25.8-.56v-2.02c-3.26.71-3.95-1.4-3.95-1.4-.53-1.35-1.3-1.71-1.3-1.71-1.07-.73.08-.72.08-.72 1.18.08 1.8 1.21 1.8 1.21 1.05 1.8 2.75 1.28 3.42.98.11-.76.41-1.28.75-1.57-2.6-.3-5.34-1.3-5.34-5.78 0-1.28.46-2.32 1.21-3.14-.12-.3-.52-1.5.12-3.1 0 0 .98-.32 3.22 1.2A11.1 11.1 0 0 1 12 5c1 0 1.99.13 2.93.39 2.23-1.52 3.21-1.2 3.21-1.2.64 1.6.24 2.8.12 3.1.76.82 1.21 1.86 1.21 3.14 0 4.5-2.74 5.48-5.35 5.77.42.36.8 1.08.8 2.18v3.23c0 .31.21.68.81.56A11.5 11.5 0 0 0 12 .5Z"/></svg><span>GitHub</span></a>
+        <span class="flame-pill" title="Streak"><span data-bb-flames>🔥</span> <strong data-bb-streak>0</strong></span><button class="login-btn" type="button">Profil anlegen</button>
       </div>
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <p class="eyebrow">Studyflix erklärt · Duolingo motiviert</p>
-          <h1>Dein smarter <span>Lern-Workspace</span> für Schule, Bewerbung und Alltag.</h1>
-          <p class="lead">BrainBoost verbindet kurze Lernvideos, Micro-Lessons, Quiz-Feedback, XP-Belohnungen, Lernplaner, Bewerbungshilfe und Tools in einer übersichtlichen App.</p>
+          <p class="eyebrow">Fertige Lern-App</p>
+          <h1>Dein Lernweg fühlt sich an wie <span>Duolingo für Schule</span>.</h1>
+          <p class="lead">BrainBoost verbindet Lernpfad, XP, Videos, echte lokale Planung, Termine, Bewerbungen und smarte Tools – ohne unlesbare Kontraste und ohne Fake-Beispieldaten.</p>
           <div class="hero-actions">
-            <a class="start-btn" href="lernen.html">Jetzt lernen</a>
-            <a class="ghost-btn" href="#einstieg">Einstiegsfragen beantworten</a>
+            <a class="btn" href="lernen.html">Lernpfad starten</a>
+            <a class="ghost-btn" href="lernplaner.html">Ersten Plan speichern</a>
           </div>
         </div>
-        <aside class="panel" aria-label="Dein Fortschritt">
-          <p class="eyebrow">Dein Demo-Profil</p>
-          <h2>Heute weiterlernen</h2>
-          <p class="lead">Starte mit deiner Fächerauswahl oder spring direkt in den Lernbereich.</p>
+        <aside class="panel" aria-label="Profilübersicht">
+          <p class="eyebrow">Dein echtes lokales Profil</p>
+          <h2>Level <span data-bb-level>1</span></h2>
+          <p class="lead">Hallo <strong data-bb-name>Gast</strong>. Alles, was du speicherst, bleibt lokal in deinem Browser.</p>
           <div class="stats">
-            <div class="stat"><strong id="homeXp">0</strong><span>XP</span></div>
-            <div class="stat"><strong id="homeLevel">1</strong><span>Level</span></div>
-            <div class="stat"><strong id="homeStreak">1</strong><span>Streak</span></div>
+            <div class="stat"><strong data-bb-xp>0</strong>XP</div>
+            <div class="stat"><strong data-bb-streak>0</strong>Tage</div>
+            <div class="stat"><strong data-path-percent>0</strong>% Pfad</div>
+          </div>
+          <div class="progress-track" aria-label="Lernpfad-Fortschritt">
+            <span class="progress-fill" data-path-progress style="--progress: 0%"></span>
           </div>
         </aside>
       </div>
     </section>
 
     <section class="section">
-      <div class="container">
-        <p class="eyebrow">Was ist BrainBoost?</p>
-        <h2>Alles getrennt, aber <span>klar verbunden</span>.</h2>
-        <div class="features">
-          <article class="feature-card"><h3>📚 Lernen</h3><p>Eigener Bereich für Kurse, Lernreise, Quiz, Videos und XP – nicht mehr alles auf der Startseite.</p></article>
-          <article class="feature-card"><h3>🗓️ Organisieren</h3><p>Lernplaner und Termine speichern Aufgaben lokal und helfen dir, Deadlines im Blick zu behalten.</p></article>
-          <article class="feature-card"><h3>📝 Bewerben</h3><p>Bewerbungshilfe mit Anschreiben, Checkliste und Interview-Vorbereitung.</p></article>
-          <article class="feature-card"><h3>🧠 Tools</h3><p>Gliederungen, Lernpakete, Mini-Quiz und später KI-Hilfe für deine Schulaufgaben.</p></article>
+      <div class="container storage-panel">
+        <div class="storage-row">
+          <div>
+            <span class="storage-pill" data-storage-mode>Lokaler Browser-Speicher aktiv</span>
+            <h2>Keine Demo-Termine. Deine echten Einträge.</h2>
+            <p class="muted">BrainBoost startet leer. Wenn du Aufgaben, Termine oder Bewerbungen einträgst, werden sie in diesem Browser gespeichert und beim Neuladen wieder angezeigt.</p>
+          </div>
+          <div class="stats" aria-label="Gespeicherte lokale Einträge">
+            <div class="stat"><strong data-storage-count="tasks">0</strong>Aufgaben</div>
+            <div class="stat"><strong data-storage-count="appointments">0</strong>Termine</div>
+            <div class="stat"><strong data-storage-count="applications">0</strong>Bewerbungen</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="einstieg">
+    <section class="section" id="features">
       <div class="container">
-        <p class="eyebrow">Einstieg</p>
-        <h2>Was musst du noch üben?</h2>
-        <p class="lead">Wähle deine Fächer und dein Ziel. BrainBoost speichert diese Demo-Auswahl lokal und nutzt sie im Lernbereich als Grundlage.</p>
-        <div class="onboarding-card">
-          <div class="subject-grid" id="subjectGrid" aria-label="Fächerauswahl">
-            <button class="subject-card active" type="button" data-subject="mathe"><strong>📐 Mathe</strong><span>Prozent, Dreisatz, Prüfungen</span></button>
-            <button class="subject-card active" type="button" data-subject="deutsch"><strong>✍️ Deutsch</strong><span>Aufsatz, Argumentation</span></button>
-            <button class="subject-card" type="button" data-subject="englisch"><strong>🇬🇧 Englisch</strong><span>Speaking, Vokabeln</span></button>
-            <button class="subject-card" type="button" data-subject="science"><strong>🔬 Science</strong><span>Klima, Energie</span></button>
-            <button class="subject-card" type="button" data-subject="career"><strong>💼 Bewerbung</strong><span>Praktikum, Interview</span></button>
-            <button class="subject-card" type="button" data-subject="ai"><strong>🤖 KI-Skills</strong><span>Prompts, Lernpläne</span></button>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Alles fertig verbunden</p>
+            <h2>Eine vollständige App statt halber Demo-Seiten.</h2>
           </div>
-          <div class="form-row">
-            <label>Dein Ziel
-              <select id="goalSelect">
-                <option value="Prüfung sicher bestehen">Prüfung sicher bestehen</option>
-                <option value="Bessere Noten schreiben">Bessere Noten schreiben</option>
-                <option value="Bewerbung vorbereiten">Bewerbung vorbereiten</option>
-                <option value="Regelmäßig lernen">Regelmäßig lernen</option>
-              </select>
-            </label>
-            <label>Zeit pro Tag
-              <select id="timeSelect">
-                <option value="10 Minuten">10 Minuten</option>
-                <option value="20 Minuten">20 Minuten</option>
-                <option value="45 Minuten">45 Minuten</option>
-              </select>
-            </label>
+          <a class="ghost-btn" href="tools.html">Tools testen</a>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>🛤️ Richtiger Lernpfad</h3>
+            <p>Wellenförmige Roadmap mit Level-Knoten, Boss-Leveln, Locks und gespeichertem Fortschritt.</p>
+          </article>
+          <article class="card">
+            <h3>🎬 Video-Bereich</h3>
+            <p>Dunkle Videoflächen mit weißer Schrift für sicheren Kontrast und schnelle Wiederholung.</p>
+          </article>
+          <article class="card">
+            <h3>💾 Lokaler Speicher</h3>
+            <p>Aufgaben, Termine und Bewerbungen werden wirklich gespeichert – ohne Beispiel-Lärm.</p>
+          </article>
+          <article class="card">
+            <h3>🧰 Smarte Tools</h3>
+            <p>Lernpakete, Quizfragen und Gliederungen laufen mit API oder lokalem Fallback.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="preise">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Bezahlen / Upgrade</p>
+            <h2>Eckige, klare Karten statt runder Payment-Kacheln.</h2>
+            <p class="lead">Der Free-Modus bleibt nutzbar. Die Upgrade-Fläche ist bewusst kantiger, ruhiger und besser scanbar.</p>
           </div>
-          <button class="start-btn" id="saveOnboarding" type="button">Auswahl speichern & Lernen öffnen</button>
-          <div class="summary-box" id="onboardingSummary">Ausgewählt: Mathe und Deutsch. Ziel: Prüfung sicher bestehen.</div>
+        </div>
+        <div class="pricing-grid">
+          <article class="pricing-card">
+            <span class="badge">Free</span>
+            <h3>Starter</h3>
+            <p class="price">0 €</p>
+            <p class="muted">Lernpfad, lokaler Speicher, Tools-Fallback und Video-Karten.</p>
+          </article>
+          <article class="pricing-card featured">
+            <span class="badge">Empfohlen</span>
+            <h3>BrainBoost Plus</h3>
+            <p class="price">4,99 €</p>
+            <p class="muted">Mehr Lernwelten, KI-Hilfe, Prüfungs-Arena und Export-Funktionen.</p>
+          </article>
+          <article class="pricing-card">
+            <span class="badge">Schule</span>
+            <h3>Klasse / Kurs</h3>
+            <p class="price">Team</p>
+            <p class="muted">Gemeinsame Lernpfade, Aufgabenpakete und Fortschrittsübersicht.</p>
+          </article>
+        </div>
+        <div class="payment-row" aria-label="Zahlungsarten als eckige Karten">
+          <article class="payment-card"><strong>Karte</strong><span class="muted">Visa, Mastercard</span></article>
+          <article class="payment-card"><strong>PayPal</strong><span class="muted">Schnell & sicher</span></article>
+          <article class="payment-card"><strong>Schul-Lizenz</strong><span class="muted">Rechnung möglich</span></article>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>© 2026 BrainBoost – Lernen, Organisation, Bewerbung und KI-Hilfe in einer App.</footer>
-
-  <script>
-    const subjectButtons = document.querySelectorAll('[data-subject]');
-    const summary = document.getElementById('onboardingSummary');
-    const goalSelect = document.getElementById('goalSelect');
-    const timeSelect = document.getElementById('timeSelect');
-
-    function getSelectedSubjects() {
-      return Array.from(subjectButtons).filter((button) => button.classList.contains('active')).map((button) => button.dataset.subject);
-    }
-
-    function updateSummary() {
-      const labels = Array.from(subjectButtons)
-        .filter((button) => button.classList.contains('active'))
-        .map((button) => button.querySelector('strong').textContent.trim());
-      summary.textContent = `Ausgewählt: ${labels.join(', ') || 'noch kein Fach'}. Ziel: ${goalSelect.value}. Zeit: ${timeSelect.value} pro Tag.`;
-    }
-
-    subjectButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('active');
-        updateSummary();
-      });
-    });
-    goalSelect.addEventListener('change', updateSummary);
-    timeSelect.addEventListener('change', updateSummary);
-
-    document.getElementById('saveOnboarding').addEventListener('click', () => {
-      const subjects = getSelectedSubjects();
-      localStorage.setItem('brainboost_subjects', JSON.stringify(subjects.length ? subjects : ['mathe']));
-      localStorage.setItem('brainboost_goal', goalSelect.value);
-      localStorage.setItem('brainboost_daily_time', timeSelect.value);
-      window.location.href = 'lernen.html';
-    });
-
-    const xp = Number(localStorage.getItem('brainboost_xp') || 0);
-    document.getElementById('homeXp').textContent = xp;
-    document.getElementById('homeLevel').textContent = Math.max(1, Math.floor(xp / 120) + 1);
-    document.getElementById('homeStreak').textContent = localStorage.getItem('brainboost_streak') || '1';
-    updateSummary();
-  </script>
+  <footer>© 2026 BrainBoost. Lesbar, lokal speichernd und bereit für Deployment.</footer>
 </body>
 </html>
