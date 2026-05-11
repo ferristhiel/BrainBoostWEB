@@ -4,7 +4,8 @@ BrainBoostWEB ist eine responsive Lern-App für Schülerinnen und Schüler. Die 
 
 ## Funktionen
 
-- **Duolingo-inspirierter Lernpfad** als wellenförmige Roadmap mit XP, Leveln, Streaks, Boss-Leveln und lokal gespeichertem Fortschritt.
+- **Duolingo-inspirierter Lernpfad** als wellenförmige Roadmap mit umschaltbaren Fächern Mathe, Deutsch und Englisch.
+- **Echte Übungen, Abfragen und Prüfungen**: Nach fünf Übungen kommt eine Abfrage, danach weitere Übungen und eine Abschlussprüfung pro Fach.
 - **Video-Bereich** mit dunklen, gut lesbaren Videokarten für schnelle Wiederholung.
 - **Lernplaner, Termine und Bewerbungen** ohne Beispiel-Datensätze: Nutzerinnen und Nutzer tragen echte Daten ein, die im Browser gespeichert werden.
 - **Lokaler Browser-Speicher** mit Statusanzeige und leeren Startzuständen statt Fake-Inhalten.

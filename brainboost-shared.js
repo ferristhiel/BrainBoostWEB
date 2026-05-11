@@ -104,6 +104,106 @@
     });
   }
 
+
+  const subjectPaths = {
+    mathe: {
+      label: 'Mathe',
+      title: 'Mathe-Prüfungspfad',
+      description: 'Von Rechentechnik bis Prüfung: 5 Übungen, eine Abfrage, weitere Übungen und eine Abschlussprüfung.',
+      stages: [
+        ['exercise', 'Zahlen & Terme', 'Kopfrechnen, Vorzeichen, Klammern und saubere Rechenwege.', 'Übung 1', '12 XP'],
+        ['exercise', 'Brüche sicher kürzen', 'Erweitern, Kürzen und gemischte Zahlen in Aufgaben anwenden.', 'Übung 2', '12 XP'],
+        ['exercise', 'Prozentrechnung', 'Grundwert, Prozentwert und Prozentsatz unterscheiden.', 'Übung 3', '14 XP'],
+        ['exercise', 'Dreisatz-Training', 'Direkte und indirekte Proportionalität erkennen.', 'Übung 4', '14 XP'],
+        ['exercise', 'Gleichungen lösen', 'Äquivalenzumformungen Schritt für Schritt üben.', 'Übung 5', '16 XP'],
+        ['quiz', 'Abfrage 1: Basis-Check', '5 kurze Fragen zu Zahlen, Prozenten und Gleichungen.', 'Abfrage', '30 XP'],
+        ['exercise', 'Geometrie-Flächen', 'Dreieck, Rechteck, Kreis und Einheiten sicher nutzen.', 'Übung 6', '16 XP'],
+        ['exercise', 'Diagramme lesen', 'Tabellen, Koordinaten und Sachaufgaben auswerten.', 'Übung 7', '16 XP'],
+        ['exam', 'Mathe-Prüfung', 'Gemischte Abschlussprüfung mit Zeitlimit und Fehlerliste.', 'Prüfung', '80 XP'],
+      ],
+    },
+    deutsch: {
+      label: 'Deutsch',
+      title: 'Deutsch-Prüfungspfad',
+      description: 'Trainiere Lesen, Schreiben und Argumentieren mit einer Abfrage nach fünf Übungen.',
+      stages: [
+        ['exercise', 'Text markieren', 'Schlüsselstellen finden und Randnotizen schreiben.', 'Übung 1', '12 XP'],
+        ['exercise', 'Inhaltsangabe', 'Einleitungssatz, Präsens und sachlicher Stil.', 'Übung 2', '12 XP'],
+        ['exercise', 'Argument finden', 'These, Begründung und Beispiel sauber trennen.', 'Übung 3', '14 XP'],
+        ['exercise', 'Sprachliche Mittel', 'Wirkung von Metapher, Vergleich und Wiederholung erklären.', 'Übung 4', '14 XP'],
+        ['exercise', 'Roter Faden', 'Absätze planen und Überleitungen formulieren.', 'Übung 5', '16 XP'],
+        ['quiz', 'Abfrage 1: Text-Check', 'Kurze Kontrolle zu Inhalt, Argument und Sprache.', 'Abfrage', '30 XP'],
+        ['exercise', 'Erörterung schreiben', 'Einleitung, Hauptteil und Schluss in Prüfungsstruktur.', 'Übung 6', '16 XP'],
+        ['exercise', 'Überarbeiten', 'Satzbau, Rechtschreibung und Ausdruck verbessern.', 'Übung 7', '16 XP'],
+        ['exam', 'Deutsch-Prüfung', 'Schreibaufgabe mit Checkliste und Selbsteinschätzung.', 'Prüfung', '80 XP'],
+      ],
+    },
+    englisch: {
+      label: 'Englisch',
+      title: 'Englisch-Prüfungspfad',
+      description: 'Vokabeln, Grammatik, Reading und Speaking als richtiger Trainingspfad.',
+      stages: [
+        ['exercise', 'Vocabulary Sprint', 'Aktive Sätze statt isolierter Wortlisten schreiben.', 'Übung 1', '12 XP'],
+        ['exercise', 'Present & Past', 'Zeitformen erkennen und korrekt bilden.', 'Übung 2', '12 XP'],
+        ['exercise', 'Reading Skills', 'Skimming, Scanning und Belege im Text finden.', 'Übung 3', '14 XP'],
+        ['exercise', 'Writing Basics', 'Topic sentence, connectors und short paragraph.', 'Übung 4', '14 XP'],
+        ['exercise', 'Speaking Answers', 'Kurze Antworten mit Beispiel und Begründung geben.', 'Übung 5', '16 XP'],
+        ['quiz', 'Abfrage 1: English Check', '5 Fragen zu Zeiten, Vokabeln und Textverständnis.', 'Abfrage', '30 XP'],
+        ['exercise', 'Listening Notes', 'Stichpunkte aus Hörtexten sortieren.', 'Übung 6', '16 XP'],
+        ['exercise', 'Email Writing', 'Formelle und informelle E-Mail-Struktur üben.', 'Übung 7', '16 XP'],
+        ['exam', 'Englisch-Prüfung', 'Reading, Writing und Speaking als Abschlusscheck.', 'Prüfung', '80 XP'],
+      ],
+    },
+  };
+
+  function lessonId(subject, index) {
+    return `${subject}-${index + 1}`;
+  }
+
+  function renderSubjectPath(subject = store.get('active_subject', 'mathe')) {
+    const road = document.getElementById('learningRoad');
+    if (!road) return;
+    const safeSubject = subjectPaths[subject] ? subject : 'mathe';
+    const path = subjectPaths[safeSubject];
+    store.set('active_subject', safeSubject);
+    document.querySelectorAll('[data-subject-path]').forEach((button) => {
+      const active = button.dataset.subjectPath === safeSubject;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    const label = document.querySelector('[data-active-subject-label]');
+    const title = document.querySelector('[data-active-subject-title]');
+    const description = document.querySelector('[data-active-subject-description]');
+    if (label) label.textContent = path.label;
+    if (title) title.textContent = path.title;
+    if (description) description.textContent = path.description;
+    road.innerHTML = path.stages.map((stage, index) => {
+      const [type, name, copy, badge, xp] = stage;
+      const id = lessonId(safeSubject, index);
+      const node = type === 'quiz' ? '?' : type === 'exam' ? '★' : String(index + 1);
+      const stateClass = type === 'quiz' ? ' is-query' : type === 'exam' ? ' is-boss' : '';
+      return `<article class="road-stage${stateClass}" data-lesson-card="${id}">
+        <div class="road-card">
+          <span class="badge">${escapeHtml(badge)}</span>
+          <h3>${escapeHtml(name)}</h3>
+          <p class="muted">${escapeHtml(copy)}</p>
+          <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-complete-lesson="${id}" type="button">${type === 'quiz' ? 'Abfrage bestehen' : type === 'exam' ? 'Prüfung abschließen' : 'Übung abschließen'}</button></div>
+        </div>
+        <div class="road-node">${node}</div>
+      </article>`;
+    }).join('');
+    renderEverything();
+  }
+
+  function bindSubjectSwitcher() {
+    if (!document.getElementById('learningRoad')) return;
+    document.querySelectorAll('[data-subject-path]').forEach((button) => {
+      button.addEventListener('click', () => renderSubjectPath(button.dataset.subjectPath));
+    });
+    renderSubjectPath(store.get('active_subject', 'mathe'));
+  }
+
   function renderStorageStatus() {
     document.querySelectorAll('[data-storage-mode]').forEach((node) => {
       node.textContent = store.isPersistent() ? 'Lokaler Browser-Speicher aktiv' : 'Temporärer Speicher aktiv';
@@ -236,13 +336,13 @@
   }
 
   function bindLessonButtons() {
-    document.querySelectorAll('[data-complete-lesson]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const current = profile();
-        const lesson = button.dataset.completeLesson;
-        if ((current.completed || []).includes(lesson)) return;
-        saveProfile({ completed: Array.from(new Set([...(current.completed || []), lesson])), xp: Number(current.xp || 0) + 25 });
-      });
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-complete-lesson]');
+      if (!button) return;
+      const current = profile();
+      const lesson = button.dataset.completeLesson;
+      if ((current.completed || []).includes(lesson)) return;
+      saveProfile({ completed: Array.from(new Set([...(current.completed || []), lesson])), xp: Number(current.xp || 0) + 25 });
     });
   }
 
@@ -266,6 +366,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     mountLoader();
+    bindSubjectSwitcher();
     renderEverything();
     document.querySelectorAll('.login-btn').forEach((button) => button.addEventListener('click', login));
     bindLessonButtons();

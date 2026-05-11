@@ -313,8 +313,6 @@ footer { color: var(--bb-muted); text-align: center; padding: 2rem 1rem; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
-.video-card-content { padding: 1rem; }
-.video-card h3 { color: var(--bb-primary-dark); }
 
 /* Final polish: clearer intro, square cards, GitHub CTA and a real lesson road. */
 .app-loader {
@@ -492,4 +490,37 @@ select { border-radius: 12px; }
   .road-stage:nth-child(even) .road-node { grid-column: 1; }
   .road-stage .road-card,
   .road-stage:nth-child(even) .road-card { grid-column: 2; }
+}
+
+.subject-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 1.25rem 0 1rem;
+}
+.subject-tab {
+  min-width: 150px;
+  padding: .85rem 1rem;
+  color: var(--bb-primary-dark);
+  background: #ffffff;
+  border: 2px solid var(--bb-border);
+  border-radius: 12px;
+  font-weight: 950;
+  box-shadow: 0 10px 22px rgba(17, 24, 39, .06);
+}
+.subject-tab.is-active {
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--bb-primary-dark), var(--bb-secondary));
+  border-color: var(--bb-primary-dark);
+}
+.lesson-summary {
+  margin: 0 0 1rem;
+  border-left: 6px solid var(--bb-accent);
+}
+.road-stage.is-query .road-node {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+.road-stage.is-query .road-card {
+  border-color: rgba(217, 119, 6, .55);
+  background: #fffaf1;
 }
