@@ -1,6 +1,6 @@
 (() => {
   const PREFIX = 'brainboost_';
-  const DEFAULT_PROFILE = { name: 'Gast', xp: 0, streak: 0, completed: [], lastXpDay: '' };
+  const DEFAULT_PROFILE = { name: 'Gast', xp: 0, streak: 0, completed: [], lastXpDay: '', inventory: [] };
 
   const storage = {
     available: false,
@@ -71,7 +71,7 @@
 
   function profile() {
     const saved = store.get('profile', DEFAULT_PROFILE);
-    return { ...DEFAULT_PROFILE, ...saved, completed: Array.isArray(saved.completed) ? saved.completed : [] };
+    return { ...DEFAULT_PROFILE, ...saved, completed: Array.isArray(saved.completed) ? saved.completed : [], inventory: Array.isArray(saved.inventory) ? saved.inventory : [] };
   }
 
   function saveProfile(next) {
@@ -98,6 +98,7 @@
     document.querySelectorAll('[data-bb-xp]').forEach((node) => { node.textContent = current.xp; });
     document.querySelectorAll('[data-bb-level]').forEach((node) => { node.textContent = Math.max(1, Math.floor(current.xp / 140) + 1); });
     document.querySelectorAll('[data-bb-streak]').forEach((node) => { node.textContent = current.streak; });
+    document.querySelectorAll('[data-bb-flames]').forEach((node) => { node.textContent = '🔥'.repeat(Math.min(5, Number(current.streak || 0))) || '🔥'; });
     document.querySelectorAll('.login-btn').forEach((button) => {
       button.textContent = current.name === 'Gast' ? 'Profil anlegen' : `👤 ${current.name}`;
       button.setAttribute('aria-label', current.name === 'Gast' ? 'Lokales Demo-Profil anlegen' : `Lokales Profil ${current.name}`);
@@ -212,6 +213,29 @@
       const key = node.dataset.storageCount;
       node.textContent = store.get(key, []).length;
     });
+    const label = document.querySelector('[data-active-subject-label]');
+    const title = document.querySelector('[data-active-subject-title]');
+    const description = document.querySelector('[data-active-subject-description]');
+    if (label) label.textContent = path.label;
+    if (title) title.textContent = path.title;
+    if (description) description.textContent = path.description;
+    road.innerHTML = path.stages.map((stage, index) => {
+      const [type, name, copy, badge, xp] = stage;
+      const id = lessonId(safeSubject, index);
+      const node = type === 'quiz' ? '?' : type === 'exam' ? '★' : String(index + 1);
+      const stateClass = type === 'quiz' ? ' is-query' : type === 'exam' ? ' is-boss' : '';
+      return `<article class="road-stage${stateClass}" data-lesson-card="${id}">
+        <div class="road-card">
+          <span class="badge">${escapeHtml(badge)}</span>
+          <h3>${escapeHtml(name)}</h3>
+          <p class="muted">${escapeHtml(copy)}</p>
+          <div class="progress-track"><span class="progress-fill" style="--progress: 0%"></span></div>
+          <div class="road-actions"><span class="muted">${type === 'quiz' ? '🧠 Abfrage nach 5 Übungen' : type === 'exam' ? '🏁 Abschlussprüfung' : '✍️ echte Übung'} · ⚡ ${escapeHtml(xp)}</span><button class="btn" data-start-lesson="${id}" data-lesson-type="${type}" data-lesson-title="${escapeHtml(name)}" data-lesson-copy="${escapeHtml(copy)}" type="button">${type === 'quiz' ? 'Abfrage starten' : type === 'exam' ? 'Prüfung starten' : 'Übung starten'}</button></div>
+        </div>
+        <div class="road-node">${node}</div>
+      </article>`;
+    }).join('');
+    renderEverything();
   }
 
   function renderLessonProgress() {
@@ -253,6 +277,17 @@
       streak: current.lastXpDay === today ? Number(current.streak || 0) : Number(current.streak || 0) + 1,
       lastXpDay: today,
     });
+  }
+
+  function spendXp(cost = 0, item = 'Belohnung') {
+    const current = profile();
+    const price = Number(cost || 0);
+    if (Number(current.xp || 0) < price) return false;
+    saveProfile({
+      xp: Number(current.xp || 0) - price,
+      inventory: Array.from(new Set([...(current.inventory || []), item])),
+    });
+    return true;
   }
 
   function makeId() {
@@ -337,17 +372,27 @@
 
   function modalTemplate({ id, type, title, copy }) {
     const isCheck = type === 'quiz' || type === 'exam';
-    const heading = type === 'quiz' ? 'Abfrage nach 5 Übungen' : type === 'exam' ? 'Prüfung starten' : 'Übung starten';
+    const heading = type === 'quiz' ? 'Checkpoint-Abfrage' : type === 'exam' ? 'Prüfungsrunde' : 'Übungsrunde';
     const options = isCheck
-      ? `<div class="lesson-options" role="radiogroup" aria-label="Antwort auswählen">
-          <button class="lesson-option" data-modal-answer="wrong" type="button">Ich rate ohne Begründung.</button>
-          <button class="lesson-option" data-modal-answer="correct" type="button">Ich löse, begründe und prüfe meinen Fehlerweg.</button>
-          <button class="lesson-option" data-modal-answer="wrong" type="button">Ich überspringe die Aufgabe.</button>
+      ? `<div class="lesson-question-card">
+          <div class="question-topline"><span>Frage</span><strong>${type === 'exam' ? 'Final Check' : 'Nach 5 Übungen'}</strong></div>
+          <h3>Welche Strategie bringt dich sicher zur richtigen Lösung?</h3>
+          <p class="muted">Wähle nicht einfach blind: In BrainBoost zählt der saubere Lösungsweg.</p>
+        </div>
+        <div class="lesson-options answer-grid" role="radiogroup" aria-label="Antwort auswählen">
+          <button class="answer-card lesson-option" data-modal-answer="wrong" type="button"><strong>A</strong><span>Ich rate schnell und gehe weiter.</span></button>
+          <button class="answer-card lesson-option" data-modal-answer="correct" type="button"><strong>B</strong><span>Ich löse, begründe und prüfe meinen Fehlerweg.</span></button>
+          <button class="answer-card lesson-option" data-modal-answer="wrong" type="button"><strong>C</strong><span>Ich überspringe die Aufgabe komplett.</span></button>
         </div>`
-      : `<div class="lesson-task-list">
-          <label><input type="checkbox" data-task-check /> Aufgabe gelesen</label>
-          <label><input type="checkbox" data-task-check /> Lösung notiert</label>
-          <label><input type="checkbox" data-task-check /> Fehler kontrolliert</label>
+      : `<div class="lesson-question-card">
+          <div class="question-topline"><span>Aufgabe</span><strong>3 Schritte</strong></div>
+          <h3>${escapeHtml(title)}</h3>
+          <p class="muted">Arbeite die Übung aktiv ab. Erst wenn alle Schritte erledigt sind, bekommst du XP.</p>
+        </div>
+        <div class="lesson-task-list">
+          <label><input type="checkbox" data-task-check /> Aufgabe gelesen und Ziel verstanden</label>
+          <label><input type="checkbox" data-task-check /> Lösung schriftlich notiert</label>
+          <label><input type="checkbox" data-task-check /> Fehlerweg kontrolliert</label>
         </div>`;
     return `<div class="lesson-modal" role="dialog" aria-modal="true" aria-labelledby="lessonModalTitle">
       <div class="lesson-modal-card">
@@ -355,16 +400,12 @@
         <span class="badge">${heading}</span>
         <h2 id="lessonModalTitle">${escapeHtml(title)}</h2>
         <p class="muted">${escapeHtml(copy)}</p>
-        <div class="lesson-prompt">
-          <strong>${isCheck ? 'Beantworte die Kontrollfrage:' : 'Arbeite diese Mini-Aufgabe ab:'}</strong>
-          <p>${isCheck ? 'Welche Strategie bringt dich sicher zur richtigen Lösung?' : 'Starte die Übung, schreibe deine Lösung auf und hake die Schritte ab.'}</p>
-        </div>
         ${options}
         <div class="lesson-modal-actions">
           <button class="ghost-btn" data-close-modal type="button">Abbrechen</button>
           <button class="btn" data-finish-lesson="${id}" data-finish-type="${type}" type="button" disabled>${isCheck ? 'Antwort prüfen & XP sichern' : 'Übung abschließen & XP sichern'}</button>
         </div>
-        <p class="muted" data-modal-feedback>${isCheck ? 'Wähle eine Antwort aus.' : 'Hake alle Schritte ab, dann kannst du abschließen.'}</p>
+        <p class="modal-feedback" data-modal-feedback>${isCheck ? 'Wähle eine Antwort aus.' : 'Hake alle Schritte ab, dann kannst du abschließen.'}</p>
       </div>
     </div>`;
   }
@@ -438,18 +479,35 @@
 
   function bindGames() {
     const feedback = document.getElementById('gameFeedback');
+    const shopFeedback = document.getElementById('shopFeedback');
     document.querySelectorAll('[data-game-answer]').forEach((button) => {
       button.addEventListener('click', () => {
         const card = button.closest('[data-game-card]');
         if (card?.classList.contains('is-complete')) return;
+        card?.querySelectorAll('[data-game-answer]').forEach((option) => option.classList.remove('is-selected', 'is-wrong'));
         if (button.dataset.gameAnswer === 'correct') {
           const xp = Number(button.dataset.gameXp || 10);
           addXp(xp);
+          button.classList.add('is-selected');
           card?.classList.add('is-complete');
           card?.querySelectorAll('[data-game-answer]').forEach((option) => { option.disabled = true; });
-          if (feedback) feedback.textContent = `Richtig! +${xp} Game XP wurden gespeichert.`;
-        } else if (feedback) {
-          feedback.textContent = 'Knapp daneben. Versuch eine andere Antwort.';
+          if (feedback) feedback.textContent = `Richtig! +${xp} Game XP wurden gespeichert. Jetzt kannst du XP im Shop ausgeben.`;
+        } else {
+          button.classList.add('is-wrong');
+          if (feedback) feedback.textContent = 'Knapp daneben. Versuch eine andere Antwort.';
+        }
+      });
+    });
+    document.querySelectorAll('[data-spend-xp]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const cost = Number(button.dataset.spendXp || 0);
+        const item = button.dataset.shopItem || 'Belohnung';
+        if (spendXp(cost, item)) {
+          button.textContent = '✅ gekauft';
+          button.disabled = true;
+          if (shopFeedback) shopFeedback.textContent = `${item} gekauft. -${cost} XP wurden aus deinem Wallet abgezogen.`;
+        } else if (shopFeedback) {
+          shopFeedback.textContent = `Du brauchst ${cost} XP für ${item}. Spiele erst noch eine Runde.`;
         }
       });
     });
@@ -516,5 +574,5 @@
     });
   });
 
-  window.BrainBoost = { store, profile, saveProfile, addXp };
+  window.BrainBoost = { store, profile, saveProfile, addXp, spendXp };
 })();
